@@ -1,0 +1,2687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reins — Adjust your earnings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css">
+<style>
+  :root{
+    --paper:#FBFAF8; --paper-2:#F4F2EC; --card:#FFFFFF; --card-2:#FAF9F6;
+    --ink:#1a1a1a; --ink-2:#5d5d5d; --ink-3:#888888; --ink-4:#b0b0b0;
+    --line:rgba(26,26,26,.08); --line-2:rgba(26,26,26,.14);
+    --gold:#c79e5c; --gold-2:#b08140; --gold-soft:#d1b47a;
+    --gold-wash:#f0ead5; --gold-wash-2:#faf7f0;
+    --green:#3F8F5B; --green-wash:#EAF3EC;
+    --amber:#C28A2A; --amber-wash:#F8EFD9;
+    --red:#C0584E; --red-wash:#F8EAE7;
+    --shadow-sm:0 1px 2px rgba(26,26,26,.05);
+    --shadow:0 2px 4px rgba(26,26,26,.04), 0 8px 24px rgba(26,26,26,.05);
+    --r-sm:10px; --r:14px; --r-lg:18px;
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --serif:'Forrest',Georgia,'Times New Roman',serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --geist:'Geist','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [class*="hgi-"]{line-height:1;display:inline-block;vertical-align:-1px}
+  .scan-ic [class*="hgi-"]{font-size:15px;color:var(--gold-2);vertical-align:0}
+  .fly-x [class*="hgi-"],.m-close [class*="hgi-"]{font-size:13px;vertical-align:0}
+  .fly-back [class*="hgi-"]{font-size:12px}
+  .searchicon{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.45;font-size:14px;color:var(--ink)}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- shell ---------- */
+  .crumb{border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:8}
+  .crumb .in{max-width:1360px;margin:0 auto;padding:16px 32px;color:var(--ink-2);font-size:13px;display:flex;align-items:center;gap:8px}
+  .crumb b{color:var(--ink);font-weight:600}
+  .crumb .wordmark{font-weight:700;letter-spacing:.14em;font-size:12px;color:var(--ink);margin-right:14px}
+  .crumb .saved{margin-left:auto;font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
+  .crumb .saved .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+  .shell{max-width:1360px;margin:0 auto;padding:28px 32px 128px;display:flex;gap:40px;align-items:flex-start}
+
+  /* ---------- toc ---------- */
+
+  .wstep{display:flex;gap:12px;align-items:flex-start;padding:6px 0}
+  .wnum{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line-2);color:var(--ink-3);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:0 0 22px;background:var(--card)}
+  .wstep.on .wnum{border-color:var(--ink);color:var(--ink)}
+  .wstep .wt{font-weight:500;color:var(--ink-3);padding-top:2px}
+  .wstep.on .wt{color:var(--ink);font-weight:600}
+  .wsub{margin:2px 0 6px 10px;border-left:1px dotted var(--line-2);padding-left:22px}
+  .wsub a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--ink-3);text-decoration:none;font-size:12.5px}
+  .wsub .dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--line-2);flex:0 0 12px;background:var(--card)}
+  .wsub .done{background:var(--green-wash);border-color:var(--green);position:relative}
+  .wsub .done:after{content:"";position:absolute;left:2.5px;top:3px;width:5px;height:3px;border-left:1.6px solid var(--green);border-bottom:1.6px solid var(--green);transform:rotate(-45deg)}
+  .wsub a.cur{color:var(--ink);font-weight:600}
+  .wsub a.cur .dot{border-color:var(--ink);border-width:2px}
+  /* nested category toc */
+  .catnav{margin:6px 0 6px 12px;border-left:1px solid var(--line);padding-left:14px}
+  .catnav a{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;color:var(--ink-3);text-decoration:none}
+  .catnav a:hover{color:var(--ink)}
+  .catnav .cd{width:7px;height:7px;border-radius:50%;background:var(--line-2);flex:0 0 7px}
+  .catnav a.has .cd{background:var(--gold)}
+  .catnav a.done .cd{background:var(--green)}
+  .catnav .ct{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* ---------- main ---------- */
+  .main{flex:1;min-width:0;max-width:780px}
+  h1{font-family:var(--serif);font-size:32px;font-weight:600;letter-spacing:-.015em;margin-bottom:10px}
+  .lede{color:var(--ink-2);font-size:16px;line-height:1.6;max-width:62ch;margin-bottom:20px}
+  .lede b{color:var(--ink);font-weight:600}
+
+  .scanbar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:16px 18px}
+  .scanline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .scanhead{display:flex;align-items:flex-start;gap:12px}
+  .scan-ic{width:30px;height:30px;border-radius:9px;background:var(--gold-wash);display:flex;align-items:center;justify-content:center;flex:0 0 30px;margin-top:1px}
+  .scanbody{flex:1;min-width:0}
+  .scantitle{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+  .scantitle b{color:var(--ink);font-weight:600}
+  .progrow{display:flex;align-items:center;gap:11px;margin:11px 0 12px}
+  .progress{flex:1;height:4px;border-radius:99px;background:var(--paper-2);overflow:hidden}
+  .progress i{display:block;height:100%;width:7%;background:var(--gold);border-radius:99px;transition:width .4s var(--ease-out)}
+  .progcount{font-size:11.5px;color:var(--ink-3);white-space:nowrap;font-weight:500}
+  .scanmicro{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin-top:11px}
+  .scanbar .txt{font-size:13px;color:var(--ink-2)}
+  .scanbar .txt b{color:var(--ink);font-weight:600}
+
+  .scanhead{align-items:center}
+  .scantitle{flex:0 1 auto}
+  .headprog{flex:1 1 120px;min-width:110px;max-width:230px;display:flex;align-items:center;gap:9px;margin-left:auto}
+  .progpct{font-size:11.5px;color:var(--ink-3);font-weight:600;white-space:nowrap;min-width:30px;text-align:right}
+
+  .passbox{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+  .passbox b{color:var(--ink)}
+  .passbox ol{margin:8px 0 0 18px}
+  .passbox li{margin-bottom:5px}
+  .progcount{font-size:12.5px;color:var(--ink-2)}
+  .howbox{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-2);font-size:12.5px;color:var(--ink-2);line-height:1.6}
+  .howbox ol{margin:8px 0 0 18px}
+  .howbox li{margin-bottom:5px}
+  .howbox b{color:var(--ink)}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;border-radius:7px;padding:4px 10px;font-size:12px;font-weight:600}
+  .pill.gold{background:var(--gold-wash);color:var(--gold-2)}
+  .pill.green{background:var(--green-wash);color:var(--green)}
+  .pill.gray{background:var(--paper-2);color:var(--ink-3)}
+  .pill.amber{background:var(--amber-wash);color:var(--amber)}
+
+  /* ---------- mode switch ---------- */
+  .modebar{display:flex;align-items:center;gap:14px;margin:18px 0 14px;flex-wrap:wrap}
+  .modeswitch{display:inline-flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden;background:var(--paper-2);padding:3px;gap:3px;flex:0 0 auto}
+  .modeswitch button{border:none;background:transparent;font-family:var(--geist);font-size:12.5px;font-weight:500;color:var(--ink-3);padding:6px 14px;border-radius:6px;cursor:pointer}
+  .modeswitch button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);font-weight:600}
+  kbd{font-family:var(--sans);font-size:10px;font-weight:600;background:var(--paper-2);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:1px 5px;color:var(--ink-3)}
+
+  /* ---------- focus card ---------- */
+  .qwrap{position:relative;margin-bottom:14px}
+  .qghost{position:absolute;left:0;right:0;top:0;height:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-sm)}
+  .qghost.g1{transform:translateY(9px) scale(.982);opacity:.75}
+  .qghost.g2{transform:translateY(18px) scale(.964);opacity:.45}
+  .qcard{position:relative;background:var(--card);border:1px solid var(--line-2);border-radius:12px;box-shadow:var(--shadow);padding:24px 26px;min-height:220px}
+  .qcard.out{animation:qout .22s var(--ease-out) forwards}
+  .qcard.in{animation:qin .26s var(--ease-out)}
+  @keyframes qout{to{opacity:0;transform:translateY(-14px) scale(.98)}}
+  @keyframes qin{from{opacity:0;transform:translateY(12px) scale(.985)}}
+  .q-cat{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:9px}
+  .q-name{font-family:var(--geist);font-size:24px;font-weight:600;letter-spacing:-.012em;line-height:1.2}
+  .q-amt{font-family:var(--geist);font-size:34px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:12px 0 4px}
+  .q-amt.neg{color:var(--amber)}
+  .q-sec{font-size:13.5px;line-height:1.6;max-width:58ch;margin-top:16px}
+  .q-sec-l{display:block;font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4);font-weight:600;margin-bottom:5px}
+  .q-found{color:var(--ink-2)}
+  .q-qual{color:var(--ink-3)}
+  .q-chgtext{color:var(--ink-3)}
+  .q-amtrow{display:flex;align-items:center;gap:18px;margin:12px 0 4px}
+  .q-open{margin-left:auto;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-2);background:var(--card);
+    border-radius:8px;padding:7px 12px;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer;
+    white-space:nowrap;transition:border-color .16s,color .16s,background .16s}
+  .q-open i{font-size:12px;opacity:.6}
+  .q-open:hover{border-color:var(--gold-soft);color:var(--gold-2);background:var(--gold-wash-2)}
+  .q-acts{display:flex;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap;align-items:center}
+  .q-btn{flex:0 0 auto;border:1px solid var(--line-2);background:var(--card);border-radius:8px;padding:9px 15px;font-family:var(--geist);font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:transform .12s var(--ease-out),border-color .16s,background .16s;display:inline-flex;align-items:center;gap:7px}
+  .q-btn kbd{background:var(--paper-2);border-color:var(--line-2);color:var(--ink-4)}
+  .q-btn:active{transform:scale(.985)}
+  .q-btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}
+  .q-btn.primary kbd{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.28);color:#fff}
+  .q-btn.ghost{color:var(--ink-3)}
+  .apct{font-family:var(--sans);font-size:12px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .apct b,.apct span{font-family:var(--geist);font-size:13.5px;font-weight:600;color:var(--ink)}
+  [data-aslider]{flex:1 1 80px;min-width:70px}
+  .acts [data-aslider]{min-width:58px}
+  .acts{max-width:64%}
+  .vname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .qbar{display:flex;align-items:center;gap:9px;margin-bottom:24px}
+  .qprog{margin-left:auto;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .qprog b{color:var(--ink);font-weight:600}
+
+  /* ---------- inbox zero ---------- */
+  .qdone{text-align:center;padding:34px 28px}
+  .qdone .dm{width:46px;height:46px;border-radius:50%;background:var(--green-wash);color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px}
+  .qdone h3{font-family:var(--geist);font-size:23px;font-weight:600;letter-spacing:-.012em;margin-bottom:7px}
+  .qdone p{font-size:13.5px;color:var(--ink-2);line-height:1.6;max-width:46ch;margin:0 auto 18px}
+  .qstats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+  .qstat{border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:132px;background:var(--card-2)}
+  .qstat .l{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);font-weight:600}
+  .qstat .v{font-family:var(--geist);font-size:20px;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}
+  .qstat.warn{background:var(--amber-wash);border-color:rgba(194,138,42,.3)}
+  .qstat.warn .v{color:var(--amber)}
+  .qstat.over{background:var(--red-wash);border-color:rgba(192,88,78,.3)}
+  .qstat.over .v{color:var(--red)}
+  .qdone .dm.warn{background:var(--red-wash);color:var(--red)}
+  .qnote{font-size:12.5px;color:var(--ink-3);line-height:1.6;max-width:48ch;margin:0 auto 18px}
+
+  /* ---------- headroom (credibility as a budget) ---------- */
+  .headroom{margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+  .hr-l{font-size:11.5px;color:var(--ink-3);line-height:1.5}
+  .hr-v{font-family:var(--geist);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;margin:2px 0 11px}
+  .h4tip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;
+    border:1px solid var(--line-2);color:var(--ink-4);font-size:9px;font-weight:700;cursor:help;margin-left:5px;
+    letter-spacing:0;text-transform:none;vertical-align:1px}
+  .h4tip:hover,.h4tip:focus-visible{border-color:var(--gold-soft);color:var(--gold-2);outline:none}
+  .hr-bonus{font-size:11.5px;color:var(--ink-4);line-height:1.55;margin-top:11px}
+  .hr-bonus:empty{display:none}
+  .hr-bonus b{color:var(--gold-2)}
+  .hr-v.warn{color:var(--amber)} .hr-v.over{color:var(--red)}
+
+  /* ---------- milestone toast ---------- */
+  .toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,14px);background:#1a1a1a;color:#f6f6f6;border-radius:12px;padding:12px 18px;font-size:13px;box-shadow:var(--shadow);z-index:36;opacity:0;pointer-events:none;transition:opacity .25s var(--ease-out),transform .25s var(--ease-out);display:flex;align-items:center;gap:10px}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  .toast b{color:var(--gold-soft);font-family:var(--geist);font-weight:600}
+
+  .searchrow{display:flex;align-items:center;gap:10px;margin:20px 0 10px}
+  .search{flex:1;position:relative}
+  .search input{width:100%;border:1px solid var(--line-2);background:var(--card);border-radius:8px;padding:12px 12px 12px 34px;font-size:13px;font-family:var(--sans);color:var(--ink)}
+  .search input::placeholder{color:var(--ink-4)}
+  .search input:focus{outline:none;box-shadow:0 0 0 3px var(--gold-wash);border-color:var(--gold-soft)}
+  .searchrow .hint{font-size:12px;color:var(--ink-4)}
+  .searchwrap{position:relative;flex:1}
+  .sdrop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow);z-index:12;overflow:hidden;display:none}
+  .sdrop.on{display:block}
+  .sgroup{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);font-weight:600;padding:15px 19px 6px}
+  .srow{display:flex;align-items:center;gap:14px;padding:14px 19px;font-size:13px;cursor:pointer}
+  .srow:hover{background:var(--gold-wash-2)}
+  .srow .stext{flex:1;min-width:0}
+  .srow .sv{font-family:var(--geist);font-weight:500;letter-spacing:-.004em}
+  .srow .sv b{font-weight:700;color:var(--ink)}
+  .srow .sc{font-size:11px;color:var(--ink-4);margin-top:2px}
+  .srow .sa{font-family:var(--geist);font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .srow .sbtn{font-size:11.5px;font-weight:600;color:var(--gold-2);white-space:nowrap}
+  .snone{padding:15px 19px;font-size:12.5px;color:var(--ink-3)}
+
+  /* ---------- category ---------- */
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-sm);margin-bottom:14px;overflow:hidden}
+  .cat.empty{background:var(--card-2)}
+  .cathead{display:flex;align-items:center;gap:11px;padding:16px;cursor:pointer;user-select:none}
+  .cathead:active{transform:scale(.998)}
+  .catdone{color:var(--green);font-size:12px;font-weight:700;flex:0 0 auto;display:none}
+  .cat.done .catdone{display:inline}
+  .catname{font-family:var(--geist);font-size:16px;font-weight:600;letter-spacing:-.008em;flex:1;min-width:0;display:flex;align-items:center;gap:0}
+  .catright{display:flex;align-items:baseline;gap:11px;flex:0 0 auto}
+  .cattot{font-family:var(--geist);font-size:15px;font-weight:600;letter-spacing:-.008em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .cattot.neg{color:var(--amber)}
+  .cattot.zero{color:var(--ink-4);font-family:var(--sans);font-size:12.5px;font-weight:500}
+  .chev{font-size:15px;opacity:.4;transition:transform .2s var(--ease-out)}
+  .cat.open .chev{transform:rotate(180deg)}
+  .catbody{display:none;padding:0 16px 16px}
+  .cat.open .catbody{display:block}
+  .catbody > .inner{border-top:1px solid var(--line);padding-top:16px}
+
+  /* teach block */
+  .teach{background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:var(--r-sm);padding:12px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.6;margin-bottom:14px}
+  .teach b{color:var(--ink);font-weight:600}
+  .teach .lbl{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:5px}
+
+  /* provenance chip */
+  .src{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);border:1px dashed var(--line-2);border-radius:6px;padding:2px 7px;margin-right:7px;vertical-align:1px}
+
+  /* item rows */
+  .vrow{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:var(--card);transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
+  .vrow .top{display:flex;align-items:center;gap:12px}
+  .nameline{flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .rowcount{font-size:11.5px;color:var(--ink-4);white-space:nowrap}
+  /* the title is the handle: underline it on hover so the row reads as a door */
+  .vrow .vname{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:1px;
+    text-underline-offset:3px;transition:text-decoration-color .16s var(--ease-out)}
+  .vrow:hover .vname{text-decoration-color:rgba(26,26,26,.22)}
+  .rowchev{font-size:13px;opacity:0;color:var(--ink-4);flex:0 0 auto;transition:opacity .15s}
+  .vrow{cursor:pointer}
+  .vrow:hover{border-color:var(--line-2)}
+  .vrow:hover .rowchev{opacity:.5}
+  .vrow.added,.vrow.dismissed{cursor:pointer}
+  .vname{font-family:var(--geist);font-weight:500;font-size:14px;letter-spacing:-.004em}
+  .tag{font-size:10.5px;font-weight:600;color:var(--ink-3);background:var(--paper-2);border-radius:6px;padding:2px 8px;white-space:nowrap;margin-left:4px}
+  .why{color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.5}
+  .amt{margin-left:auto;font-family:var(--geist);font-size:15px;font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .acts{display:flex;gap:7px;margin-left:12px;flex:0 0 auto}
+  .btn{border:1px solid var(--line-2);background:var(--card);border-radius:var(--r-sm);padding:7px 12px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:var(--sans);color:var(--ink-2);transition:transform .12s var(--ease-out),border-color .16s,background .16s;white-space:nowrap}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
+  .btn.ghost{border-color:transparent;color:var(--ink-3)}
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--gold-wash)}
+  .vrow.added{background:var(--green-wash);border-color:rgba(63,143,91,.28)}
+  .vrow.added.neg{background:var(--amber-wash);border-color:rgba(194,138,42,.28)}
+  .vrow.dismissed{opacity:.45}
+  .vrow.hidden{display:none}
+  .statusline{display:none;align-items:center;gap:10px;flex:0 0 auto;margin-left:auto}
+  .addedchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.7);color:var(--green);font-weight:600;font-size:12px;border-radius:7px;padding:4px 10px}
+  .addedchip.neg{color:var(--amber)}
+  .reason{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.7);color:var(--ink-2);font-size:11.5px;font-weight:500;border-radius:7px;padding:4px 10px;cursor:pointer;border:1px dashed var(--line-2);font-family:var(--sans)}
+  .undo{background:none;border:none;color:var(--ink-3);font-size:12px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-family:var(--sans);margin-left:auto}
+
+  .vrow.dismissed .top .amt{opacity:.4}
+  .vrow.added .top .amt{color:var(--green)}
+  .vrow.added.neg .top .amt{color:var(--amber)}
+  .vrow.added .nameline,.vrow.dismissed .nameline{flex:0 1 auto}
+  .seelink{background:none;border:none;font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--gold-2);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+  .catsum{font-size:11px;color:var(--ink-4);font-weight:500;white-space:nowrap}
+  .whatbtn{border:1px dashed var(--line-2);background:transparent;border-radius:6px;padding:2px 7px;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--ink-3);cursor:pointer;font-family:var(--sans);margin-left:9px;white-space:nowrap;align-self:center}
+  .whatbtn:hover{border-color:var(--gold-soft);color:var(--gold-2)}
+  .whylink{border:none;background:none;font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink-4);cursor:pointer;padding:0 0 0 2px;white-space:nowrap;border-bottom:1px dotted var(--line-2)}
+  .whylink:hover,.whylink.on{color:var(--gold-2);border-color:var(--gold-soft)}
+  .pop{position:fixed;z-index:34;width:320px;max-width:calc(100vw - 24px);background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 16px;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .15s var(--ease-out),transform .15s var(--ease-out)}
+  .pop.on{opacity:1;pointer-events:auto;transform:translateY(0)}
+  .pop-kicker{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:10px}
+  .pop-row{padding:8px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.5}
+  .pop-row.last{border-bottom:none;padding-bottom:0}
+  .pop-l{display:block;font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4);font-weight:600;margin-bottom:4px}
+  .pop-v{display:block;color:var(--ink-2)}
+  .pop-v b{color:var(--ink)}
+  .scrim{position:fixed;inset:0;background:rgba(26,26,26,.32);z-index:30;opacity:0;pointer-events:none;transition:opacity .2s var(--ease-out)}
+  body.overlay .scrim{opacity:1;pointer-events:auto}
+  body.overlay{overflow:hidden}
+  .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.98);width:min(520px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);z-index:32;padding:24px 26px;opacity:0;pointer-events:none;transition:opacity .2s var(--ease-out),transform .2s var(--ease-out)}
+  body.modal-open #modal{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .modal .m-kicker{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:6px}
+  .modal h3{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:2px}
+  .modal .m-full{font-size:11.5px;color:var(--ink-4);margin-bottom:12px}
+  .modal .m-def{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin-bottom:4px}
+  .modal .m-exlabel{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);font-weight:600;margin:16px 0 9px}
+  .modal .m-ex{list-style:none;margin:0;padding:0;max-height:none}
+  .modal .m-ex li{position:relative;padding:7px 0 7px 18px;font-size:12.5px;color:var(--ink-2);line-height:1.55;border-bottom:1px solid var(--line)}
+  .modal .m-ex li:last-child{border-bottom:none}
+  .modal .m-ex li:before{content:"";position:absolute;left:2px;top:14px;width:5px;height:5px;border-radius:50%;background:var(--gold-soft)}
+  .modal{max-height:calc(100vh - 64px);overflow-y:auto}
+  .modal .m-manual{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink-3);line-height:1.55}
+  .modal .m-close{position:absolute;top:14px;right:14px;border:none;background:var(--paper-2);width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--ink-2);font-size:14px;line-height:1}
+  .addmodal{width:min(520px,calc(100vw - 48px))}
+  body.add-open .addmodal{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .addmodal h3{margin-bottom:3px}
+  .a-sub{font-size:12.5px;color:var(--ink-3);line-height:1.5;margin-bottom:16px}
+  .a-lab{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);font-weight:600;margin:0 0 5px}
+  .a-in{width:100%;border:1px solid var(--line-2);background:var(--card);border-radius:var(--r-sm);padding:9px 11px;font-size:13.5px;font-family:var(--sans);color:var(--ink)}
+  .a-in::placeholder{color:var(--ink-4)}
+  .a-in:focus{outline:none;box-shadow:0 0 0 3px var(--gold-wash);border-color:var(--gold-soft)}
+  .a-sel{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 16px) 17px,calc(100% - 11px) 17px;background-size:5px 5px;background-repeat:no-repeat}
+  .a-row{display:flex;gap:12px;margin:14px 0}
+  .a-type{width:100%;justify-content:stretch}
+  .a-type button{flex:1}
+  .a-hint{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin-top:6px;min-height:17px}
+  .a-hint b{color:var(--gold-2)}
+  .a-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+  .a-results{margin-top:12px;max-height:280px;overflow-y:auto}
+  .a-group{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4);font-weight:600;padding:12px 2px 5px}
+  .a-hit{display:flex;align-items:center;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer;background:var(--card);transition:border-color .15s,background .15s}
+  .a-hit .htext{flex:1;min-width:0}
+  .a-hit:hover{border-color:var(--gold-soft);background:var(--gold-wash-2)}
+  .a-hit .hn{font-family:var(--geist);font-weight:500;font-size:13.5px;letter-spacing:-.004em}
+  .a-hit .hn b{font-weight:700;color:var(--ink)}
+  .a-hit .hs{font-size:11.5px;color:var(--ink-4);margin-top:2px}
+  .a-hit .ha{font-family:var(--geist);font-weight:500;font-size:13.5px;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.004em}
+  .a-hit .hgo{font-size:11.5px;font-weight:600;color:var(--gold-2);white-space:nowrap}
+  .a-hit.onlist{background:var(--green-wash);border-color:rgba(63,143,91,.25)}
+  .a-hit.manual{border-style:dashed}
+  .a-manual{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .a-manual.on{display:block}
+  .a-desc{resize:vertical;min-height:56px;line-height:1.5;font-family:var(--sans)}
+  .a-verdict{margin-top:14px;background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+  .a-verdict b{color:var(--ink);font-weight:600}
+  .a-verdict .vchange{background:none;border:none;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-2);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;margin-left:6px}
+  .a-change{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+  .a-change.on{display:block}
+  .a-mhead{font-size:12.5px;color:var(--ink-2);margin-bottom:12px}
+  .a-empty{padding:14px 2px;font-size:12.5px;color:var(--ink-4)}
+  @keyframes landed{0%{background:var(--gold-wash)}100%{background:transparent}}
+  .vrow.landed{animation:landed 1.6s var(--ease-out)}
+  .flyout{position:fixed;top:0;right:0;bottom:0;width:min(440px,92vw);background:var(--card);border-left:1px solid var(--line);box-shadow:-12px 0 40px rgba(26,26,26,.10);z-index:31;transform:translateX(102%);transition:transform .24s var(--ease-out);display:flex;flex-direction:column}
+  body.fly-open .flyout{transform:translateX(0)}
+  .fly-head{padding:18px 22px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:12px}
+  .fly-head .fh-name{font-family:var(--geist);font-size:17px;font-weight:600;letter-spacing:-.008em}
+  .fly-head .fh-sub{font-size:12px;color:var(--ink-3);margin-top:4px;line-height:1.45}
+  .fly-head .fh-amt{margin-left:auto;font-family:var(--geist);font-size:16px;font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fly-x{border:none;background:var(--paper-2);width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--ink-2);font-size:14px;flex:0 0 28px;line-height:1}
+  .fly-back{border:none;background:none;color:var(--gold-2);font-weight:600;font-size:12.5px;cursor:pointer;font-family:var(--sans);padding:0;display:none;align-items:center;gap:5px}
+  /* one scroll region for the panel body; the section header sticks so you keep
+     context 60 rows down instead of nesting a second scroller */
+  .fly-sticky{position:sticky;top:0;z-index:3;background:var(--card);display:flex;align-items:baseline;gap:10px;
+    margin:16px 0 0;padding:11px 0 8px;border-bottom:1px solid var(--line)}
+  .fly-sticky .q-sec-l{margin:0}
+  .fly-cap{margin-left:auto;font-size:10.5px;color:var(--ink-4);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fly-sec{font-size:13px;line-height:1.6;margin-top:14px}
+  .fly-sec:first-child{margin-top:14px}
+  .fly-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .fly-panes{flex:1;overflow:hidden;position:relative}
+  .fly-track{display:flex;width:200%;height:100%;transition:transform .24s var(--ease-out)}
+  .fly-pane{width:50%;height:100%;overflow-y:auto;padding:0 22px 22px}
+  .flyout.deep .fly-track{transform:translateX(-50%)}
+  .flyout.deep .fly-back{display:inline-flex}
+  .ftx{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer;border-radius:6px}
+  .ftx:hover{background:var(--gold-wash-2)}
+  .ftx .d{color:var(--ink-4);font-size:11.5px;width:52px;flex:0 0 52px}
+  .ftx .memo{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+  .ftx .a{font-weight:600;white-space:nowrap}
+  .ftx .chv{opacity:.35;flex:0 0 auto}
+  .fly-foot{border-top:1px solid var(--line);padding:14px 22px;display:none;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-2);background:var(--card)}
+    font-weight:600;color:var(--gold-2);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px}
+  .fly-foot{flex-wrap:wrap}
+  .ftx-box{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--line-2);flex:0 0 15px;
+    background:var(--card);cursor:pointer;transition:border-color .14s,background .14s;position:relative}
+  .ftx-box:hover{border-color:var(--gold-soft)}
+  .ftx.picked .ftx-box{background:var(--gold);border-color:var(--gold)}
+  .ftx.picked .ftx-box:after{content:"\u2713";position:absolute;inset:0;color:#fff;font-size:10px;font-weight:700;
+    display:flex;align-items:center;justify-content:center}
+  .ftx.picked{background:var(--gold-wash-2)}
+  /* gold while you're choosing, green once it's in the number */
+  .ftx.included{background:var(--green-wash)}
+  .ftx.included .d{color:var(--green)}
+  .ftx.included:before{content:"\2713";color:var(--green);font-size:11px;font-weight:700;flex:0 0 15px}
+  .fly-foot.selecting{background:var(--gold-wash-2);border-top-color:var(--gold-soft)}
+  .fly-acts.sel{width:100%}
+  .sel-l{margin-right:auto;font-size:12px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .sel-l b{font-family:var(--geist);font-size:13px;font-weight:600;color:var(--ink)}
+  .fly-foot .q-pnum{font-family:var(--sans);font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .fly-foot .q-pnum b{font-family:var(--geist);font-size:13.5px;color:var(--ink);font-weight:600}
+  .fly-foot.on{display:flex}
+  .fdet .frow{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .fdet .frow span:first-child{color:var(--ink-3)}
+  .fdet .frow b{font-weight:600;text-align:right}
+  .fdet .fq{font-size:13px;font-weight:600;margin:16px 0 8px}
+  .fdet .why2{background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:var(--r-sm);padding:10px 12px;font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:14px}
+  body.searching .tailwell{display:block}
+  .taildiv{display:flex;align-items:center;gap:14px;margin:18px 2px 12px}
+  .td-rule{flex:1;min-width:12px;height:1px;background:var(--line-2)}
+  .td-btn{flex:0 0 auto;font-size:12.5px;white-space:nowrap}
+  .td-btn.done{color:var(--ink-4)}
+  .tailwell{display:none;border:1px dashed var(--line-2);border-radius:8px;background:var(--card-2);padding:14px 14px 4px;margin-bottom:10px}
+  .tailwell.on{display:block}
+  .tw-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tw-t{font-family:var(--geist);font-weight:500;font-size:13px;letter-spacing:-.004em;flex:1;min-width:120px}
+  .tw-acts{display:flex;gap:7px;align-items:center;flex:0 0 auto}
+  .tw-note{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin:8px 0 12px}
+  .tailwell .vrow{background:var(--card)}
+  .morechip{border:1px dashed var(--line-2);background:transparent;border-radius:var(--r-sm);padding:8px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-3);font-family:var(--sans)}
+  .catnav a.done .cd{background:var(--green)}
+  .partbox{display:flex;align-items:center;gap:12px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .partbox input[type=range]{min-width:130px}
+  .partnum{font-family:var(--serif);font-size:15px;font-weight:600;min-width:132px}
+  .partnum small{font-family:var(--sans);color:var(--ink-3);font-size:11.5px;font-weight:400;display:block;margin-top:1px}
+  .pctchip{border:1px solid var(--line-2);background:var(--card);border-radius:7px;padding:5px 11px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-2);font-family:var(--sans)}
+  .pctchip.on{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold-2);font-weight:600}
+  .partbox input{width:110px;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:7px 10px;font-size:13px;font-family:var(--sans)}
+  .partbox .lab{font-size:12px;color:var(--ink-3)}
+
+  /* widgets */
+  .qq{border-color:var(--gold-soft)}
+  .qbody{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+  .qlabel{font-size:13px;font-weight:600;margin-bottom:10px}
+  .qlabel small{display:block;color:var(--ink-4);font-weight:400;font-size:11.5px;margin-top:3px;line-height:1.5}
+  .statgrid{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .stat{flex:1;min-width:112px;border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 11px;font-size:11px;color:var(--ink-3);background:var(--card-2)}
+  .stat b{display:block;font-family:var(--serif);font-size:15px;color:var(--ink);margin-top:2px}
+  .sliderline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  input[type=range]{flex:1;min-width:150px;appearance:none;-webkit-appearance:none;height:4px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold) var(--fill,50%),#E4E0D6 var(--fill,50%));outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:2.5px solid var(--ink);cursor:grab;box-shadow:var(--shadow-sm)}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2.5px solid var(--ink)}
+  .slidernum{font-family:var(--serif);font-size:16px;font-weight:600;min-width:145px}
+  .slidernum small{font-family:var(--sans);color:var(--ink-3);font-size:11.5px;font-weight:400;display:block;margin-top:1px}
+  .stepper{display:inline-flex;align-items:center;border:1px solid var(--line-2);border-radius:var(--r-sm);overflow:hidden}
+  .stepper button{border:none;background:var(--card);width:32px;height:32px;font-size:16px;cursor:pointer;color:var(--ink);font-family:var(--sans)}
+  .stepper .n{width:34px;text-align:center;font-weight:600;font-size:14px}
+  .altlist{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .txn{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:13px}
+  .txn input{width:15px;height:15px;accent-color:var(--gold-2)}
+  .txn .d{color:var(--ink-4);font-size:11.5px;width:58px}
+  .txn .a{margin-left:auto;font-weight:600}
+  .txn .g{font-size:10px;font-weight:600;border-radius:6px;padding:2px 7px;background:var(--gold-wash);color:var(--gold-2)}
+  .upgrade{color:var(--ink-4);font-size:11.5px;margin-top:12px;line-height:1.5}
+  .upgrade a{color:var(--gold-2);font-weight:500}
+  .optrow{display:flex;gap:8px;flex-wrap:wrap}
+  .opt{border:1px solid var(--line-2);background:var(--card);border-radius:7px;padding:7px 13px;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--ink-2);font-family:var(--sans)}
+  .opt.on{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold-2);font-weight:600}
+  .reveal{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;line-height:1.55}
+  .math{background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:var(--r-sm);padding:10px 12px;margin:8px 0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+  .math b{font-family:var(--serif);font-size:14px;color:var(--ink)}
+  .chiprow{display:flex;gap:8px;flex-wrap:wrap}
+  .evt{border:1px solid var(--line-2);background:var(--card);border-radius:var(--r-sm);padding:8px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-2);text-align:left;font-family:var(--sans)}
+  .evt.on{background:var(--green-wash);border-color:rgba(63,143,91,.3);color:var(--green);font-weight:600}
+  .evt.on.neg{background:var(--amber-wash);border-color:rgba(194,138,42,.3);color:var(--amber)}
+  .evt .hint{display:block;font-size:10px;color:var(--ink-4);font-weight:400;margin-top:2px}
+  .evt.on .hint{color:inherit;opacity:.75}
+  .inlineinput{border:1px solid var(--line-2);border-radius:var(--r-sm);padding:7px 10px;font-size:13px;font-family:var(--sans);width:120px}
+  .autoline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);flex-wrap:wrap}
+
+  /* manual add */
+  .manual{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
+  .askprompt{background:none;border:none;font-family:var(--sans);font-size:12.5px;color:var(--ink-3);cursor:pointer;padding:0;text-align:left;line-height:1.5}
+  .askprompt:hover{color:var(--gold-2)}
+  .askprompt:before{content:"+ ";font-weight:600;color:var(--gold-2)}
+  .manual.on{border:1px dashed var(--line-2);border-radius:var(--r);padding:12px 14px;background:var(--card-2)}
+  .manual.on.bare{border:none;padding:0;background:none}
+  .manual.on .addlink{display:none}
+  .manual .mform{display:none;gap:8px;flex-wrap:wrap;align-items:center}
+  .manual .mform .nm{flex:1;min-width:180px}
+  .manual.on .mform{display:flex}
+  .manual .mform input.nm{flex:1;min-width:180px}
+  .addlink{background:none;border:none;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--gold-2);cursor:pointer;padding:0}
+
+  /* review block */
+  .stackdiv{display:flex;align-items:center;gap:16px;margin:30px 2px 16px}
+  .stackdiv:before,.stackdiv:after{content:"";flex:1;height:1px;background:var(--line)}
+  .stackdiv span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);font-weight:600;white-space:nowrap}
+  .review{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px;margin-top:24px}
+  .review h3{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:6px}
+  .review .rp{font-size:12.5px;color:var(--ink-2);line-height:1.6;margin-bottom:14px;max-width:60ch}
+  .rvitem{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-2);line-height:1.55}
+  .rvitem .rn{font-family:var(--serif);font-size:14px;color:var(--ink-4);flex:0 0 18px}
+  .rvitem b{color:var(--ink);font-weight:600;display:block;margin-bottom:2px}
+
+  /* ---------- rail ---------- */
+  .rail{flex:0 0 300px;position:sticky;top:78px}
+  .rcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);padding:20px;margin-bottom:14px}
+  .rcard h4{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:14px}
+  .rline{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5px 0;font-size:12.5px;color:var(--ink-2)}
+  .rline span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rline b{color:var(--ink);font-weight:600;white-space:nowrap}
+  .rline .pos{color:var(--gold-2);font-weight:600;white-space:nowrap}
+  .rline .neg{color:var(--amber);font-weight:600;white-space:nowrap}
+  #pfline{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);color:var(--ink-4)}
+  .rline.sub{font-size:12px;color:var(--ink-3);padding-left:2px}
+  .rdiv{border-top:1px solid var(--line);margin:10px 0}
+  .rtotal{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin-top:11px;padding-top:11px;border-top:1px solid var(--line-2)}
+  .rt-l{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .rbig{font-family:var(--geist);font-size:20px;font-weight:600;letter-spacing:-.018em;font-variant-numeric:tabular-nums}
+  .rbig-lbl{font-size:12px;color:var(--ink-3);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+  .lenschip{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--paper-2);color:var(--ink-3);border-radius:5px;padding:2px 6px}
+  [data-tip]{cursor:help;border-bottom:1px dotted var(--line-2)}
+  [data-tip]:hover,[data-tip]:focus-visible{color:var(--gold-2);border-bottom-color:var(--gold-soft);outline:none}
+  .tip{position:fixed;z-index:35;width:250px;max-width:calc(100vw - 24px);background:var(--card);border:1px solid var(--line-2);
+    border-radius:8px;box-shadow:var(--shadow);padding:11px 13px;font-size:12px;color:var(--ink-2);line-height:1.55;
+    opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .14s var(--ease-out),transform .14s var(--ease-out)}
+  .tip.on{opacity:1;transform:translateY(0)}
+  .delta{margin-top:3px;text-align:right;font-size:11px;font-weight:600;color:var(--gold-2);
+    font-variant-numeric:tabular-nums;letter-spacing:.01em}
+  .delta.down{color:var(--amber)}
+  .rmicro{color:var(--ink-4);font-size:11.5px;line-height:1.55;margin-top:12px}
+  .rmicro b{color:var(--ink-3)}
+  .gauge{height:8px;margin-top:0;border-radius:99px;background:linear-gradient(90deg,#CBE2D2 0 50%,#EFDDB4 50% 66.6%,#E9C4BC 66.6% 100%);position:relative;margin:14px 0 6px}
+  .needle{position:absolute;top:-5px;width:3px;height:18px;background:var(--ink);border-radius:2px;transition:left .35s var(--ease-out)}
+  .glabels{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-4)}
+  .cred-state{font-size:13px;font-weight:600;margin-top:10px;line-height:1.45}
+  .cred-state.g{color:var(--green)} .cred-state.a{color:var(--amber)} .cred-state.r{color:var(--red)}
+  .emptyrail{font-size:12.5px;color:var(--ink-3);line-height:1.6}
+
+  /* ---------- footbar ---------- */
+  .footbar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);z-index:9}
+  .footbar .in{max-width:1360px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:10px}
+  .footbar .grow{flex:1;color:var(--ink-3);font-size:12.5px}
+  .btn.big{padding:10px 18px;font-size:13.5px}
+
+  /* ---------- alt states ---------- */
+  .panel{display:none}
+  .panel.on{display:block}
+  .nobooks{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    box-shadow:var(--shadow-sm);padding:14px 18px;margin-bottom:18px;flex-wrap:wrap}
+  .nb-ic{width:30px;height:30px;border-radius:9px;background:var(--gold-wash);display:flex;align-items:center;justify-content:center;flex:0 0 30px}
+  .nb-ic i{font-size:15px;color:var(--gold-2)}
+  .nb-text{flex:1;min-width:220px;font-size:13px;color:var(--ink-2);line-height:1.5}
+  .nb-text b{color:var(--ink);font-weight:600}
+  .nb-acts{display:flex;gap:8px;flex:0 0 auto}
+  .connect{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);padding:26px;margin-bottom:16px}
+  .connect h2{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:8px}
+  .connect p{color:var(--ink-2);font-size:14px;line-height:1.6;max-width:58ch;margin-bottom:16px}
+  .connectrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .mchips{display:flex;gap:7px;flex-wrap:wrap;margin:2px 0 12px}
+  .mchip{border:1px solid var(--line-2);background:var(--card);border-radius:7px;padding:6px 11px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-2);font-family:var(--sans)}
+  .mtype{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--paper-2);padding:3px;gap:3px}
+  .mtype button{border:none;background:transparent;font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--ink-3);padding:5px 10px;border-radius:6px;cursor:pointer}
+  .mtype button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);font-weight:600}
+  .retline{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1px solid var(--line);border-radius:var(--r);margin-bottom:9px;background:var(--card);flex-wrap:wrap}
+  .retline .rt{font-weight:600;font-size:13.5px}
+  .retline .rd{font-size:12px;color:var(--ink-3);margin-top:2px}
+  .retline .ra{margin-left:auto;font-family:var(--geist);font-size:15px;font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .retline .rq{display:flex;gap:6px;flex:0 0 auto}
+  .newchip{font-size:9px;font-weight:700;letter-spacing:.09em;background:var(--gold);color:#fff;border-radius:5px;padding:2px 6px}
+  .newchip.chg{background:var(--amber-wash);color:var(--amber)}
+  body.returning .askprompt:before{content:"+ "}
+
+  /* ---------- prototype switcher ---------- */
+  .protorail{flex:0 0 196px;position:sticky;top:78px}
+  .proto{background:#1a1a1a;color:#f6f6f6;border-radius:12px;padding:14px;box-shadow:var(--shadow);font-size:11px}
+  .proto .pl{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:6px}
+  .proto .pg{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
+  .proto button{background:#2a2a2a;border:1px solid #3a3a3a;color:#b0b0b0;border-radius:6px;padding:4px 8px;font-size:11px;font-family:var(--sans);cursor:pointer}
+  .proto button.on{background:var(--gold);border-color:var(--gold);color:#1a1a1a;font-weight:600}
+  .proto .pg:last-child{margin-bottom:0}
+
+  @media (hover:hover) and (pointer:fine){
+    .btn:hover{border-color:var(--gold-soft);background:var(--gold-wash-2)}
+    .btn.primary:hover{background:var(--gold-2);border-color:var(--gold-2)}
+    .cathead:hover{background:var(--gold-wash-2)}
+    .opt:hover,.evt:hover,.pctchip:hover{border-color:var(--gold-soft)}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.1s!important}}
+  /* the prototype controls are scaffolding, so they go first. The owner's number goes last. */
+  @media (max-width:1240px){.protorail{display:none}}
+  @media (max-width:1040px){.rail{display:none}.shell{padding:20px 16px 128px}.footbar .in{padding:12px 16px}}
+</style>
+</head>
+<body>
+
+<div class="crumb">
+  <div class="in">
+    <span class="wordmark">REINS</span>
+    Valuations &nbsp;&rsaquo;&nbsp; <b>Verified valuation setup</b>
+    <span class="saved"><span class="d"></span><span id="savedtxt">Saved just now</span></span>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ============ PROTOTYPE CONTROLS ============ -->
+  <div class="protorail">
+    <div class="proto">
+      <div class="pl">Prototype state</div>
+      <div class="pg" id="stateswitch">
+        <button data-s="happy" class="on">Happy path</button>
+        <button data-s="noqbo">No books</button>
+        <button data-s="return">Return visit</button>
+      </div>
+      <div class="pl">Build phase</div>
+      <div class="pg" id="scopeswitch">
+        <button data-sc="mvp" class="on">MVP</button>
+        <button data-sc="full">Full</button>
+      </div>
+      <div class="pl">Earnings lens</div>
+      <div class="pg" id="lensswitch">
+        <button data-l="sde">Adjusted SDE</button>
+        <button data-l="ebitda" class="on">Adj. EBITDA</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <h1>Adjust your earnings</h1>
+    <p class="lede" id="lede">Your reported number isn't what a buyer will price. We read all 214,388 lines of your trailing twelve and flagged everything that moves it, <b>up or down</b>. Confirm what we found, add what we couldn't see, and you're done.</p>
+
+    <!-- ---------- HAPPY PATH ---------- -->
+    <div class="panel on" id="panel-happy">
+
+      <div class="scanbar" id="scanbar">
+        <div class="scanhead" id="scanhead">
+          <div class="scan-ic"><i class="hgi-stroke hgi-flag-02"></i></div>
+          <div class="scantitle"><span id="scanpre">Reins flagged </span><b id="flaghead">$0 across 0 items</b><span id="scanpost"> for you.</span></div>
+          <div class="headprog"><div class="progress"><i id="scanfill"></i></div><span class="progpct" id="progpct">0%</span></div>
+        </div>
+      </div>
+
+      <div class="modebar">
+        <div class="modeswitch" id="modeswitch">
+          <button data-m="focus" class="on">One at a time</button>
+          <button data-m="list">View all</button>
+        </div>
+      </div>
+
+      <div id="focusview">
+        <div class="qwrap" id="qwrap">
+          <div class="qghost g2"></div><div class="qghost g1"></div>
+          <div class="qcard" id="qcard"></div>
+        </div>
+        <div class="qbar">
+          <button class="btn ghost" id="q-back">Back</button>
+          <button class="btn ghost" id="q-skip">Skip for now</button>
+          <div class="qprog" id="qprog"></div>
+        </div>
+      </div>
+
+      <div id="listview" style="display:none">
+      <div class="searchrow">
+        <div class="searchwrap">
+          <div class="search">
+            <i class="hgi-stroke hgi-search-01 searchicon"></i>
+            <input type="text" id="q" placeholder="Search any of your 1,140 vendors" autocomplete="off">
+          </div>
+          <div class="sdrop" id="sdrop"></div>
+        </div>
+      </div>
+
+      <div id="cats"></div>
+      </div>
+
+          </div>
+
+    <!-- ---------- NO QUICKBOOKS ---------- -->
+    <div class="panel" id="panel-noqbo">
+      <div class="nobooks">
+        <div class="nb-ic"><i class="hgi-stroke hgi-pencil-edit-02"></i></div>
+        <div class="nb-text">No books connected, so nothing is pre-filled. <b>Connect QuickBooks</b> and we'll find these for you in about two minutes, or add them yourself below.</div>
+        <div class="nb-acts">
+          <button class="btn primary" id="connectbtn">Connect QuickBooks</button>
+          <button class="btn" id="manualbtn">Add manually</button>
+        </div>
+      </div>
+      <div id="mcats"></div>
+    </div>
+
+    <div class="panel" id="panel-return"></div>
+
+  </div>
+
+  <!-- ============ RAIL ============ -->
+  <aside class="rail">
+    <div id="rail-live">
+      <div class="rcard">
+        <h4><span id="lenslabel">Adjusted EBITDA</span> <span class="h4tip" id="lenschip" tabindex="0" data-tip="Your reported EBITDA is over $1M, so a buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.">?</span></h4>
+        <div class="rline"><span>Reported EBITDA (TTM)</span><b class="num">$2,410,000</b></div>
+        <div id="raillines"></div>
+        <div class="rtotal"><span class="rt-l">Total</span><span class="rbig num" id="sde">$2,410,000</span></div>
+        <div class="delta" id="delta" style="display:none">+$0 since you started</div>
+        <div class="rline" id="pfline" style="display:none"><span>Pro forma, kept separate</span><span class="pos num" id="pfval">+$0</span></div>
+      </div>
+
+      <div class="rcard">
+        <h4>Credibility check <span class="h4tip" tabindex="0" data-tip="Buyers get uncomfortable past 15% of your number, and a diligence team will rebuild the schedule from scratch. Undocumented personal-expense add-backs get cut 50 to 100%, so a reason attached now is worth real dollars later.">?</span></h4>
+        <div class="hr-l">Room left before a buyer pushes back</div>
+        <div class="hr-v num" id="headroom">$0</div>
+        <div class="gauge"><div class="needle" id="needle" style="left:0%"></div></div>
+        <div class="glabels"><span>0%</span><span>15%</span><span>20%</span><span>30%+</span></div>
+        <div class="cred-state g" id="credstate">0% of your number</div>
+        <div class="hr-bonus" id="headbonus"></div>
+      </div>
+    </div>
+
+    <div id="rail-empty" style="display:none">
+      <div class="rcard">
+        <h4>Your number</h4>
+        <div class="emptyrail">We can't calculate an adjusted number until your books are connected. Reported EBITDA, add-backs, and the credibility check all come from the transaction history.</div>
+        <div class="rdiv"></div>
+        <div class="rmicro">Owners who complete this step typically move their number by 8 to 22%.</div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="footbar">
+  <div class="in">
+    <button class="btn big">Back</button>
+    <div class="grow" id="footnote">Nothing added yet. Start with the categories above.</div>
+    <button class="btn big">Save progress</button>
+    <button class="btn big primary">Save &amp; next</button>
+  </div>
+</div>
+
+<!-- overlays -->
+<div class="tip" id="tip"></div>
+<div style="display:none">
+  <span id="progcount"></span><span id="pillpareto"></span><span id="pillopen"></span>
+  <span id="pillnormal"></span><div id="passbox"></div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="pop" id="pop" role="dialog">
+  <div class="pop-kicker">Why we flagged this</div>
+  <div class="pop-row"><span class="pop-l">Why we’re suggesting this</span><span class="pop-v" id="pop-saw"></span></div>
+  <div class="pop-row last"><span class="pop-l">What would change it</span><span class="pop-v" id="pop-chg"></span></div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <button class="m-close" id="mclose"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  <div class="m-kicker">What counts here</div>
+  <h3 id="m-name"></h3>
+  <div class="m-full" id="m-full"></div>
+  <div class="m-def" id="m-def"></div>
+  <div class="m-exlabel">Common examples</div>
+  <ul class="m-ex" id="m-ex"></ul>
+  <div class="m-manual" id="m-manual"></div>
+</div>
+
+<div class="modal addmodal" id="addmodal" role="dialog" aria-modal="true">
+  <button class="m-close" id="aclose"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  <div class="m-kicker">Add something we missed</div>
+  <h3 id="a-title">What else did the business pay for?</h3>
+  <div class="a-sub" id="a-sub">Say it however you'd say it out loud. We'll look through your books first.</div>
+
+  <label class="a-lab">What are you thinking of?</label>
+  <input class="a-in" id="a-name" type="text" placeholder="Cousin Vinnie, the country club, a truck we sold..." autocomplete="off">
+
+  <div class="a-results" id="a-results"></div>
+
+  <div class="a-manual" id="a-manual">
+    <div class="a-mhead" id="a-mhead">Not in your books, so you'll have to tell us.</div>
+    <label class="a-lab">What was it, in your words?</label>
+    <textarea class="a-in a-desc" id="a-desc" rows="2" placeholder="My nephew. He's on payroll but he doesn't work here."></textarea>
+    <label class="a-lab">How much, per year?</label>
+    <input class="a-in" id="a-amt" type="text" placeholder="$0">
+    <div class="a-verdict" id="a-verdict"></div>
+    <div class="a-change" id="a-change">
+      <div class="a-row">
+        <div style="flex:1">
+          <label class="a-lab">This counts as</label>
+          <span class="mtype a-type" id="a-type"><button class="on" data-t="add">Add-back</button><button data-t="ded">Deduction</button></span>
+        </div>
+      </div>
+      <label class="a-lab">Filed under</label>
+      <select class="a-in a-sel" id="a-cat"></select>
+    </div>
+  </div>
+
+  <div class="a-foot">
+    <button class="btn" id="a-cancel">Cancel</button>
+    <button class="btn primary" id="a-add" style="display:none">Add it</button>
+  </div>
+</div>
+
+<div class="flyout" id="flyout" role="dialog" aria-modal="true">
+  <div class="fly-head">
+    <div>
+      <button class="fly-back" id="flyback"><i class="hgi-stroke hgi-arrow-left-01"></i> All charges</button>
+      <div class="fh-name" id="fh-name"></div>
+      <div class="fh-sub" id="fh-sub"></div>
+    </div>
+    <div class="fh-amt num" id="fh-amt"></div>
+    <button class="fly-x" id="flyx"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  </div>
+  <div class="fly-panes"><div class="fly-track">
+    <div class="fly-pane" id="fly-list"></div>
+    <div class="fly-pane fdet" id="fly-det"></div>
+  </div></div>
+  <div class="fly-foot" id="fly-foot"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- prototype switcher -->
+<script>
+(function(){
+"use strict";
+
+var BASE = 2410000;
+var OWNER_SALARY = 420000, OWNER_BENEFITS = 62400;
+var OWNER_TOTAL = OWNER_SALARY + OWNER_BENEFITS;      /* 128,400 */
+var MARKET_GM = 185000;                                /* market replacement for this size shop */
+
+var fmt = function(v){ return '$' + Math.round(Math.abs(v)).toLocaleString('en-US'); };
+function plural(n, word){ return n.toLocaleString('en-US') + ' ' + word + (n === 1 ? '' : 's'); }
+function txCount(v){ return v.nTx || (v.txns ? v.txns.length : 0); }
+/* bold the part they actually typed, so the match is obvious at a glance */
+function hl(name, q){
+  q = (q || '').trim();
+  if (!q) return name;
+  var i = name.toLowerCase().indexOf(q.toLowerCase());
+  if (i < 0) return name;
+  return name.slice(0, i) + '<b>' + name.slice(i, i + q.length) + '</b>' + name.slice(i + q.length);
+}
+/* a number that ticks is a number you notice */
+function countTo(node, target){
+  var from = parseFloat((node.dataset.v || node.textContent).replace(/[^0-9.-]/g,'')) || 0;
+  if (Math.abs(target - from) < 1){ node.dataset.v = target; node.textContent = fmt(target); return; }
+  node.dataset.v = target;
+  var t0 = null, dur = 480;
+  function step(ts){
+    if (!t0) t0 = ts;
+    var k = Math.min(1, (ts - t0) / dur);
+    var e = 1 - Math.pow(1 - k, 3);
+    node.textContent = fmt(from + (target - from) * e);
+    if (k < 1) requestAnimationFrame(step); else node.textContent = fmt(target);
+  }
+  requestAnimationFrame(step);
+}
+var sgn = function(v){ return (v < 0 ? '\u2212' : '+') + fmt(v); };
+var $  = function(id){ return document.getElementById(id); };
+var el = function(tag, cls, html){ var d = document.createElement(tag); if(cls) d.className = cls; if(html!=null) d.innerHTML = html; return d; };
+
+var LENS = 'ebitda';   /* $2.4M reported EBITDA, so a buyer prices adjusted EBITDA */
+var REASONS = ['Owner personal','Family, non-working','One-time','Related party','Not needed by a new owner'];
+
+/* ------------------------------------------------------------------
+   CATEGORIES  (owner-facing 1 through 6, from the Adjusted EBITDA doc)
+------------------------------------------------------------------ */
+var CATS = [
+  { id:'comp', short:'Owner compensation', n:1, name:'Owner compensation', full:'Owner compensation normalization',
+    def:'A buyer replaces you with a hired manager, so what you pay yourself gets normalized to what that manager would cost.',
+    teach:'Your W-2, plus the 401(k) match, deferred comp, and an above-market health plan. A spouse titled CFO for five hours a week of bookkeeping gets adjusted to a market bookkeeper, not to zero.',
+    manual:'A car allowance, a SERP, or a bonus you paid yourself that a manager wouldn\u2019t get.' },
+
+  { id:'fam', short:'Family payroll', n:2, name:'Family payroll', full:'Family payroll',
+    def:'A new owner wouldn\u2019t keep paying someone who isn\u2019t doing the work, so anyone on payroll who isn\u2019t really working here comes back into earnings.',
+    teach:'Kids on payroll who don\u2019t work. A parent doing the books at twice market. Family phones, vehicles, and health insurance carried on company plans.',
+    manual:'A family member we didn\u2019t flag, or a relative on a 1099 instead of payroll.' },
+
+  { id:'pers', short:'Personal expenses', n:3, name:'Personal expenses', full:'Personal expenses run through the business',
+    def:'Spend that benefits you and your family rather than the business. A new owner doesn\u2019t inherit it, so it comes back into earnings.',
+    teach:'Vehicles on the fleet policy, family travel coded as training, country club and gym dues, the boat or side-by-side, personal legal and tuition, personal cards paid by the company. Charity is the tricky one: sponsoring the little league team that feeds you leads is marketing, the church donation isn\u2019t.',
+    manual:'Something personal you know is in there that we didn\u2019t catch.' },
+
+  { id:'rp', short:'Related-party', n:4, name:'Related party', full:'Related-party transactions',
+    def:'Money moving between the business and an entity you or your family control. A buyer prices market terms, not the terms you set with yourself.',
+    teach:'Rent to your own real estate LLC, adjusted to market in either direction. Equipment or vehicle leases from a family entity, management fees to a related company, interest on shareholder loans, off-market pricing with a sibling company.',
+    manual:'Another entity you own that the business pays.' },
+
+  { id:'nr', short:'One-time', n:5, name:'One-time items', full:'Non-recurring items',
+    def:'Things that hit this year and won\u2019t hit again, so they shouldn\u2019t drag down what the business normally earns.',
+    teach:'Lawsuit settlement and the legal fees behind it, severance, a ServiceTitan or ERP implementation, a rebrand or fleet re-wrap, one-time recruiting fees, startup losses on a new location, uninsured storm damage. PPP forgiveness and ERC credits go the other way and come out of income.',
+    manual:'A one-time event from the last twelve months.' },
+
+  { id:'no', short:'Non-operating', n:6, name:'Non-operating', full:'Non-operating income and expense',
+    def:'Money in or out that isn\u2019t from running the business, so it doesn\u2019t belong in operating earnings.',
+    teach:'Interest and investment income, gain or loss on the sale of trucks and equipment, rental income from unrelated property, a side venture sitting in the GL. Trades cycle vehicles constantly, so equipment gains are the most missed line on this page.',
+    manual:'Income or expense that has nothing to do with the operating business.' },
+
+  { id:'nd', short:'Deductions', n:9, name:'Deductions you volunteer', full:'Normalizing deductions',
+    def:'Costs a buyer will price in whether or not you raise them. Volunteering them first is what makes the rest of your schedule believable.',
+    teach:'Under-market wages, under-accrued PTO and bonuses, deferred fleet maintenance, missing spend like running on referrals with zero marketing. Volunteering these before diligence finds them is what makes every add-back above easier to believe.',
+    manual:'A pending cost you know is coming that the trailing twelve doesn\u2019t show.' },
+
+  { id:'acct', short:'Accounting', n:7, name:'Accounting', full:'Accounting normalization',
+    def:'How the books are kept, not what was spent. This changes how earnings get measured, so your CPA sets the number, not you and not us.',
+    teach:'Cash-to-accrual conversion, deferred revenue on maintenance agreements, WIP and over/under billings on jobs, whether trucks get expensed or capitalized, inventory with no count. This is where trades books are weakest and where quality of earnings firms make their money. We flag what we can see and hand the list to your accountant instead of guessing at dollars.',
+    manual:'A number your CPA already worked out, like a cash-to-accrual adjustment.' },
+
+  { id:'pf', short:'Pro forma', n:8, name:'Pro forma', full:'Pro forma and run-rate adjustments',
+    def:'Changes you\u2019ve already made whose full-year effect isn\u2019t in the trailing twelve yet. Real, but buyers discount it, so it sits on its own schedule instead of in your number.',
+    teach:'A price increase implemented mid-year, a signed commercial contract that hasn\u2019t started billing, actioned cost savings like renegotiated insurance. Real, but buyers discount them heavily, so they live on a separate schedule and never get blended into your adjusted number.',
+    manual:'A signed change with a full-year effect you can defend.' },
+
+
+];
+
+/* ------------------------------------------------------------------
+   ITEMS
+------------------------------------------------------------------ */
+var ITEMS = [
+  /* ===== 1. OWNER COMPENSATION ===== */
+  {id:'k401', acct:'6540 EMPLOYEE-BURDEN:401(k)', cat:'comp', name:'Human Interest \u00b7 401(k) match', tag:'Owner benefit', src:'Account path', part:22,
+   why:'$95,091 to 6540 EMPLOYEE-BURDEN:401(k) across 12 monthly runs. Retirement matches are per person, so a single burden line blends your own deferral with the crew\u2019s. Yours is compensation, theirs is ordinary payroll.',
+   chg:'A census splitting owner deferral from staff deferral gives the exact number.', amt:95091, nTx:12,
+   txns:[['Jun 23','Human Interest','6540 EMPLOYEE-BURDEN:401(k) Employee Retirement',7924.25],
+         ['May 23','Human Interest','6540 EMPLOYEE-BURDEN:401(k) Employee Retirement',7811.40]]},
+  {id:'ohealth', acct:'6520 EMPLOYEE-BURDEN:Group Health', cat:'comp', name:'Owner health plan', tag:'Owner benefit', src:'Account path', part:35, tail:true,
+   why:'$41,300 to 6520 EMPLOYEE-BURDEN:Group Health across two carriers. Owner households are usually the most expensive lives on a small-group plan, so part of this premium is your benefit rather than a cost of employing the crew.',
+   chg:'The carrier census separates your family from the crew.', amt:41300, nTx:24},
+
+  /* ===== 3. PERSONAL EXPENSES \u00b7 the long tail lives here ===== */
+  /* ===== 2. FAMILY PAYROLL ===== */
+  {id:'famoffice', cat:'fam', name:'Payroll \u00b7 M. Ruiz', tag:'Family payroll', src:'Account path \u00d7 payee tags',
+   acct:'6110 EMPLOYEE-WAGES:Family Member Salaries', part:65,
+   why:'$108,000 across 26 runs to 6110 EMPLOYEE-WAGES:Family Member Salaries. Your bookkeeper already separated family pay into its own account, which is the strongest signal there is. A bookkeeper at this scope costs about $38,000 here.',
+   chg:'A job description and timecards would show how much of the role is real work.', amt:108000, nTx:26,
+   txns:[['Jun 20','Payroll \u00b7 M. Ruiz','6110 EMPLOYEE-WAGES:Family Member Salaries',4153.85],
+         ['Jun 6','Payroll \u00b7 M. Ruiz','6110 EMPLOYEE-WAGES:Family Member Salaries',4153.85]]},
+  {id:'famseasonal', cat:'fam', name:'Payroll \u00b7 D. Ruiz', tag:'Seasonal', src:'Account path \u00d7 payee tags', tail:true, part:50,
+   acct:'6110 EMPLOYEE-WAGES:Family Member Salaries',
+   why:'$42,600 to the same Family Member Salaries account, but the hours track summer and there are dispatch records against the name. Family payroll usually splits into real work and paid-but-absent, and this side looks like real work.',
+   chg:'Dispatch history or completed job tickets would settle whether the hours were worked.', amt:42600, nTx:14},
+
+  {id:'homedepot', acct:'4000-42 COGS - Parts and Equip', cat:'pers', name:'Home Depot', tag:'Materials', src:'Pattern, needs you', part:12,
+   why:'$486,200 across 1,184 charges coded to 4000-42 COGS Parts and Equip. Volume this large almost always carries household spend, and none of these lines carry a job number, so nothing ties them to a customer.',
+   chg:'Job numbers on the receipts separate customer work from your own address.', amt:486200, nTx:1184},
+  {id:'chevron', acct:'7500 VEHICLE (4%):Fuel', cat:'pers', name:'Chevron \u00b7 fuel cards', tag:'Vehicle', src:'Pattern, needs you', part:8,
+   why:'$214,800 across 2,940 fuel-card swipes coded to VEHICLE. Fuel cards are issued to people, not trucks, so a card assigned to a family vehicle spends from this same account and looks identical to crew fuel.',
+   chg:'A card-to-driver assignment list settles it in one pass.', amt:214800, nTx:2940},
+  {id:'broadmoor', changed:1, acct:'6700 Travel', cat:'pers', name:'The Broadmoor', tag:'Travel', src:'Vendor + pattern',
+   why:'9 stays, $38,410, coded to Travel. Four land on weekends with no job, no conference and no customer named on the folio. Business travel clusters around work; weekend resort stays usually don\u2019t.',
+   chg:'A customer name on the folio makes it entertainment, which is a business cost.', amt:38410, nTx:9},
+  {id:'kissing', acct:'6640 Dues & Subscriptions', cat:'pers', name:'Kissing Camels Golf Club', tag:'Memberships', src:'Bookkeeper coding',
+   why:'12 identical monthly charges plus 3 event invoices, coded to Dues & Subscriptions. That account is where memberships of every kind land, which makes club dues the most common personal expense we find in it.',
+   chg:'A member roster showing customers, or event receipts, would make part of this entertainment.', amt:31200, nTx:15},
+  {id:'amzn', acct:'6100 OFFICE:Supplies', cat:'pers', name:'Amazon', tag:'Mixed use', src:'Pattern, needs you', part:24,
+   why:'$46,480 across 861 charges coded to 6100 OFFICE:Supplies, typical charge $54, weekend-heavy. QuickBooks records the account and the date but never what was in the box, so a mixed household-and-shop account looks exactly like this.',
+   chg:'Forwarding receipts or connecting Amazon Business turns this estimate into line-item proof.', amt:46480, nTx:861},
+  {id:'epic', isNew:1, cat:'pers', name:'Vail Resorts \u00b7 Epic Pass', tag:'Personal', src:'Vendor match',
+   why:'6 season passes bought in one September transaction, coded to Employee Morale. Passes bought as a block before the season usually go to a family rather than a crew, and a real perk normally shows up on payroll.',
+   chg:'If the crew actually gets these as a perk, they stay as compensation.', amt:5340, nTx:1},
+  {id:'cabelas', cat:'pers', name:"Cabela's", tag:'Personal', src:'Vendor match', tail:true,
+   why:'14 charges, $9,180, coded to Small Tools. Outdoor retail carries almost nothing a service van needs, so purchases here are usually personal even when the account says otherwise. Less sure about this one.',
+   chg:'A tool list tying purchases to trucks would keep these operating.', amt:9180, nTx:14},
+  {id:'costco', acct:'6100 OFFICE:Supplies', cat:'pers', name:'Costco', tag:'Mixed use', src:'Pattern', tail:true, part:30,
+   why:'126 charges, $48,900, coded to Office Supplies. Warehouse clubs sell break-room stock and household stock from the same register, so this account almost always holds some of both.', amt:48900, nTx:126},
+  {id:'directv', cat:'pers', name:'DirecTV', tag:'Subscriptions', src:'Vendor match', tail:true,
+   why:'24 monthly charges across two account numbers. One bills to the shop address and one doesn\u2019t, and a second residential-billed line on a business account is normally a home service.', amt:4680, nTx:24},
+  {id:'kingsoopers', acct:'6210 Meals & Entertainment', cat:'pers', name:'King Soopers', tag:'Meals', src:'Pattern', tail:true, part:40,
+   why:'218 charges, $31,400, coded to Meals. Grocery spend on a company card is usually a mix of crew lunches and household shopping, and the ledger has no way to tell them apart.', amt:31400, nTx:218},
+  {id:'apple', cat:'pers', name:'Apple.com', tag:'Subscriptions', src:'Vendor match', tail:true,
+   why:'62 charges coded to Office Supplies, mostly recurring storage and app subscriptions under $30. Small recurring consumer subscriptions tend to be personal accounts that were never separated from the business card.', amt:3720, nTx:62},
+  {id:'dicks', cat:'pers', name:"Dick's Sporting Goods", tag:'Personal', src:'Vendor match', tail:true,
+   why:'11 charges coded to Uniforms. Sporting goods is sometimes team sponsorship, which is marketing, and sometimes personal. The account name doesn\u2019t distinguish the two. Less sure about this one.', amt:4260, nTx:11},
+  {id:'southwest', acct:'6700 Travel', cat:'pers', name:'Southwest Airlines', tag:'Travel', src:'Vendor + public data', tail:true, part:45,
+   why:'38 flights, $22,800. 17 fall in trade-show weeks and the rest line up with nothing. Airfare is where personal travel most often rides on the business card, because the vendor looks identical either way.', amt:22800, nTx:38},
+  {id:'peloton', cat:'pers', name:'Peloton', tag:'Personal', src:'Vendor match', tail:true,
+   why:'12 monthly charges coded to Office Supplies. A recurring consumer fitness subscription sitting in an operating account is nearly always personal spend that was never recategorized after the card was set up.', amt:1068, nTx:12},
+  {id:'bestbuy', cat:'pers', name:'Best Buy', tag:'Personal', src:'Vendor match', tail:true,
+   why:'9 charges, $7,340, coded to Computer Equipment. Consumer electronics retail carries both real equipment and household purchases, and the account is assigned by the bookkeeper, not by the receipt.', amt:7340, nTx:9},
+  {id:'petsmart', cat:'pers', name:'PetSmart', tag:'Personal', src:'Vendor match', tail:true,
+   why:'19 charges coded to Shop Supplies. Pet retail has no operating use in a trades business, and there is no shop animal on the payroll or the insurance.', amt:2280, nTx:19},
+  {id:'ticketmaster', isNew:1, cat:'pers', name:'Ticketmaster', tag:'Personal', src:'Vendor match', tail:true,
+   why:'7 charges, $6,120, coded to Client Entertainment with no customer named on any of them. Entertainment is a real business cost when a client is present, and the account can\u2019t record whether one was.', amt:6120, nTx:7},
+
+  /* ===== 4. RELATED PARTY ===== */
+  {id:'upg', changed:1, cat:'rp', name:'UPG', tag:'Facility lease', src:'Account path \u00d7 customer list', part:40,
+   why:'$30,000 a month to 7160 FACILITY:Colo Spgs Lease. UPG also appears in your customer list as \u201cUPG, LLC Trent Urban,\u201d so the business is paying an entity it also invoices. Payments between entities you control are priced by you, not by a market.',
+   chg:'A third-party appraisal or a comparable lease would replace our estimate of the gap.',
+   amt:360000, nTx:12,
+   txns:[['Jun 25','UPG \u00b7 Colo Spgs Lease','7160 FACILITY:Colo Spgs Lease',30000],
+         ['May 25','UPG \u00b7 Colo Spgs Lease','7160 FACILITY:Colo Spgs Lease',30000]]},
+  {id:'hermec', acct:'7100 FACILITY:Building Maintenance', cat:'rp', name:'Hermec Maintenance LLC', tag:'Building', src:'Vendor + ownership', tail:true, part:100,
+   why:'34 building-repair invoices, $61,400, sharing a registered agent with your facility entity. Related parties are usually invisible in the payee name and show up when the same people appear on both sides.',
+   chg:'Competing bids on the same work would show whether the pricing is market.', amt:61400, nTx:34},
+
+  /* ===== 5. ONE-TIME ITEMS ===== */
+  {id:'servicetitan', isNew:1, cat:'nr', name:'ServiceTitan implementation', tag:'One-time', src:'One-time vendor', biz:'It recurs',
+   why:'Implementation, migration and onboarding across 7 payments, January to May, with no prior history on this vendor. A cost that appears once, runs a few months and stops is the shape of a project, not an operating expense.',
+   chg:'The annual license is recurring. Only the implementation piece is one-time.', amt:184000, nTx:7},
+  {id:'suit', cat:'nr', name:'Lawsuit settlement + legal', tag:'One-time', src:'Vendor spike', biz:'It recurs',
+   why:'Legal fees spike March to May, then a settlement check in June, all coded to Legal & Professional. Litigation costs cluster and end, while ordinary legal work runs level across the year.',
+   chg:'If it shows up again next year, it isn\u2019t one-time and it comes back out.', amt:96500, nTx:14},
+  {id:'erc', cat:'nr', name:'ERC refund', tag:'One-time', src:'Deposit memo', dir:-1, biz:'Keep it in',
+   why:'IRS TREAS 310 deposit sitting in income. Government credits are one-time by construction, and one-time money has to come out the same way one-time costs do, or the year looks better than the business is.',
+   chg:'Nothing. Credits are one-time by definition.', amt:214000, nTx:2},
+  {id:'rewrap', cat:'nr', name:'Fleet re-wrap', tag:'One-time', src:'Vendor pattern', biz:'It recurs',
+   why:'Full fleet re-brand across 41 vehicles, one vendor, two payments. Fleet graphics recur as trucks cycle, but doing all 41 at once is a project, and only the project portion is non-recurring.',
+   chg:'Rolling replacement as trucks cycle would be recurring.', amt:78400, nTx:2},
+  {id:'certainpath', cat:'nr', name:'Certain Path onboarding', tag:'One-time', src:'Vendor pattern', tail:true, part:35,
+   why:'$10,259 in coaching fees plus a credit. Annual dues recur, onboarding doesn\u2019t, and both land in the same account, so the ledger can\u2019t separate them. Less sure about this one.',
+   chg:'The invoice detail separates annual dues from one-time onboarding.', amt:10259, nTx:4},
+  {id:'storm', cat:'nr', name:'Uninsured hail damage', tag:'One-time', src:'Vendor + address', tail:true, biz:'It recurs',
+   why:'Roofing work billed to your own shop address, one job, during Colorado Springs hail season. Damage repair is non-recurring unless it becomes a pattern. Less sure about this one.',
+   chg:'An insurance claim on the same work would offset it.', amt:34800, nTx:3},
+
+  /* ===== 6. NON-OPERATING ===== */
+
+  {id:'gain', acct:'9150 Other Income:Gain on Disposal', cat:'no', name:'Gain on sale of trucks', tag:'Non-operating', src:'Account path', dir:-1,
+   why:'19 vehicle disposals booked to Other Income as Enterprise cycled the fleet. Selling a truck isn\u2019t running a trades business, so the gain belongs below the operating line.',
+   chg:'Nothing. Disposal gains are non-operating by definition.', amt:142600, nTx:19},
+  {id:'int', acct:'7900 Interest Income', cat:'no', name:'Interest & investment income', tag:'Non-operating', src:'Account path', dir:-1, tail:true,
+   why:'Money-market interest on the operating and tax savings accounts, booked above the line. Interest is a return on cash rather than a result of the work, so it doesn\u2019t belong in operating earnings.', amt:38400, nTx:24},
+  {id:'rental', acct:'9160 Other Income:Rent', cat:'no', name:'Rental income, Fillmore St', tag:'Non-operating', src:'Account path', dir:-1, tail:true,
+   why:'12 deposits from a tenant in a property held inside the operating entity. Rent from real estate is a separate business from the trade, and a buyer is pricing the trade.', amt:54000, nTx:12},
+
+  /* ===== 7. ACCOUNTING \u00b7 flags, no dollars claimed ===== */
+  {id:'cash', cat:'acct', name:'Books are cash-basis', tag:'Method', src:'QB company setting', kind:'flag',
+   why:'QuickBooks is set to cash basis. Revenue lands when payment arrives rather than when the work is done, which shifts income between years. Real dollars, but the conversion is your CPA\u2019s math.',
+   chg:'Your CPA\u2019s workpapers decide the number here, not us.'},
+  {id:'defrev', cat:'acct', name:'Maintenance agreements billed ahead', tag:'Deferred revenue', src:'Account path', kind:'flag',
+   why:'$1.34M sitting in 2621 Defer Maint Agreement across 2,140 memberships. Cash collected before service is delivered isn\u2019t earned yet, and how it gets released decides which year earns it.',
+   chg:'A deferral schedule by contract start date gives the real number.', nTx:2140},
+  {id:'baddebt', cat:'acct', name:'Bad debt write-off method', tag:'Reserve', src:'Account path', kind:'flag',
+   why:'$184,600 of credit memos to 9180 BadDebt Write-off, recognized when discovered rather than reserved against. Timing here moves losses between years without changing the total.',
+   chg:'Your CPA\u2019s reserve policy decides this.', nTx:96},
+  {id:'jpm', cat:'acct', name:'Investment sweeps booked as expense', tag:'Presentation', src:'Account path', kind:'flag',
+   why:'$4.9M across 214 entries booked as Expense that land in 9147 Investments, each with a matching Deposit the same day. It nets to zero on earnings, but it inflates both revenue and expenses, and a buyer will ask.',
+   chg:'Your CPA reclassifies these to the balance sheet. No dollar changes hands.', nTx:214,
+   txns:[['Jun 25','JP Morgan Prime','9147 Investments (JP Morgan)',180305.24],
+         ['Jun 24','JP Morgan Prime','9147 Investments (JP Morgan)',89967.18]]},
+  {id:'s179', cat:'acct', name:'Trucks expensed, not capitalized', tag:'Cap policy', src:'Fixed asset pattern', kind:'flag',
+   why:'11 vehicles run through Equipment Expense under a Section 179 habit. Expensing rather than capitalizing moves cost out of depreciation and into operating expense, which lowers EBITDA.',
+   chg:'A fixed asset register with useful lives resolves it.', nTx:11},
+
+  /* ===== 8. PRO FORMA \u00b7 separate schedule ===== */
+  {id:'pfprice', cat:'pf', name:'Price increase, March', tag:'Run-rate', src:'QB pattern', sched:'pf',
+   why:'Average residential ticket up 8% since March. Ten months of the increase are in your trailing twelve and two aren\u2019t, so the year understates what the business now charges.',
+   chg:'A full quarter at the new price firms this up.', amt:186000, nTx:0},
+  {id:'pfmember', cat:'pf', name:'Membership base growth', tag:'Run-rate', src:'QB pattern', sched:'pf', tail:true,
+   why:'Maintenance agreements grew from 1,780 to 2,140. The last two quarters of that growth aren\u2019t fully reflected in the trailing twelve, and growth run-rate is the softest thing on any schedule.',
+   chg:'Buyers discount growth run-rate heavily. Signed contracts hold up better.', amt:94000, nTx:0},
+
+  /* ===== 9. DEDUCTIONS YOU VOLUNTEER ===== */
+  {id:'wage', acct:'4002-51 COGS-TechWages+Commis', cat:'nd', name:'Techs under market', tag:'Pending cost', src:'Payroll + market data', dir:-1, biz:'Skip',
+   why:'11 techs averaging $31/hr against a $38/hr Colorado Springs market. A buyer inherits the crew and the market rate, so the raise gets priced in whether or not you give it.',
+   chg:'Raising the rate before close moves this into your actuals.', amt:158400, nTx:286},
+  {id:'gm', cat:'nd', name:'Management replacement cost', tag:'Pending cost', src:'Org chart', dir:-1, biz:'Skip',
+   why:'No general manager between you and the crew. A buyer who isn\u2019t going to run the business themselves has to hire one, and prices that salary in from day one.',
+   chg:'Hiring a GM before close moves this into your actuals.', amt:185000, nTx:0},
+  {id:'fleetmaint', cat:'nd', name:'Deferred fleet maintenance', tag:'Pending cost', src:'Fleet data', dir:-1, biz:'Skip', tail:true,
+   why:'23 of 41 vehicles past their service interval. Deferred maintenance is a cost already incurred but not yet paid, and a buyer\u2019s inspection will find it.', amt:96400, nTx:0},
+  {id:'pto', cat:'nd', name:'Under-accrued PTO', tag:'Pending cost', src:'Payroll records', dir:-1, biz:'Skip', tail:true,
+   why:'PTO balance owed to the crew that hasn\u2019t been accrued on the P&L. It\u2019s money the business owes today, so it reduces what the business is actually earning.', amt:71200, nTx:0}
+];
+
+/* what would flip our read, per category, overridden per item where it matters */
+var CHG = {
+  comp:'A signed employment agreement at market pay would make this an ordinary expense.',
+  fam:'Timecards or a real job description would move this to normal payroll.',
+  pers:'A customer name on the receipt makes it entertainment, which is a business cost.',
+  rp:'A recent third-party appraisal of market rent would replace our comp estimate.',
+  nr:'If it shows up again next year, it isn\u2019t one-time and it comes back out.',
+  no:'If the asset was core to operations, the treatment changes.',
+  acct:'Your CPA\u2019s workpapers decide the number here, not us.',
+  pf:'A signed contract or a full quarter at the new price firms this up.',
+  nd:'Paying it before close moves it out of pending and into your actuals.'
+};
+var CAT_EXAMPLES = {"comp": ["Your W-2 against what a market GM for a shop this size costs", "401(k) match, SERP, or deferred comp", "An above-market health plan", "A spouse titled CFO for five hours a week of bookkeeping, adjusted to a market bookkeeper rather than to zero"], "fam": ["Kids on payroll who don’t actually work", "A parent doing the books at twice market rate", "Family phones, vehicles, and health insurance carried on company plans"], "pers": ["Vehicles: a spouse’s car on the fleet policy, family fuel cards, personal auto insurance", "Travel and meals: a family trip coded as training, a hunting lease, season tickets", "Memberships: country club, golf, gym", "Toys: the boat, the RV, the side-by-side", "Personal legal, kids’ tuition, personal cards paid by the company", "Charity that’s personal. Sponsoring the little league team that feeds you leads is marketing, the church donation isn’t"], "rp": ["Rent to your own real estate LLC, adjusted to market in either direction", "Equipment or vehicle leases from a family entity at off-market rates", "Management fees to a related company", "Interest on shareholder loans", "Off-market pricing with a sibling company"], "nr": ["A lawsuit settlement and the legal fees behind it", "Severance for a terminated manager", "An ERP or ServiceTitan implementation, data migration, one-time consulting", "A rebrand, new website, or full fleet re-wrap", "One-time recruiting fees for a key hire", "Startup losses on a new location or service line", "Uninsured storm damage, or insurance proceeds backed out", "PPP forgiveness and ERC credits, which come out of income"], "no": ["Interest and investment income", "Gain or loss on the sale of trucks and equipment. Trades cycle vehicles constantly, so this one is chronically missed", "Rental income from unrelated property held in the entity", "A side venture sitting in the GL"], "acct": ["Cash-to-accrual conversion", "Deferred revenue on maintenance agreements and memberships", "WIP and over/under billings on construction jobs", "Capitalization policy: trucks expensed via Section 179 habits versus capitalized", "Inventory expensed with no count or balance", "Warranty and bad-debt reserve methodology"], "pf": ["The annualized effect of a price increase implemented mid-year", "A signed commercial contract not yet in the trailing twelve", "Membership base growth run-rate", "Actioned cost savings: renegotiated insurance, a closed money-losing location", "Removal of a lost major customer, both revenue and cost"], "nd": ["Management replacement cost if you exit with no GM in place", "Under-market wages. A lead installer at $28/hr in a $38/hr market is a pending expense", "Below-market related-party rent stepping to market post-close", "Under-accrued PTO and bonuses", "Missing spend: zero marketing, no safety program, no real back office", "Deferred fleet and equipment maintenance"]};
+var QUAL = {
+  comp:'A buyer replaces you with a hired manager, so your pay gets normalized to what that manager would cost.',
+  fam:'A new owner wouldn\u2019t keep paying someone who isn\u2019t doing the work, so it comes back into earnings.',
+  pers:'A new owner doesn\u2019t inherit this spend, so it comes back into earnings.',
+  rp:'A buyer prices market terms, not the terms you set with yourself.',
+  nr:'It hit once and won\u2019t hit again, so it shouldn\u2019t drag down what the business normally earns.',
+  no:'It isn\u2019t from running the business, so it doesn\u2019t belong in operating earnings.',
+  acct:'This changes how earnings get measured, not what was spent. Your CPA sets the number.',
+  pf:'It\u2019s real but not yet in the trailing twelve, so it sits on its own schedule instead of in your number.',
+  nd:'A buyer prices this in whether or not you raise it. Volunteering it first is what makes the rest of your schedule believable.'
+};
+var state = {}, extras = {}, custom = {};
+var CATR = {pers:0, fam:1, nr:2, rp:3, no:4, nd:4, comp:4};
+ITEMS.forEach(function(i){ state[i.id] = {mode:'pending', value:0, reason:CATR[i.cat] || 0}; });
+
+/* ------------------------------------------------------------------
+   BUILD PAGE
+------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+   CLASSIFIER \u00b7 keyword vocabulary lifted from the doc's sample transactions.
+   In production this is the same AI pass that reads the ledger; here it's literal matching.
+------------------------------------------------------------------ */
+var KEYS = {
+  comp:['my salary','owner salary','my pay','owner pay','w-2','w2','401k','401(k)','serp','deferred comp','car allowance','my bonus','health premium','my health'],
+  fam:['son','daughter','kid','child','wife','husband','spouse','brother','sister','mom','dad','father','mother','cousin','nephew','niece','in-law','uncle','aunt','on payroll but'],
+  pers:['country club','golf','gym','boat','rv','side-by-side','tuition','vacation','hunting','season ticket','netflix','spotify','disney','personal','grocery','church','donation','divorce','estate planning','jewelry','clothing','cabo','resort','cruise','pet','amazon','costco','home depot','remodel','fuel card','denali','truck for my','my vehicle','meals','restaurant','travel'],
+  rp:['rent','lease','related party','shareholder loan','management fee','sibling company','my building','my property','real estate','i own','my own','we own','own the'],
+  nr:['lawsuit','settlement','legal fee','severance','implementation','servicetitan','erp','rebrand','website','re-wrap','rewrap','recruiting fee','storm','one-time','one time','ppp','erc','migration','startup loss','new location'],
+  no:['interest income','gain on sale','sold truck','sold equipment','sold a truck','rental income','investment income','dividend','side venture','other income','tenant','collect rent'],
+  acct:['accrual','cash to accrual','deferred revenue','wip','percentage of completion','capitaliz','section 179','inventory','reserve','cutoff','bad debt','prior period'],
+  pf:['price increase','signed contract','new contract','run rate','run-rate','annualized','cost saving','renegotiated','membership growth'],
+  nd:['under market','below market','under-market','pto','deferred maintenance','replacement cost','under-accrued','no marketing','safety program','deferred fleet']
+};
+/* things that reduce the number rather than add to it */
+/* some categories are deductions by definition. Opening from their prompt should not
+   silently produce an add-back just because no keyword matched. */
+var CAT_DIR = {nd:'ded', no:'ded'};
+var NEG_KEYS = ['gain on sale','interest income','rental income','investment income','dividend','erc','ppp','refund','credit','other income','under market','below market','under-market','pto','deferred maintenance','replacement cost','under-accrued','no marketing','safety program','sold truck','sold equipment','sold a truck'];
+
+/* A company suffix says nothing about who owns the company. Guarding these is why
+   "Hermec Maintenance LLC", a $100 building repair, stopped reading as related-party. */
+var GENERIC_TOKENS = /\b(llc|l\.l\.c|inc|inc\.|incorporated|co|co\.|corp|corp\.|corporation|holdings|ltd|lp|llp)\b/gi;
+var SEED_BONUS = 3;   /* enough to break ties, not enough to outrank a real match */   /* roughly one short keyword: enough to win ties, not enough to override real evidence */
+function classify(text, seed){
+  var t = (text || '').toLowerCase().replace(GENERIC_TOKENS, ' ');
+  if (t.length < 3) return null;
+  var score = {}, hit = {};
+  Object.keys(KEYS).forEach(function(cat){
+    score[cat] = 0;
+    KEYS[cat].forEach(function(k){
+      if (t.indexOf(k) > -1){
+        score[cat] += k.length;
+        if (!hit[cat] || k.length > hit[cat].length) hit[cat] = k;
+      }
+    });
+  });
+  if (seed && score[seed] !== undefined) score[seed] += SEED_BONUS;
+  var best = null;
+  Object.keys(score).forEach(function(cat){
+    if (score[cat] > 0 && (!best || score[cat] > score[best])) best = cat;
+  });
+  if (!best) return null;
+  var neg = NEG_KEYS.some(function(k){ return t.indexOf(k) > -1; });
+  return {cat:best, hit:hit[best] || null, dir: neg ? 'ded' : (CAT_DIR[best] || 'add')};
+}
+
+function existingMatch(text){
+  var t = (text || '').toLowerCase().trim();
+  if (t.length < 3) return null;
+  return ITEMS.filter(function(v){
+    var n = v.name.replace(/&amp;/g,'&').toLowerCase();
+    return n.indexOf(t) > -1 || t.indexOf(n) > -1;
+  })[0] || null;
+}
+
+/* ------------------------------------------------------------------
+   FIND OR ADD \u00b7 one flow. Search the books first, fall back to typing it in.
+   The owner can't know which case they're in, so we don't make them choose.
+------------------------------------------------------------------ */
+var ADD = {seed:null, touchedCat:false, touchedDir:false, mode:'search'};
+
+var CAT_PROMPT = {
+  comp:'Any other pay or benefit of yours that runs through the company?',
+  fam:'Anyone else on payroll who doesn\u2019t really work here?',
+  pers:'Anything personal we didn\u2019t catch?',
+  rp:'Any other entity you or your family own that the business pays?',
+  nr:'Any other one-time event in the last twelve months?',
+  no:'Any other money in or out that isn\u2019t from running the business?',
+  acct:'Anything your CPA has already flagged about the books?',
+  pf:'Any other change you\u2019ve made that isn\u2019t in the trailing twelve yet?',
+  nd:'Any cost you know is coming that the books don\u2019t show yet?'
+};
+
+function addModalInit(){
+  var sel = $('a-cat');
+  sel.innerHTML = CATS.map(function(c){ return '<option value="' + c.id + '">' + c.name + '</option>'; }).join('');
+  sel.addEventListener('change', function(){ ADD.touchedCat = true; syncVerdict(); });
+  $('a-type').addEventListener('click', function(ev){
+    var b = ev.target.closest('button'); if (!b) return;
+    ADD.touchedDir = true;
+    this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+    syncVerdict(); syncAddBtn();
+  });
+  $('a-name').addEventListener('input', onAddType);
+  $('a-desc').addEventListener('input', syncVerdict);
+  $('a-cancel').addEventListener('click', unlockBody);
+  $('aclose').addEventListener('click', unlockBody);
+  $('a-add').addEventListener('click', commitAdd);
+  $('a-amt').addEventListener('input', syncAddBtn);
+  $('a-verdict').addEventListener('click', function(ev){
+    if (!ev.target.closest('.vchange')) return;
+    $('a-change').classList.add('on');
+  });
+  $('a-amt').addEventListener('keydown', function(e){ if (e.key === 'Enter') commitAdd(); });
+  $('a-results').addEventListener('click', onResultClick);
+}
+
+function setDir(d){ $('a-type').querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x.dataset.t === d); }); }
+function curDir(){ return $('a-type').querySelector('button.on').dataset.t; }
+
+/* three honest buckets, in the order an owner would want them */
+function findMatches(q){
+  q = (q || '').toLowerCase().trim();
+  if (q.length < 2) return {onlist:[], ledger:[]};
+  var onlist = ITEMS.filter(function(v){
+    var n = v.name.replace(/&amp;/g,'&').toLowerCase();
+    return n.indexOf(q) > -1 || q.indexOf(n) > -1;
+  }).slice(0,3);
+  var ledger = LEDGER.filter(function(L){
+    return L.name.toLowerCase().indexOf(q) > -1 && !injected[L.name];
+  }).slice(0,4);
+  return {onlist:onlist, ledger:ledger};
+}
+
+function noBooks(){ return $('panel-noqbo').classList.contains('on'); }
+
+function onAddType(){
+  var q = $('a-name').value;
+  if (noBooks()){ syncVerdict(); return; }     /* no ledger to match against */
+  ADD.mode = 'search';
+  $('a-manual').classList.remove('on');
+  $('a-add').style.display = 'none';
+
+  var box = $('a-results');
+  if (q.trim().length < 2){ box.innerHTML = ''; return; }
+
+  var m = findMatches(q), html = '';
+  if (m.onlist.length){
+    html += '<div class="a-group">Already on your list</div>';
+    m.onlist.forEach(function(v){
+      html += '<div class="a-hit onlist" data-go="' + v.id + '"><div class="htext"><div class="hn">' + hl(v.name, q) + '</div>' +
+        '<div class="hs">Under ' + CATS.filter(function(c){return c.id===v.cat;})[0].name + '</div></div>' +
+        '<span class="hgo">Go to it \u2192</span></div>';
+    });
+  }
+  if (m.ledger.length){
+    html += '<div class="a-group">In your books, not yet suggested</div>';
+    m.ledger.forEach(function(L,i){
+      html += '<div class="a-hit" data-led="' + LEDGER.indexOf(L) + '"><div class="htext"><div class="hn">' + hl(L.name, q) + '</div>' +
+        '<div class="hs">' + L.n + ' \u00b7 goes under ' + CATS.filter(function(c){return c.id===L.cat;})[0].name + '</div></div>' +
+        '<span class="ha">' + fmt(L.amt) + '</span><span class="hgo">Review \u2192</span></div>';
+    });
+  }
+  if (!m.onlist.length && !m.ledger.length){
+    html += '<div class="a-empty">Nothing in your books matches that. Which is fine, plenty never hits the ledger.</div>';
+  }
+  html += '<div class="a-group">Not in the books</div>' +
+    '<div class="a-hit manual" data-manual="1"><div class="htext"><div class="hn">Add \u201c<b>' + $('a-name').value.trim() + '</b>\u201d yourself</div>' +
+    '<div class="hs">Cash, a pending cost, or something your CPA worked out</div></div><span class="hgo">Enter it \u2192</span></div>';
+  box.innerHTML = html;
+}
+
+function onResultClick(ev){
+  var hit = ev.target.closest('[data-go],[data-led],[data-manual]'); if (!hit) return;
+
+  if (hit.dataset.go){
+    var v = ITEMS.filter(function(x){ return x.id === hit.dataset.go; })[0];
+    unlockBody();
+    if (catEls[v.cat]) catEls[v.cat].box.classList.add('open');
+    if (v.el){ v.el.scrollIntoView({behavior:'smooth', block:'center'});
+      v.el.classList.add('landed'); setTimeout(function(){ v.el.classList.remove('landed'); }, 1700); }
+    return;
+  }
+  if (hit.dataset.led){ injectVendor(LEDGER[+hit.dataset.led]); return; }
+
+  /* fall through to typing it in */
+  ADD.mode = 'manual';
+  $('a-results').innerHTML = '';
+  $('a-mhead').style.display = '';
+  $('a-manual').classList.add('on');
+  $('a-add').style.display = 'inline-block';
+  if (!ADD.touchedCat) $('a-cat').value = ADD.seed || 'pers';
+  syncVerdict();
+  $('a-desc').focus();
+}
+
+/* classify on everything they've told us, not just the name */
+function syncVerdict(){
+  var text = $('a-name').value + ' ' + $('a-desc').value;
+  var g = classify(text, ADD.seed);
+  if (g && !ADD.touchedCat) $('a-cat').value = g.cat;
+  if (!ADD.touchedDir){
+    var cat = $('a-cat').value;
+    setDir(g ? g.dir : (CAT_DIR[cat] || 'add'));
+  }
+  var cat = $('a-cat').value;
+  var catName = CATS.filter(function(c){ return c.id === cat; })[0].name;
+  var ded = curDir() === 'ded';
+  var pf = cat === 'pf';
+  $('a-verdict').innerHTML =
+    'We\u2019ll file this as ' + (pf ? 'a <b>pro forma item</b>, on its own schedule'
+      : ded ? 'a <b>deduction</b>, which lowers your number'
+            : 'an <b>add-back</b>, which raises your number') +
+    ', under <b>' + catName + '</b>.' +
+    (g && g.hit ? ' <span style="color:var(--ink-4)">Matched \u201c' + g.hit + '\u201d.</span>' : '') +
+    '<button class="vchange">Change</button>';
+  syncAddBtn();
+}
+
+function syncAddBtn(){
+  var amt = parseFloat(($('a-amt').value || '').replace(/[^0-9.]/g,''));
+  $('a-add').textContent = (amt > 0)
+    ? (curDir() === 'ded' ? 'Deduct ' : 'Add ') + fmt(amt)
+    : 'Add it';
+}
+
+function openAddModal(seedCat){
+  ADD = {seed:seedCat || null, touchedCat:false, touchedDir:false, mode:'search'};
+  $('a-name').value = ''; $('a-amt').value = ''; $('a-desc').value = '';
+  $('a-cat').value = seedCat || 'pers';
+  setDir('add');
+  $('a-results').innerHTML = '';
+  $('a-manual').classList.remove('on');
+  $('a-change').classList.remove('on');
+  $('a-add').style.display = 'none';
+  $('a-verdict').innerHTML = '';
+  $('a-title').textContent = seedCat ? CAT_PROMPT[seedCat] : 'What else did the business pay for?';
+  if (noBooks()){
+    /* straight to entry: there are no books to look through */
+    $('a-sub').textContent = 'Say it however you\u2019d say it out loud. We\u2019ll file it in the right place.';
+    ADD.mode = 'manual';
+    $('a-mhead').style.display = 'none';
+    $('a-manual').classList.add('on');
+    $('a-add').style.display = 'inline-block';
+    syncVerdict();
+  } else {
+    $('a-sub').textContent = 'Say it however you\u2019d say it out loud. We\u2019ll look through your books first.';
+  }
+  lockBody('add-open');
+  setTimeout(function(){ $('a-name').focus(); }, 60);
+}
+
+function commitAdd(){
+  var name = $('a-name').value.trim();
+  var amt = parseFloat(($('a-amt').value || '').replace(/[^0-9.]/g,''));
+  if (!name || !amt || amt <= 0) return;
+  var catId = $('a-cat').value;
+  var isPf = catId === 'pf';
+  var signed = curDir() === 'ded' ? -amt : amt;
+  var desc = $('a-desc').value.trim();
+  var cid = 'c' + Date.now() + Math.random().toString(36).slice(2,6);
+  custom[cid] = {cat:catId, name:name, value: isPf ? 0 : signed, pf: isPf ? signed : 0, desc:desc};
+
+  var row = el('div','vrow added' + (signed < 0 ? ' neg' : '') + ' landed');
+  row.dataset.amt = 0; row.dataset.search = name.toLowerCase();
+  row.innerHTML =
+    '<div class="top"><div class="nameline"><span class="vname">' + name + '</span><span class="tag">You added</span>' +
+      (desc ? '<button class="whylink" data-cwhy>Why?</button>' : '') + '</div>' +
+    '<div class="amt">' + (signed < 0 ? '\u2212' : '') + fmt(amt) + '</div>' +
+    '<div class="statusline" style="display:flex"><span class="addedchip' + (signed < 0 ? ' neg' : '') + '">\u2713 ' +
+    (isPf ? 'On the pro forma schedule' : 'Not in the books') + '</span>' +
+    '<button class="undo">Remove</button></div></div>';
+  row.querySelector('.undo').addEventListener('click', function(){
+    delete custom[cid]; row.remove(); recompute(); if (window.msumAll) window.msumAll();
+  });
+  if (desc){
+    row.querySelector('[data-cwhy]').addEventListener('click', function(ev){
+      ev.stopPropagation();
+      openPop(this, {cat:catId, why:desc, src:'Entered by you',
+        chg:'A receipt, invoice, or payroll record turns this from your word into evidence.'});
+    });
+  }
+
+  custom[cid].row = row;
+  homeCustomRow(cid);
+  unlockBody();
+  if (!noBooks() && catEls[catId]) catEls[catId].box.classList.add('open');
+  recompute(); if (window.msumAll) window.msumAll();
+  setTimeout(function(){
+    row.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(function(){ row.classList.remove('landed'); }, 1700);
+  }, 80);
+}
+
+var manualSlot = {};
+
+/* A manual entry belongs to the owner, not to a view. Put its row in whichever
+   surface is currently on screen, and move it when they switch. */
+function homeCustomRow(cid){
+  var c = custom[cid]; if (!c || !c.row) return;
+  var host = noBooks() ? manualSlot[c.cat] : (catEls[c.cat] && catEls[c.cat].slot);
+  if (host && c.row.parentElement !== host) host.appendChild(c.row);
+}
+function rehomeCustomRows(){
+  Object.keys(custom).forEach(homeCustomRow);
+  if (window.msumAll) window.msumAll();
+}   /* no-books mode routes rows to its own per-category slots */
+
+/* ------------------------------------------------------------------
+   MANUAL ENTRY \u00b7 one component, used inline and in no-books mode
+------------------------------------------------------------------ */
+var MFORM =
+  '<div class="mform">' +
+    '<input class="nm inlineinput" type="text" placeholder="What was it?">' +
+    '<input class="vv inlineinput" type="text" placeholder="$ per year">' +
+    '<span class="mtype"><button class="on" data-t="add">Add-back</button><button data-t="ded">Deduction</button></span>' +
+    '<button class="btn primary" data-madd>Add</button>' +
+    '<button class="btn ghost" data-mcancel>Cancel</button>' +
+  '</div>';
+
+function manualEntry(c, slot, opts){
+  opts = opts || {};
+  var man = el('div','manual');
+  man.innerHTML = '<button class="askprompt">' + (CAT_PROMPT[c.id] || 'Anything we missed?') + '</button>';
+  man.querySelector('.askprompt').addEventListener('click', function(){ openAddModal(c.id); });
+  return man;
+}
+
+var catsWrap = $('cats'), catEls = {};
+
+CATS.forEach(function(c){
+  var box = el('div','cat');
+  box.id = 'cat-' + c.id;
+
+  var head = el('div','cathead');
+  head.innerHTML =
+
+    '<div class="catname">' + c.name + '<button class="whatbtn" data-what>What counts?</button></div>' +
+    '<div class="catright"><span class="catsum" data-sum></span><span class="catdone">\u2713</span><span class="cattot zero" data-tot>Nothing found</span>' +
+    '<i class="hgi-stroke hgi-arrow-down-01 chev"></i></div>';
+  head.addEventListener('click', function(ev){
+    if (ev.target.closest('[data-what]')){ openModal(c); return; }
+    box.classList.toggle('open');
+  });
+  box.appendChild(head);
+
+  var body = el('div','catbody');
+  var inner = el('div','inner');
+  body.appendChild(inner);
+  box.appendChild(body);
+
+  /* item slot */
+  var slot = el('div','', '');
+  slot.setAttribute('data-slot','');
+  inner.appendChild(slot);
+
+  /* manual add */
+  var man = manualEntry(c, slot);
+  inner.appendChild(man);
+
+  catsWrap.appendChild(box);
+  catEls[c.id] = {box:box, slot:slot, wslot:slot, tot:head.querySelector('[data-tot]')};
+});
+
+/* ---------- item rows ---------- */
+/* ------------------------------------------------------------------
+   ACTIONS \u00b7 one state machine, rendered into whichever surface asks.
+   Always a single row that swaps contents: verbs -> share -> outcome.
+------------------------------------------------------------------ */
+var partUI = {};                      /* surface-scoped "slider is open" state */
+function isObservation(v){ return v.kind === 'flag'; }   /* nothing for the owner to decide */
+
+function actionsFor(v, surface){
+  if (isObservation(v)) return '';
+  var key = v.id + '@' + surface, ui = partUI[key];
+  var st = state[v.id], neg = v.dir === -1, flag = v.kind === 'flag';
+  var kb = surface === 'card';        /* keyboard hints only where keys are live */
+  var B = surface === 'row' ? 'btn' : 'q-btn';
+
+  if (st.mode !== 'pending'){
+    return '<span class="addedchip' + (neg && st.mode === 'added' ? ' neg' : '') + '">' +
+      (st.mode === 'added' ? '\u2713 ' + (st.note || 'All of it')
+                           : (flag ? 'Skipped' : 'None of it counts')) +
+      '</span><button class="undo" data-a="undo">Undo</button>';
+  }
+  if (ui){
+    var pc = ui.pct;
+    return '<input type="range" data-aslider min="0" max="100" step="5" value="' + pc + '">' +
+      '<span class="apct"><b>' + pc + '%</b> counts <span>' + fmt(v.amt * pc/100) + '</span></span>' +
+      '<button class="' + B + ' primary" data-a="confirm">' + (neg ? 'Deduct' : 'Add') + '</button>' +
+      '<button class="' + B + ' ghost" data-a="cancel">Cancel</button>';
+  }
+  return '<button class="' + B + ' primary" data-a="all">All' + (kb ? ' <kbd>A</kbd>' : '') + '</button>' +
+         '<button class="' + B + '" data-a="part">Part' + (kb ? ' <kbd>P</kbd>' : '') + '</button>' +
+         '<button class="' + B + ' ghost" data-a="none">None' + (kb ? ' <kbd>N</kbd>' : '') + '</button>';
+}
+
+function paintActions(host, v, surface){
+  host.innerHTML = actionsFor(v, surface);
+  var sl = host.querySelector('[data-aslider]');
+  if (sl){
+    sl.style.setProperty('--fill', sl.value + '%');
+    sl.addEventListener('input', function(){
+      partUI[v.id + '@' + surface].pct = +this.value;
+      paintActions(host, v, surface);
+    });
+  }
+}
+
+function actionClick(ev, v, surface, host){
+  var b = ev.target.closest('[data-a]'); if (!b) return false;
+  ev.stopPropagation();
+  var a = b.dataset.a, key = v.id + '@' + surface, R = CATR[v.cat] || 0;
+  if (a === 'part'){   partUI[key] = {pct: v.part || 50}; paintActions(host, v, surface); return true; }
+  if (a === 'cancel'){ delete partUI[key];                paintActions(host, v, surface); return true; }
+  if (a === 'all')  state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All of it'};
+  if (a === 'flag') state[v.id] = {mode:'added', value:0, reason:0, note:'on the accountant list'};
+  if (a === 'none') state[v.id] = {mode:'dismissed', value:0, reason:R};
+  if (a === 'undo') state[v.id] = {mode:'pending', value:0, reason:R};
+  if (a === 'confirm'){
+    var pc = (partUI[key] || {}).pct || v.part || 50;
+    state[v.id] = {mode:'added', value:v.amt * pc/100, reason:R,
+                   note: pc === 100 ? 'All of it' : pc + '% of ' + fmt(v.amt)};
+  }
+  delete partUI[key];
+  syncAllSurfaces(v);
+  return true;
+}
+
+/* a decision made anywhere must show up everywhere */
+function syncAllSurfaces(v){
+  if (v.rerender) v.rerender();
+  recompute();
+  if (MODE === 'focus') renderQueue(true);
+  if (document.body.classList.contains('fly-open') && FLY && FLY.v === v) syncFlyFoot();
+}
+
+function rowHTML(v){
+  var neg = v.dir === -1, flag = isObservation(v);
+  var see = '<span class="rowcount">' + (txCount(v) ? plural(txCount(v), 'charge') : 'Entered by you') + '</span>';
+  return '' +
+    '<div class="top">' +
+      '<div class="nameline"><span class="vname">' + v.name + '</span>' + see + '</div>' +
+      (flag ? '' : '<div class="amt">' + (neg ? '\u2212' : '') + fmt(v.amt) + '</div>') +
+      '<div class="acts" data-actslot></div>' +
+      '<i class="hgi-stroke hgi-arrow-right-01 rowchev"></i>' +
+    '</div>';
+}
+
+function buildRow(v){
+  var row = el('div','vrow' + (v.dir === -1 ? ' neg' : ''));
+  row.innerHTML = rowHTML(v);
+  row.dataset.search = (v.name + ' ' + v.tag).toLowerCase();
+  row.dataset.amt = v.amt || 0;
+  if (v.tail) row.dataset.tail = '1';
+  v.el = row;
+
+  var host = row.querySelector('[data-actslot]');
+  v.rerender = function(){
+    paintActions(host, v, 'row');
+    var st = state[v.id];
+    row.classList.toggle('added', st.mode === 'added');
+    row.classList.toggle('dismissed', st.mode === 'dismissed');
+    var amtNode = row.querySelector('.amt');
+    if (amtNode) amtNode.innerHTML = (v.dir === -1 ? '\u2212' : '') +
+      fmt(st.mode === 'added' ? st.value : v.amt);
+  };
+  v.rerender();
+
+  row.addEventListener('click', function(ev){
+    if (actionClick(ev, v, 'row', host)) return;
+    if (ev.target.closest('button')) return;
+    openFly(v);                       /* anywhere else opens the detail panel */
+  });
+  return row;
+}
+ITEMS.forEach(function(v){ buildRow(v); catEls[v.cat].slot.appendChild(v.el); });
+
+function render(v){ if (v.rerender) return v.rerender(); }
+function _renderLegacy(v){
+  var s = state[v.id], row = v.el, neg = v.dir === -1;
+  row.classList.toggle('added', s.mode === 'added');
+  row.classList.toggle('dismissed', s.mode === 'dismissed');
+  row.querySelector('.acts').style.display = s.mode === 'pending' ? 'flex' : 'none';
+  var pb = row.querySelector('[data-partbox]'); if (pb) pb.style.display = 'none';
+  var st = row.querySelector('[data-status]');
+  var amtNode = row.querySelector('.amt');
+  if (amtNode) amtNode.innerHTML = (neg ? '\u2212' : '') + fmt(s.mode === 'added' ? s.value : v.amt);
+  if (s.mode === 'added'){
+    st.style.display = 'flex';
+    if (v.kind === 'flag'){
+      st.innerHTML = '<span class="addedchip">\u2713 Flagged for your CPA</span><button class="undo" data-act="undo">Undo</button>';
+      return;
+    }
+    st.innerHTML =
+      '<span class="addedchip' + (neg ? ' neg' : '') + '">\u2713 ' + (s.note || 'All of it') + '</span>' +
+      '<button class="undo" data-act="undo">Undo</button>';
+  } else if (s.mode === 'dismissed'){
+    st.style.display = 'flex';
+    st.innerHTML = '<span class="pill gray">' + (v.kind === 'flag' ? 'Skipped' : 'None of it counts') +
+      '</span><button class="undo" data-act="undo">Undo</button>';
+  } else { st.style.display = 'none'; st.innerHTML = ''; }
+}
+
+/* ------------------------------------------------------------------
+   WIDGETS
+------------------------------------------------------------------ */
+
+/* ---- 1. owner comp (auto-captured, lens-dependent) ---- */
+var COMP_ITEM = {id:'__comp', cat:'comp', name:'Your pay and benefits', src:'Ownership & compensation step'};
+var compCard = el('div','vrow added');
+compCard.dataset.amt = 128400;
+compCard.dataset.search = 'owner pay salary compensation benefits';
+catEls.comp.wslot.appendChild(compCard);
+function renderComp(){
+  var sde = LENS === 'sde';
+  var v = sde ? OWNER_TOTAL : (OWNER_TOTAL - MARKET_GM);
+  extras.comp = {cat:'comp', value:v, standard:true};
+
+  /* the lens explanation lives in the popover, same as every other row's reasoning */
+  COMP_ITEM.amt = Math.abs(v);
+  COMP_ITEM.dir = v < 0 ? -1 : 1;
+  COMP_ITEM.why = fmt(OWNER_SALARY) + ' salary plus ' + fmt(OWNER_BENEFITS) +
+    ' health and 401(k), pulled from your intake. ' + (sde
+      ? 'You\u2019re under $1M of EBITDA, so a buyer prices this on seller\u2019s discretionary earnings and all of it comes back.'
+      : 'Above $1M a buyer prices on adjusted EBITDA, which assumes a hired GM costing about ' + fmt(MARKET_GM) +
+        ', so only pay above that comes back.');
+  COMP_ITEM.chg = sde
+    ? 'Crossing $1M of EBITDA switches you to adjusted EBITDA, where only pay above a market manager comes back.'
+    : 'Dropping below $1M of EBITDA switches you to seller\u2019s discretionary earnings, where all of your pay comes back.';
+  COMP_ITEM.qual = sde
+    ? 'You\u2019re under $1M of EBITDA, so a buyer prices this on seller\u2019s discretionary earnings. All of it comes back, because a buyer decides for themselves what to draw.'
+    : 'Above $1M a buyer prices on adjusted EBITDA, which assumes a hired GM costing about ' + fmt(MARKET_GM) +
+      '. You take ' + fmt(OWNER_TOTAL) + ', below that, so the gap cuts against you.';
+
+  compCard.className = 'vrow added' + (v < 0 ? ' neg' : '');
+  compCard.innerHTML =
+    '<div class="top"><div class="nameline"><span class="vname">Your pay and benefits</span>' +
+    '<span class="tag">From your intake</span>' +
+    '<button class="whylink" data-comp-why>Why?</button></div>' +
+    '<div class="amt">' + (v < 0 ? '\u2212' : '') + fmt(v) + '</div>' +
+    '<div class="statusline" style="display:flex"><span class="addedchip' + (v < 0 ? ' neg' : '') + '">\u2713 ' +
+    (v < 0 ? 'Deducted automatically' : 'Captured automatically') + '</span></div></div>';
+  compCard.querySelector('[data-comp-why]').addEventListener('click', function(ev){
+    ev.stopPropagation();
+    openPop(this, COMP_ITEM);
+  });
+  recompute();
+}
+
+/* ------------------------------------------------------------------
+   OVERLAYS: teach modal + charges flyout (nested)
+------------------------------------------------------------------ */
+/* hover-or-focus tooltip for anything carrying data-tip */
+var tipT;
+var TIP_EL = null;
+function showTip(el){
+  var t = $('tip');
+  TIP_EL = el;
+  t.textContent = el.getAttribute('data-tip') || '';
+  t.classList.add('on');
+  var r = el.getBoundingClientRect(), tr = t.getBoundingClientRect(), m = 12;
+  var left = Math.min(Math.max(m, r.left + r.width/2 - tr.width/2), window.innerWidth - tr.width - m);
+  var top = r.bottom + 8;
+  if (top + tr.height > window.innerHeight - m) top = Math.max(m, r.top - tr.height - 8);
+  t.style.left = left + 'px'; t.style.top = top + 'px';
+}
+function hideTip(){ $('tip').classList.remove('on'); TIP_EL = null; }
+/* if the content changes while the tip is open, refresh it in place */
+function refreshTip(el){ if (TIP_EL === el && $('tip').classList.contains('on')) showTip(el); }
+document.addEventListener('mouseover', function(ev){
+  var el = ev.target.closest('[data-tip]');
+  if (el){ clearTimeout(tipT); showTip(el); }
+});
+document.addEventListener('mouseout', function(ev){
+  if (ev.target.closest('[data-tip]')){ clearTimeout(tipT); tipT = setTimeout(hideTip, 90); }
+});
+document.addEventListener('focusin', function(ev){
+  var el = ev.target.closest('[data-tip]'); if (el) showTip(el);
+});
+document.addEventListener('focusout', hideTip);
+window.addEventListener('scroll', hideTip, true);
+
+function lockBody(kind){
+  /* only one overlay at a time, whatever order they get opened in */
+  document.body.classList.remove('modal-open','fly-open','add-open');
+  $('flyout').classList.remove('deep');
+  document.body.classList.add('overlay', kind);
+}
+function unlockBody(){
+  document.body.classList.remove('modal-open','fly-open','add-open');
+  document.body.classList.remove('overlay');
+  $('flyout').classList.remove('deep');
+}
+$('scrim').addEventListener('click', unlockBody);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ closePop(); unlockBody(); } });
+$('mclose').addEventListener('click', unlockBody);
+$('flyx').addEventListener('click', unlockBody);
+
+var POPBTN = null;
+function closePop(){
+  $('pop').classList.remove('on');
+  if (POPBTN) POPBTN.classList.remove('on');
+  POPBTN = null;
+}
+function openPop(btn, v){
+  if (POPBTN === btn){ closePop(); return; }
+  closePop();
+  POPBTN = btn; btn.classList.add('on');
+  var pop = $('pop');
+  $('pop-saw').innerHTML = (v.why || '').replace(/ <button[\s\S]*$/, '');
+  $('pop-chg').textContent = v.chg || CHG[v.cat] || 'New documentation would change our read.';
+
+  pop.classList.add('on');                     /* measure after it has size */
+  var r = btn.getBoundingClientRect();
+  var pr = pop.getBoundingClientRect();
+  var margin = 12;
+  var left = Math.min(Math.max(margin, r.left), window.innerWidth - pr.width - margin);
+  var top = r.bottom + 8;
+  if (top + pr.height > window.innerHeight - margin) top = Math.max(margin, r.top - pr.height - 8);
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+}
+document.addEventListener('click', function(ev){
+  if (POPBTN && !ev.target.closest('#pop') && !ev.target.closest('[data-act="why"]') && !ev.target.closest('[data-q="why"]')) closePop();
+});
+window.addEventListener('scroll', closePop, true);
+
+function openModal(c){
+  $('m-name').textContent = c.name;
+  $('m-full').textContent = c.full && c.full !== c.name ? 'The long name: ' + c.full : '';
+  $('m-def').textContent = c.def.replace(/&amp;/g,'&');
+  $('m-ex').innerHTML = (CAT_EXAMPLES[c.id] || []).map(function(x){ return '<li>' + x + '</li>'; }).join('');
+  $('m-manual').innerHTML = 'If we missed something here, add it from the category: <i>' + c.manual + '</i>';
+  lockBody('modal-open');
+}
+
+/* deterministic filler so the flyout shows every charge, not a sample */
+var MEMOPOOL = ['Card charge','POS purchase','Recurring charge','Card charge \u00b7 online','Statement charge'];
+function fullTxns(v){
+  if (v._tx) return v._tx;
+  var seed = (v.txns || []).map(function(t){ return {d:t[0], memo:t[1], acct:t[2], amt:t[3], tag:null}; });
+  var n = v.nTx || seed.length;
+  var need = n - seed.length;
+  if (need > 0){
+    var seededSum = seed.reduce(function(a,t){ return a + t.amt; }, 0);
+    var rem = Math.max(0, (v.amt || 0) - seededSum);
+    var base = rem / need;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var running = 0;
+    for (var i = 0; i < need; i++){
+      var jit = 1 + (((i * 7919) % 25) - 12) / 100;             /* \u00b112%, deterministic */
+      var a = i === need - 1 ? Math.round((rem - running) * 100) / 100 : Math.round(base * jit);
+      running += a;
+      var monthly = /monthly|dues|policy|interest|plan|lines|Rent/i.test(seed[0] ? seed[0].memo : '');
+      seed.push({
+        d: months[(3 + i) % 12] + ' ' + (((i * 11) % 26) + 2),
+        memo: monthly && seed[0] ? seed[0].memo : MEMOPOOL[i % MEMOPOOL.length],
+        acct: (seed[0] && seed[0].acct) || v.acct || 'From your ledger',
+        amt: Math.max(1, a), tag: null
+      });
+    }
+  }
+  v._tx = seed;
+  return seed;
+}
+
+var FLY = null; /* {v, canTag} */
+function openFly(v, opts){
+  FLY = {v: v, canTag: !(opts && opts.noTag) && v.kind !== 'flag', part:false, pct:null, sel:{}};
+  var tx = fullTxns(v);
+  $('fh-name').textContent = (v.flyName || v.name).replace(/&amp;/g,'&');
+  var stt = state[v.id];
+  $('fh-sub').textContent = (v.tag ? v.tag + ' \u00b7 ' : '') + plural(fullTxns(v).length, 'charge') + ' \u00b7 ' + (v.acct || v.acctLabel || (tx[0] && tx[0].acct) || 'From your ledger') + ' \u00b7 from QuickBooks' +
+    (stt && stt.mode === 'added' && v.dir !== -1 ? ' \u00b7 reason on file: ' + REASONS[stt.reason] : '');
+  $('fh-amt').textContent = (v.dir === -1 ? '\u2212' : '') + fmt(v.amt || tx.reduce(function(a,t){return a+t.amt;},0));
+  renderFlyList();
+  $('flyout').classList.remove('deep');
+  lockBody('fly-open');
+}
+var FLY_CAP = 60;
+function renderFlyList(){
+  var all = fullTxns(FLY.v);
+  /* a 2,940-charge vendor must not become 2,940 DOM nodes. Show the biggest,
+     say so plainly, and keep every one of them in the total. */
+  var over = all.length > FLY_CAP;
+  var tx = over ? all.slice().sort(function(a,b){ return b.amt - a.amt; }).slice(0, FLY_CAP) : all;
+  var why = '<div class="fly-sec"><span class="q-sec-l">Why we’re suggesting this</span>' +
+      '<span class="q-found">' + (FLY.v.why || '').replace(/ <button[\s\S]*$/,'') + '</span></div>' +
+    '<div class="fly-sec"><span class="q-sec-l">What would change it</span>' +
+      '<span class="q-chgtext">' + (FLY.v.chg || CHG[FLY.v.cat] || 'New documentation would change our read.') + '</span></div>' +
+    '<div class="fly-sticky"><span class="q-sec-l">The charges</span>' +
+      (over ? '<span class="fly-cap">' + FLY_CAP + ' largest of ' + all.length.toLocaleString('en-US') + '</span>' : '') +
+    '</div>';
+  var none = all.length ? '' : '<div class="more" style="padding:14px 2px">No transactions behind this one. It comes from ' + (FLY.v.src || 'your records') + ', not the bank feed.</div>';
+  /* Selection is only offered when the whole list is visible. Past the cap,
+     "select all" would either understate by 98% or select things never seen. */
+  /* choosing a percentage is choosing not to pick charges, so the boxes go away */
+  var st = state[FLY.v.id];
+  var canSelect = !over && st && !isObservation(FLY.v) && !FLY.part && st.mode === 'pending';
+  FLY.canSelectHere = canSelect;
+  var included = (st && st.picked) || [];
+  $('fly-list').innerHTML = why + none + tx.map(function(t){
+    var i = all.indexOf(t);
+    return '<div class="ftx' + (FLY.sel[i] ? ' picked' : '') +
+      (included.indexOf(i) > -1 ? ' included' : '') + '" data-i="' + i + '">' +
+      (canSelect ? '<span class="ftx-box" data-pick="' + i + '"></span>' : '') +
+      '<span class="d">' + t.d + '</span>' +
+      '<span class="memo">' + t.memo + '</span>' +
+      '<span class="a num">' + fmt(t.amt) + '</span>' +
+      '<i class="hgi-stroke hgi-arrow-right-01 chv" style="font-size:12px"></i></div>';
+  }).join('');
+  syncFlyFoot();
+}
+function syncFlyFoot(){
+  var f = $('fly-foot'), v = FLY.v, st = state[v.id];
+  if (!st || isObservation(v)){ f.classList.remove('on'); return; }
+  f.classList.add('on');
+
+  var flag = v.kind === 'flag', neg = v.dir === -1;
+  f.classList.remove('selecting');
+
+  /* Three routes to the same answer: all of it, a share, or these specific charges.
+     Tagging is just the precise form of "part", so it takes that slot. It must never
+     remove the other routes, and it always has a way back out. */
+  if (st.mode !== 'pending'){
+    f.innerHTML = '<div class="fly-acts"><span class="addedchip' + (neg && st.mode === 'added' ? ' neg' : '') + '">' +
+      (st.mode === 'added' ? '\u2713 ' + (st.note || 'All of it')
+                           : (flag ? 'Skipped' : 'None of it counts')) +
+      '</span><button class="undo" data-fly="undo">Undo</button></div>';
+
+  } else if (Object.keys(FLY.sel).length){
+    /* mid-gesture, nothing committed: label left, actions right */
+    var allTx = fullTxns(v), picked = Object.keys(FLY.sel);
+    var sum = 0; picked.forEach(function(k){ if (allTx[k]) sum += allTx[k].amt; });
+    f.classList.add('selecting');
+    f.innerHTML = '<div class="fly-acts sel">' +
+      '<span class="sel-l"><b>' + picked.length + ' of ' + allTx.length + ' selected</b> \u00b7 ' + fmt(sum) + '</span>' +
+      '<button class="q-btn primary" data-fly="usesel">' + (neg ? 'Deduct ' : 'Add ') + fmt(sum) + '</button>' +
+      '<button class="q-btn ghost" data-fly="clearsel">Cancel</button></div>';
+
+  } else if (FLY.part){
+    var pc = FLY.pct == null ? (v.part || 50) : FLY.pct;
+    f.innerHTML = '<div class="fly-acts">' +
+      '<input type="range" data-flyslider min="0" max="100" step="5" value="' + pc + '" style="flex:1;min-width:100px">' +
+      '<span class="apct"><b>' + pc + '%</b> <span>' + fmt(v.amt * pc/100) + '</span></span>' +
+      '<button class="q-btn primary" data-fly="confirm">' + (neg ? 'Deduct' : 'Add') + '</button>' +
+      '<button class="q-btn ghost" data-fly="cancel">Cancel</button></div>';
+    var sl = f.querySelector('[data-flyslider]');
+    sl.style.setProperty('--fill', pc + '%');
+    sl.addEventListener('input', function(){ FLY.pct = +this.value; syncFlyFoot(); });
+
+    } else {
+    f.innerHTML = '<div class="fly-acts">' +
+      '<button class="q-btn primary" data-fly="all">All</button>' +
+      '<button class="q-btn" data-fly="part">Part</button>' +
+      '<button class="q-btn ghost" data-fly="none">None</button></div>';
+  }
+
+  f.onclick = function(ev){
+    var b = ev.target.closest('[data-fly]'); if (!b) return;
+    var a = b.dataset.fly, R = CATR[v.cat] || 0;
+    if (a === 'clearsel'){ FLY.sel = {}; renderFlyList(); return; }
+    if (a === 'usesel'){
+      var av = fullTxns(v), ks = Object.keys(FLY.sel);
+      var tot = ks.reduce(function(x, k){ return x + (av[k] ? av[k].amt : 0); }, 0);
+      state[v.id] = {mode:'added', value:tot, reason:CATR[v.cat] || 0,
+                     note: ks.length + ' of ' + plural(av.length, 'charge'),
+                     picked: ks.map(Number)};   /* so the list can show what's in */
+      FLY.sel = {};
+      if (v.rerender) v.rerender();
+      recompute(); renderFlyList();
+      if (MODE === 'focus') renderQueue(true);
+      return;
+    }
+    if (a === 'part'){   FLY.part = true;  FLY.pct = v.part || 50; FLY.sel = {}; renderFlyList(); return; }
+    if (a === 'cancel'){ FLY.part = false; FLY.pct = null;         renderFlyList(); return; }
+    if (a === 'all')       state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All of it'};
+    if (a === 'none')      state[v.id] = {mode:'dismissed', value:0, reason:R};
+    if (a === 'undo')      state[v.id] = {mode:'pending', value:0, reason:R};
+    if (a === 'confirm'){
+      var pc2 = FLY.pct == null ? (v.part || 50) : FLY.pct;
+      state[v.id] = {mode:'added', value:v.amt * pc2/100, reason:R,
+                     note: pc2 === 100 ? 'All of it' : pc2 + '% of ' + fmt(v.amt)};
+    }
+    FLY.part = false; FLY.pct = null;
+    if (v.rerender) v.rerender();
+    recompute(); renderFlyList();
+    if (MODE === 'focus') renderQueue(true);
+  };
+}
+
+$('fly-list').addEventListener('click', function(ev){
+  var box = ev.target.closest('[data-pick]');
+  if (box){
+    ev.stopPropagation();
+    var k = box.dataset.pick;
+    if (FLY.sel[k]) delete FLY.sel[k]; else FLY.sel[k] = 1;
+    FLY.part = false; FLY.pct = null;
+    renderFlyList();
+    return;
+  }
+  var r = ev.target.closest('.ftx'); if (!r) return;
+  openFlyDetail(+r.dataset.i);
+});
+$('flyback').addEventListener('click', function(){ $('flyout').classList.remove('deep'); });
+
+function openFlyDetail(i){
+  var v = FLY.v, t = fullTxns(v)[i];
+  var pos = v.dir !== -1;
+  /* read-only evidence: what this charge was, not another place to decide */
+  $('fly-det').innerHTML =
+    '<div class="frow"><span>Date</span><b>' + t.d + '</b></div>' +
+    '<div class="frow"><span>Memo</span><b>' + t.memo + '</b></div>' +
+    '<div class="frow"><span>Account</span><b>' + t.acct + '</b></div>' +
+    '<div class="frow"><span>Paid from</span><b>' + (v.card || 'Operating checking') + '</b></div>' +
+    '<div class="frow"><span>Amount</span><b class="num">' + fmt(t.amt) + '</b></div>' +
+    '<div class="why2">' + (v.why || '').replace(/ <button[\s\S]*$/, '') + '</div>' +
+    (FLY.canSelectHere
+      ? '<button class="btn primary" data-addone="' + i + '" style="margin-top:14px">' +
+        (v.dir === -1 ? 'Deduct ' : 'Add ') + 'this charge \u00b7 ' + fmt(t.amt) + '</button>'
+      : '');
+
+  $('fly-det').onclick = function(ev){
+    var b = ev.target.closest('[data-addone]'); if (!b) return;
+    FLY.sel[+b.dataset.addone] = 1;      /* drops you into selection mode with it picked */
+    $('flyout').classList.remove('deep');
+    renderFlyList();
+  };
+  $('flyout').classList.add('deep');
+}
+
+/* ------------------------------------------------------------------
+   STACK DIVIDER \u00b7 what sits outside the number
+------------------------------------------------------------------ */
+(function(){
+  var div = el('div','stackdiv', '<span>Outside your number</span>');
+  catsWrap.insertBefore(div, catEls.acct.box);
+})();
+
+/* ------------------------------------------------------------------
+   CATEGORY TOC
+------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------
+   SEARCH
+------------------------------------------------------------------ */
+/* the rest of the scanned ledger: findable, not suggested */
+var LEDGER = [
+  {name:'Rampart Supply', cat:'pers', amt:1284000, n:'3,410 bills', why:'You searched for this one. Plumbing supply house, your largest COGS vendor. Reads as ordinary cost of goods.'},
+  {name:'LENNOX', cat:'pers', amt:1840000, n:'1,120 bills', why:'You searched for this one. HVAC equipment. Ordinary cost of goods.'},
+  {name:'Blazer Electric Supply', cat:'pers', amt:412000, n:'2,180 bills', why:'You searched for this one. Electrical supply. Ordinary cost of goods.'},
+  {name:'QED ELECTRIC', cat:'pers', amt:238000, n:'640 bills', why:'You searched for this one. Electrical subcontract and supply.'},
+  {name:'Johnstone Supply', cat:'pers', amt:196000, n:'510 bills', why:'You searched for this one. HVAC parts.'},
+  {name:'Graybar', cat:'pers', amt:84000, n:'214 bills', why:'You searched for this one. Electrical distribution.'},
+  {name:'Comfort Air Distributing', cat:'pers', amt:141000, n:'386 bills', why:'You searched for this one. HVAC distribution.'},
+  {name:'WINAIR CO', cat:'pers', amt:73000, n:'201 bills', why:'You searched for this one. HVAC parts.'},
+  {name:'Bednarski Products', cat:'pers', amt:118000, n:'298 bills', why:'You searched for this one. Sheet metal and fabrication.'},
+  {name:'Geary Pacific Supply', cat:'pers', amt:66000, n:'174 bills', why:'You searched for this one. HVAC supply.'},
+  {name:'CED Consolidated Electrical', cat:'pers', amt:91000, n:'240 bills', why:'You searched for this one. Electrical distribution.'},
+  {name:'Sunbelt Rentals', cat:'pers', amt:109680, n:'168 charges', why:'You searched for this one. Equipment rental for jobs. Reads as ordinary job cost.'},
+  {name:'Enterprise Fleet Management', cat:'pers', amt:636800, n:'12 payments', why:'You searched for this one. Fleet leasing on 41 vehicles. If a family member drives one, take that share.'},
+  {name:'Paylocity', cat:'comp', amt:41400, n:'12 charges', why:'You searched for this one. Payroll processing. Ordinary overhead, though your own payroll runs through it.'},
+  {name:'Occupational Health Centers', cat:'pers', amt:28800, n:'96 charges', why:'You searched for this one. Drug and background testing. Ordinary hiring cost.'},
+  {name:'Colorado, State of (DORA)', cat:'nr', amt:14000, n:'12 charges', why:'You searched for this one. State licensing, coded to Taxes-Other. Recurring regulatory cost.'},
+  {name:'Secura', cat:'pers', amt:186000, n:'12 bills', why:'You searched for this one. Commercial auto insurance on the fleet.'},
+  {name:'Rocky Mountain Health', cat:'comp', amt:284000, n:'24 charges', why:'You searched for this one. Group health. The owner-household share is flagged separately.'},
+  {name:'Nice Healthcare', cat:'comp', amt:38400, n:'24 charges', why:'You searched for this one. Virtual primary care benefit.'},
+  {name:'Ferguson', cat:'pers', amt:214000, n:'640 bills', why:'You searched for this one. Plumbing supply.'},
+  {name:'Grainger', cat:'pers', amt:58000, n:'310 charges', why:'You searched for this one. Industrial supply and shop consumables.'},
+  {name:'Verizon', cat:'pers', amt:64800, n:'12 bills', why:'You searched for this one. 96 lines. Any lines that aren\u2019t working phones are yours to take.'},
+  {name:'Google Ads', cat:'pers', amt:412000, n:'12 charges', why:'You searched for this one. Demand generation. Ordinary marketing.'},
+  {name:'ServiceTitan license', cat:'pers', amt:186000, n:'12 charges', why:'You searched for this one. The annual license is recurring. The implementation is flagged separately.'},
+  {name:'US Bank Equipment Finance', cat:'no', amt:94000, n:'12 payments', why:'You searched for this one. Equipment notes. Principal is balance-sheet, interest is below the line.'},
+  {name:'Xcel Energy', cat:'pers', amt:78000, n:'24 bills', why:'You searched for this one. Shop utilities across two locations.'},
+  {name:'Waste Connections', cat:'pers', amt:31000, n:'12 bills', why:'You searched for this one. Shop and jobsite dumpsters.'},
+  {name:'Uniform Advantage', cat:'pers', amt:42000, n:'52 charges', why:'You searched for this one. Crew uniforms.'},
+  {name:'Colorado Springs Utilities', cat:'pers', amt:66000, n:'24 bills', why:'You searched for this one. Utilities.'},
+  {name:'Vinnie\u2019s Auto Detailing', cat:'fam', amt:41600, n:'186 charges', why:'You searched for this one. 186 charges coded to Vehicle Maintenance. The payee shares a surname with your Legal step.'}
+];
+var injected = {};
+
+function injectVendor(L){
+  if (injected[L.name]) { focusRow(injected[L.name]); return; }
+  var item = {id:'led' + Object.keys(injected).length, cat:L.cat, name:L.name, tag:'From search',
+              src:'Your ledger', why:L.why, amt:L.amt};
+  state[item.id] = {mode:'pending', value:0, reason:CATR[L.cat] || 0};
+  ITEMS.push(item);
+  buildRow(item);
+  catEls[L.cat].slot.insertBefore(item.el, catEls[L.cat].slot.firstChild);
+  injected[L.name] = item.el;
+  focusRow(item.el);
+  recompute();
+}
+function focusRow(rowEl){
+  var box = rowEl.closest('.cat');
+  box.classList.add('open');
+  $('q').value = ''; renderDrop('');
+  document.body.classList.remove('searching');
+  filterRows('');
+  rowEl.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function filterRows(q){
+  CATS.forEach(function(c){
+    var rows = catEls[c.id].box.querySelectorAll('[data-search]');
+    var hit = 0;
+    rows.forEach(function(r){
+      var m = !q || r.dataset.search.indexOf(q) > -1;
+      r.classList.toggle('hidden', !m);
+      if (m && q) hit++;
+    });
+    if (q) catEls[c.id].box.classList.toggle('open', hit > 0);
+  });
+}
+
+var CAT_SHORT = {};
+CATS.forEach(function(c){ CAT_SHORT[c.id] = c.short; });
+
+function renderDrop(q){
+  var d = $('sdrop');
+  if (!q){ d.classList.remove('on'); d.innerHTML = ''; return; }
+  var hits = LEDGER.filter(function(L){ return L.name.toLowerCase().indexOf(q) > -1 && !injected[L.name]; });
+  var html = '';
+  if (hits.length){
+    html += '<div class="sgroup">In your ledger, not suggested</div>';
+    hits.slice(0,5).forEach(function(L,i){
+      html += '<div class="srow" data-led="' + LEDGER.indexOf(L) + '"><div class="stext"><div class="sv">' + hl(L.name, q) + '</div>' +
+        '<div class="sc">' + L.n + ' \u00b7 goes under ' + CAT_SHORT[L.cat] + '</div></div>' +
+        '<span class="sa">' + fmt(L.amt) + '</span><span class="sbtn">Review \u2192</span></div>';
+    });
+  }
+  html += '<div class="srow" data-man="1"><div class="stext"><div class="sv">Add \u201c<b>' + $('q').value.trim() + '</b>\u201d yourself</div>' +
+    '<div class="sc">Not in the feed, or cash. You know it, we don\u2019t.</div></div><span class="sbtn">Add \u2192</span></div>';
+  d.innerHTML = html;
+  d.classList.add('on');
+}
+
+$('sdrop').addEventListener('click', function(ev){
+  var r = ev.target.closest('.srow'); if (!r) return;
+  if (r.dataset.led){ injectVendor(LEDGER[+r.dataset.led]); return; }
+  /* manual fallback: hand the query straight to the add modal and let it classify */
+  var name = $('q').value.trim();
+  $('q').value = ''; renderDrop('');
+  document.body.classList.remove('searching');
+  filterRows('');
+  openAddModal(null);
+  $('a-name').value = name;
+  $('a-name').dispatchEvent(new Event('input', {bubbles:true}));
+});
+
+$('q').addEventListener('input', function(){
+  var q = this.value.trim().toLowerCase();
+  document.body.classList.toggle('searching', !!q);
+  filterRows(q);
+  renderDrop(q);
+});
+document.addEventListener('click', function(ev){
+  if (!ev.target.closest('.searchwrap')) $('sdrop').classList.remove('on');
+});
+
+/* ------------------------------------------------------------------
+   RECOMPUTE
+------------------------------------------------------------------ */
+function recompute(){
+  var byCat = {}, adds = 0, deds = 0, n = 0, nonStd = 0, pfTotal = 0, volDeds = 0;
+  CATS.forEach(function(c){ byCat[c.id] = 0; });
+
+  ITEMS.forEach(function(v){
+    var st = state[v.id]; if (st.mode !== 'added') return;
+    var val = (v.dir === -1 ? -1 : 1) * st.value;
+    if (v.sched === 'pf'){ pfTotal += val; byCat[v.cat] += val; n++; return; }
+    byCat[v.cat] += val; n++;
+    if (val >= 0){ adds += val; nonStd += val; } else { deds += -val; volDeds += -val; }
+  });
+  Object.keys(extras).forEach(function(k){
+    var e = extras[k]; if (!e || !e.value) return;
+    if (e.sched === 'pf'){ pfTotal += e.value; byCat[e.cat] = (byCat[e.cat] || 0) + e.value; return; }
+    byCat[e.cat] = (byCat[e.cat] || 0) + e.value;
+    if (e.value >= 0){ adds += e.value; n++; if (!e.standard) nonStd += e.value; }
+    else { deds += -e.value; if (!e.standard) volDeds += -e.value; }
+  });
+  Object.keys(custom).forEach(function(k){
+    var c = custom[k];
+    if (c.pf){ pfTotal += c.pf; byCat[c.cat] += c.pf; return; }
+    byCat[c.cat] += c.value; n++;
+    if (c.value >= 0){ adds += c.value; nonStd += c.value; }
+    else { deds += -c.value; volDeds += -c.value; }
+  });
+
+  /* category headers + toc dots */
+  CATS.forEach(function(c){
+    var t = byCat[c.id], node = catEls[c.id].tot, nav = $('nav-' + c.id);
+    if (!nav) nav = {classList:{toggle:function(){}}};   /* category TOC was removed */
+    var touched = Math.abs(t) > 0.5;
+    if (touched){
+      node.className = 'cattot' + (t < 0 ? ' neg' : '');
+      node.textContent = (t < 0 ? '\u2212' : '+') + fmt(t);
+    } else if (c.id === 'acct'){
+      var fl = 0;
+      catEls.acct.slot.querySelectorAll('.vrow.added').forEach(function(){ fl++; });
+      node.className = 'cattot zero';
+      node.textContent = fl > 0 ? fl + ' flagged for your CPA' : 'Nothing applied yet';
+      touched = fl > 0;
+    } else {
+      node.className = 'cattot zero';
+      node.textContent = catEls[c.id].box.querySelector('.vrow') ? 'Nothing applied yet' : 'Nothing found';
+    }
+    if (c.id === 'pf' && Math.abs(t) > 0.5){ node.textContent = '+' + fmt(t) + ', separate'; node.className = 'cattot zero'; }
+    catEls[c.id].box.classList.toggle('empty', !catEls[c.id].box.querySelector('.vrow'));
+    /* done = has rows and none pending */
+    var pend = 0, tailPend = 0;
+    catEls[c.id].box.querySelectorAll('.vrow').forEach(function(r){
+      if (r.classList.contains('added') || r.classList.contains('dismissed')) return;
+      if (r.dataset.tail === '1') tailPend++; else pend++;
+    });
+    /* the less-likely group resolves in one tap, so it counts as one decision, not ten */
+    var decisionsLeft = pend + (tailPend > 0 ? 1 : 0);
+    var sumEl = catEls[c.id].box.querySelector('[data-sum]');
+    /* observation-only categories have nothing waiting, so they say what they are */
+    var mine = ITEMS.filter(function(v){ return v.cat === c.id; });
+    var obsOnly = mine.length > 0 && mine.every(isObservation);
+    sumEl.textContent = obsOnly ? '' : (decisionsLeft > 0 ? decisionsLeft + ' left' : '');
+    if (obsOnly){
+      node.className = 'cattot zero';
+      node.textContent = plural(mine.length, 'observation');
+      catEls[c.id].box.classList.remove('done');
+      return;
+    }
+    pend = pend + tailPend;
+    var done = catEls[c.id].box.querySelector('.vrow') && pend === 0;
+    catEls[c.id].box.classList.toggle('done', !!done);
+    catEls[c.id].box.querySelector('.catdone').innerHTML = '\u2713';
+    nav.classList.toggle('has', touched && !done);
+    nav.classList.toggle('done', !!done);
+  });
+
+  /* rail lines */
+  var lines = '';
+  CATS.forEach(function(c){
+    if (c.id === 'pf') return;
+    var t = byCat[c.id]; if (Math.abs(t) < 0.5) return;
+    lines += '<div class="rline"><span>' + c.short + '</span>' +
+      '<span class="' + (t < 0 ? 'neg' : 'pos') + ' num">' + (t < 0 ? '\u2212' : '+') + fmt(t) + '</span></div>';
+  });
+  $('raillines').innerHTML = lines || '<div class="rline sub"><span>No adjustments yet</span></div>';
+
+  var sde = BASE + adds - deds;
+  countTo($('sde'), sde);
+  $('pfline').style.display = pfTotal > 0.5 ? 'flex' : 'none';
+  $('pfval').textContent = '+' + fmt(pfTotal);
+
+  var startSde = BASE + (extras.comp ? extras.comp.value : 0);
+  var d = $('delta'), diff = sde - startSde;
+  d.style.display = Math.abs(diff) > 1 ? 'block' : 'none';
+  d.textContent = sgn(diff) + ' since you started';
+  d.className = 'delta' + (diff < 0 ? ' down' : '');
+
+  /* credibility runs on the NET claim: adjustments that cut against you buy back room */
+  var netClaim = Math.max(0, nonStd - volDeds);
+  var ratio = sde > 0 ? netClaim / sde * 100 : 0;
+  $('needle').style.left = (Math.min(ratio, 30) / 30 * 100) + '%';
+  var cs = $('credstate');
+  if (ratio < 15){ cs.className = 'cred-state g'; cs.textContent = ratio.toFixed(1) + '% of your number. Comfortable.'; }
+  else if (ratio < 20){ cs.className = 'cred-state a'; cs.textContent = ratio.toFixed(1) + '% of your number. Expect a fight in quality of earnings.'; }
+  else { cs.className = 'cred-state r'; cs.textContent = ratio.toFixed(1) + '% of your number. A buyer\u2019s team will rebuild this from scratch.'; }
+
+  var budget = sde * 0.15, room = budget - netClaim;
+  var hv = $('headroom'), hm = $('headbonus');
+  if (room > 0){
+    hv.className = 'hr-v num' + (room < budget * 0.25 ? ' warn' : '');
+    hv.textContent = fmt(room);
+  } else {
+    hv.className = 'hr-v num over';
+    hv.textContent = fmt(-room) + ' over';
+  }
+  hm.innerHTML = volDeds > 0
+    ? '<b>' + fmt(volDeds) + '</b> of this room you bought back by volunteering adjustments against yourself.'
+    : (room <= 0 ? 'Volunteering adjustments against yourself is the cheapest way back under the line.' : '');
+
+
+  var open = 0, resolved = 1; /* owner comp arrives resolved */
+  var flagged$ = 0, reviewed$ = 0, head$ = 0;
+  ITEMS.forEach(function(v){
+    var a = v.sched === 'pf' ? 0 : (v.amt || 0);
+    flagged$ += a;
+    if (!v.tail) head$ += a;
+    if (state[v.id].mode === 'pending') open++;
+    else { resolved++; reviewed$ += a; }
+  });
+
+  var TOTAL = open + resolved;
+  var pct = flagged$ > 0 ? reviewed$ / flagged$ : 0;
+  var inN = 0, outN = 0;
+  ITEMS.forEach(function(v){
+    if (state[v.id].mode === 'added') inN++;
+    if (state[v.id].mode === 'dismissed') outN++;
+  });
+
+  if (RETURNING){
+    /* Most of the work on a return visit is ours. Counting our own rollover as their
+       progress reads as "you're 79% done" before they've touched anything.
+       Measure only what actually needs them. */
+    var rolled = 0, fresh = 0, chg = 0, theirTotal = 0, theirDone = 0;
+    ITEMS.forEach(function(v){
+      if (v.isNew || v.changed){
+        theirTotal++;
+        if (state[v.id].mode !== 'pending') theirDone++;
+        if (v.isNew) fresh++; else chg++;
+      } else if (state[v.id].mode === 'added') rolled++;
+    });
+    var left = theirTotal - theirDone;
+    var rpct = theirTotal ? theirDone / theirTotal : 1;
+
+    $('scanpre').textContent = 'Last year\u2019s schedule is applied. ';
+    $('scanpost').textContent = left ? '.' : ', nothing waiting on you.';
+    $('flaghead').textContent = left ? plural(left, 'item') + ' need you' : 'Everything is decided';
+    $('scanfill').style.width = Math.max(3, rpct * 100) + '%';
+    $('progpct').textContent = Math.round(rpct * 100) + '%';
+    $('progcount').textContent = left
+      ? theirDone + ' of ' + theirTotal + ' decided. The other ' + rolled + ' carried over from last year and are already in your number.'
+      : 'All ' + theirTotal + ' handled, on top of the ' + rolled + ' carried over from last year.';
+    $('pillpareto').textContent = plural(fresh, 'new item');
+    $('pillpareto').className = 'pill gold';
+    $('pillopen').textContent = chg + ' changed';
+    $('pillopen').className = 'pill amber';
+    $('pillnormal').textContent = rolled + ' rolled forward unchanged';
+    $('passbox').innerHTML = RETURN_DETAIL(rolled, chg, fresh);
+  } else {
+    $('scanpre').textContent = 'Reins flagged ';
+    var obs = ITEMS.filter(isObservation).length;
+    $('flaghead').textContent = fmt(flagged$) + ' across ' + (TOTAL - obs) + ' items';
+    $('scanpost').textContent = ' for you.';
+    $('scanfill').style.width = Math.max(3, pct * 100) + '%';
+    $('progpct').textContent = Math.round(pct * 100) + '%';
+    $('progcount').textContent = (reviewed$ > 0
+      ? fmt(reviewed$) + ' of ' + fmt(flagged$) + ' decided \u00b7 ' + inN + ' in, ' + outN + ' out'
+      : 'Nothing decided yet. The bar up top fills as you go, whichever way you decide.')
+      + (pct >= 0.999 ? ' \u00b7 every flagged dollar is decided'
+         : pct >= 0.9 ? ' \u00b7 the rest is small' : '');
+    var tailN = ITEMS.filter(function(v){ return v.tail; }).length;
+    $('pillpareto').textContent = 'Top ' + (TOTAL - tailN) + ' items cover ' + Math.round(head$ / flagged$ * 100) + '% of the dollars';
+    $('pillpareto').className = 'pill gold';
+    $('pillopen').textContent = open === 0 ? 'Everything reviewed' : open + ' need your call';
+    $('pillopen').className = 'pill ' + (open === 0 ? 'green' : 'amber');
+    $('pillnormal').textContent = '1,100 of 1,140 vendors look like ordinary cost of goods';
+    $('passbox').innerHTML = FIRST_DETAIL;
+  }
+
+  $('footnote').textContent = (n === 0 && deds === 0)
+    ? 'Nothing added yet. Biggest dollars are at the top of each category.'
+    : n + ' adjustment' + (n === 1 ? '' : 's') + ' applied' + (deds > 0 ? ', including deductions' : '') + '. ' + $('lenslabel').textContent + ' ' + fmt(sde) + '.'
+      + (pct >= 0.999 ? ' Every flagged dollar is decided.'
+         : pct >= 0.9 ? ' You\u2019ve reviewed ' + Math.round(pct * 100) + '% of the flagged dollars, the rest can wait.' : '');
+}
+
+/* ------------------------------------------------------------------
+   NO-BOOKS PREVIEW
+------------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------------
+   MANUAL MODE (no books)
+------------------------------------------------------------------ */
+var MCHIPS = {
+  comp:['Health premiums','401(k) match','Vehicle allowance'],
+  fam:['Spouse on payroll','Kid\u2019s summer job','Family phone plan'],
+  pers:['Country club dues','Season tickets','Personal travel','Personal vehicle'],
+  rp:['Rent to my LLC','Lease from family entity'],
+  nr:['Legal settlement','New website','Severance'],
+  no:['Sold trucks, gain','Interest income'],
+  acct:['CPA accrual adjustment'],
+  pf:['Mid-year price increase','Signed contract, not started'],
+  nd:['Under-market wages','Deferred maintenance']
+};
+var manualBuilt = false;
+function buildManual(){
+  if (manualBuilt) return; manualBuilt = true;
+  var wrap = $('mcats');
+  var sums = [];
+  CATS.forEach(function(c){
+    /* no per-category prompt here: with nothing on screen to jog memory, asking
+       "anything else in THIS category" just makes them do the filing themselves.
+       One Add manually at the top, and the classifier puts it in the right place. */
+    var box = el('div','cat');
+    box.innerHTML =
+      '<div class="cathead">' +
+      '<div class="catname">' + c.name + '<button class="whatbtn" data-mwhat>What counts?</button></div>' +
+      '<div class="catright"><span class="catdone">\u2713</span><span class="cattot zero" data-mtot>Nothing yet</span>' +
+      '<i class="hgi-stroke hgi-arrow-down-01 chev"></i></div></div>' +
+      '<div class="catbody"><div class="inner"><div data-mrows></div></div></div>';
+    box.querySelector('.cathead').addEventListener('click', function(ev){
+      if (ev.target.closest('[data-mwhat]')){ openModal(c); return; }
+      if (box.querySelector('[data-mrows] .vrow')) box.classList.toggle('open');
+    });
+    manualSlot[c.id] = box.querySelector('[data-mrows]');
+
+    function msum(){
+      var t = 0, pf = 0;
+      Object.keys(custom).forEach(function(k){
+        if (custom[k].cat !== c.id) return;
+        t += custom[k].value || 0; pf += custom[k].pf || 0;
+      });
+      var node = box.querySelector('[data-mtot]');
+      if (pf){ node.className = 'cattot zero'; node.textContent = '+' + fmt(pf) + ', separate'; }
+      else if (Math.abs(t) > 0.5){ node.className = 'cattot' + (t < 0 ? ' neg' : ''); node.textContent = (t < 0 ? '\u2212' : '+') + fmt(t); }
+      else { node.className = 'cattot zero'; node.textContent = 'Nothing yet'; }
+      /* open it the first time something lands, then leave the choice to them */
+      var has = !!manualSlot[c.id].querySelector('.vrow');
+      if (has && !box.dataset.everOpened){ box.classList.add('open'); box.dataset.everOpened = '1'; }
+      if (!has){ box.classList.remove('open'); delete box.dataset.everOpened; }
+      box.classList.toggle('empty', !has);
+      box.querySelector('.chev').style.visibility = has ? 'visible' : 'hidden';
+    }
+    msum();
+    sums.push(msum);
+    wrap.appendChild(box);
+  });
+  window.msumAll = function(){ sums.forEach(function(f){ f(); }); };
+}
+
+
+/* "Add manually" opens the entry modal, it doesn't reveal a second surface */
+$('manualbtn').addEventListener('click', function(){ openAddModal(null); });
+
+/* ------------------------------------------------------------------
+   PROTOTYPE SWITCHER
+------------------------------------------------------------------ */
+
+$('stateswitch').addEventListener('click', function(ev){
+  var b = ev.target.closest('button'); if (!b) return;
+  this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+  var s = b.dataset.s;
+  /* return visit runs on the happy-path UI, just with last year already applied */
+  var panel = (s === 'return') ? 'happy' : s;
+  ['happy','noqbo','return'].forEach(function(k){ $('panel-' + k).classList.toggle('on', k === panel); });
+  applyReturn(s === 'return');
+  if (s === 'noqbo') buildManual();
+  rehomeCustomRows();
+  $('rail-live').style.display = 'block';
+  $('rail-empty').style.display = 'none';
+  $('savedtxt').textContent = s === 'return' ? 'Last saved Mar 4, 2025' : 'Saved just now';
+  if (s === 'noqbo'){
+    $('lede').innerHTML = 'Your reported number isn\u2019t what a buyer will price. We find most of the gap for you, but we need the transaction history first.';
+  } else if (s === 'return'){
+    $('lede').innerHTML = 'Your reported number isn\u2019t what a buyer will price. <b>Last year\u2019s schedule is already applied.</b> We rolled forward everything that still looks the same. Confirm what changed and decide the new ones.';
+  } else {
+    $('lede').innerHTML = 'Your reported number isn\u2019t what a buyer will price. We read all 214,388 lines of your trailing twelve and flagged everything that moves it, <b>up or down</b>. Confirm what we found, add what we couldn\u2019t see, and you\u2019re done.';
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+$('lensswitch').addEventListener('click', function(ev){
+  var b = ev.target.closest('button'); if (!b) return;
+  this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+  LENS = b.dataset.l;
+  var sde = LENS === 'sde';
+  $('lenslabel').textContent = sde ? 'Adjusted SDE' : 'Adjusted EBITDA';
+  $('lenschip').setAttribute('data-tip', sde
+    ? 'Your reported EBITDA is under $1M, so a buyer prices this on seller\u2019s discretionary earnings and all of your pay comes back into the number.'
+    : 'Your reported EBITDA is over $1M, so a buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.');
+  refreshTip($('lenschip'));
+  renderComp();
+});
+
+/* rank each category by dollar impact, biggest first */
+CATS.forEach(function(c){
+  var slot = catEls[c.id].slot;
+  Array.prototype.slice.call(slot.children)
+    .sort(function(a,b){
+      var at = a.dataset.tail === '1' ? 1 : 0, bt = b.dataset.tail === '1' ? 1 : 0;
+      if (at !== bt) return at - bt;                       /* likely above less likely */
+      return (+b.dataset.amt || 0) - (+a.dataset.amt || 0); /* then by dollar impact */
+    })
+    .forEach(function(n){ slot.appendChild(n); });
+});
+
+/* Collapsed, the tail is just a rule with a button through it. Everything else,
+   the total and the bulk verbs, lives inside the well where the rows are. */
+CATS.forEach(function(c){
+  var tailItems = ITEMS.filter(function(v){ return v.cat === c.id && v.tail; });
+  if (tailItems.length < 2) return;
+  var total = 0, biggest = 0;
+  tailItems.forEach(function(v){ total += v.amt; biggest = Math.max(biggest, v.amt); });
+  var weak = tailItems.every(function(v){ return /less sure/.test(v.why); });
+  var n = tailItems.length, shown = false, decided = null;
+
+  var tb = el('div','taildiv');
+  var well = el('div','tailwell');
+  well.innerHTML =
+    '<div class="tw-head"><span class="tw-t">' + n + ' less likely \u00b7 ' + fmt(total) + '</span>' +
+    '<span class="tw-acts"></span></div>' +
+    '<div class="tw-note">' +
+      (weak ? 'Weaker evidence, so we left these out of your total until you look.'
+            : 'Small amounts, so we left these out of your total until you look.') +
+      ' Biggest is ' + fmt(biggest) + '.</div>';
+
+  var slot = catEls[c.id].slot;
+  var topTail = tailItems.slice().sort(function(a,b){ return b.amt - a.amt; })[0];
+  slot.insertBefore(tb, topTail.el);
+  slot.insertBefore(well, topTail.el);
+  tailItems.forEach(function(v){ well.appendChild(v.el); });
+  tb.dataset.tail = '1'; tb.dataset.amt = biggest + 2;
+  well.dataset.tail = '1'; well.dataset.amt = biggest + 1;
+  catEls[c.id].tailbox = tb;
+
+  function paint(){
+    var label = shown ? 'Hide these'
+      : decided === 'added'     ? n + ' less likely \u00b7 all added'
+      : decided === 'dismissed' ? n + ' less likely \u00b7 none count'
+      : 'View ' + n + ' less likely';
+    tb.innerHTML = '<span class="td-rule"></span>' +
+      '<button class="btn td-btn' + (decided ? ' done' : '') + '" data-tb="toggle">' + label + '</button>' +
+      '<span class="td-rule"></span>';
+    well.querySelector('.tw-acts').innerHTML = decided
+      ? '<span class="addedchip' + (decided === 'added' ? '' : ' gray') + '">' +
+        (decided === 'added' ? '\u2713 All ' + n + ' added' : 'None of the ' + n + ' count') +
+        '</span><button class="undo" data-tb="undo">Undo</button>'
+      : '<button class="btn" data-tb="allpers">All \u00b7 ' + fmt(total) + '</button>' +
+        '<button class="btn ghost" data-tb="allbiz">None</button>';
+    well.classList.toggle('on', shown);
+  }
+
+  function setAll(mode){
+    decided = mode === 'pending' ? null : mode;
+    tailItems.forEach(function(v){
+      state[v.id] = mode === 'pending'
+        ? {mode:'pending', value:0, reason:CATR[v.cat] || 0}
+        : {mode:mode, value: mode === 'added' ? v.amt : 0, reason:CATR[v.cat] || 0,
+           note: mode === 'added' ? 'All of it' : undefined};
+      if (v.rerender) v.rerender();
+    });
+    paint(); recompute();
+  }
+
+  function onClick(ev){
+    var b = ev.target.closest('[data-tb]'); if (!b) return;
+    ev.stopPropagation();
+    var a = b.dataset.tb;
+    if (a === 'toggle'){ shown = !shown; paint(); return; }
+    if (a === 'allpers') setAll('added');
+    if (a === 'allbiz')  setAll('dismissed');
+    if (a === 'undo')    setAll('pending');
+  }
+  tb.addEventListener('click', onClick);
+  well.querySelector('.tw-head').addEventListener('click', onClick);
+  paint();
+});
+
+/* ------------------------------------------------------------------
+   FOCUS MODE \u00b7 the queue, not the document.
+   Same state model as the list, so decisions stay in sync either way.
+------------------------------------------------------------------ */
+var skipped = {}, history = [], MODE = 'focus', qBusy = false;
+var CATNAME = {}; CATS.forEach(function(c){ CATNAME[c.id] = c.name; });
+
+function queue(){
+  var q = ITEMS.filter(function(v){ return !isObservation(v) && state[v.id].mode === 'pending' && !skipped[v.id]; });
+  q.sort(function(a,b){
+    var at = a.tail ? 1 : 0, bt = b.tail ? 1 : 0;
+    if (at !== bt) return at - bt;
+    return (b.amt || 0) - (a.amt || 0);
+  });
+  if (!q.length){
+    /* everything left is skipped: bring the skipped ones back rather than ending early */
+    q = ITEMS.filter(function(v){ return !isObservation(v) && state[v.id].mode === 'pending'; })
+             .sort(function(a,b){ return (b.amt || 0) - (a.amt || 0); });
+  }
+  return q;
+}
+
+function focusTotals(){
+  var decided = 0, total = 0, found = 0;
+  ITEMS.forEach(function(v){
+    if (isObservation(v)) return;
+    total++;
+    var st = state[v.id];
+    if (st.mode !== 'pending'){ decided++; if (st.mode === 'added') found += (v.dir === -1 ? -1 : 1) * st.value; }
+  });
+  return {decided:decided, total:total, found:found};
+}
+
+function renderQueue(anim){
+  var card = $('qcard'), q = queue(), t = focusTotals();
+  $('qprog').innerHTML = '<b>' + t.decided + '</b> of ' + t.total + ' decided \u00b7 <b>' + fmt(t.found) + '</b> found';
+
+  if (!q.length){
+    document.querySelectorAll('.qghost').forEach(function(g){ g.style.display = 'none'; });
+    $('q-skip').style.display = 'none'; $('q-back').style.display = 'none';
+
+    /* read the same numbers the rail reads, so the two can never disagree */
+    var sde  = parseFloat(($('sde').dataset.v || $('sde').textContent).replace(/[^0-9.-]/g,'')) || 0;
+    var over = $('headroom').className.indexOf('over') > -1;
+    var tight = $('headroom').className.indexOf('warn') > -1;
+    var ratio = $('credstate').textContent.split('%')[0];
+    var lens = $('lenslabel').textContent;
+
+    var head = over ? 'That\u2019s everything, but your schedule is aggressive.'
+             : tight ? 'That\u2019s everything. You\u2019re close to the line.'
+             : 'That\u2019s everything.';
+    var sub  = over
+      ? 'You went through every item. At this share a buyer\u2019s team rebuilds the schedule from scratch, and undocumented lines get cut 50 to 100%.'
+      : tight
+      ? 'You went through every item. From here, documentation matters more than finding more.'
+      : 'You went through every item. Nothing is waiting on you.';
+    var action = over
+      ? 'The cheapest way back under the line is volunteering more against yourself, or trimming the lines you can\u2019t document.'
+      : '';
+
+    card.className = 'qcard in';
+    card.innerHTML =
+      '<div class="qdone"><div class="dm' + (over ? ' warn' : '') + '">' +
+        '<i class="hgi-stroke hgi-' + (over ? 'flag-02' : 'tick-02') + '"></i></div>' +
+      '<h3>' + head + '</h3>' +
+      '<p>' + sub + '</p>' +
+      '<div class="qstats">' +
+        '<div class="qstat"><div class="l">You found</div><div class="v num">' + fmt(t.found) + '</div></div>' +
+        '<div class="qstat"><div class="l">' + lens + '</div><div class="v num">' + fmt(sde) + '</div></div>' +
+        '<div class="qstat' + (over ? ' over' : tight ? ' warn' : '') + '"><div class="l">Add-backs as a share</div>' +
+          '<div class="v num">' + ratio + '%</div></div>' +
+      '</div>' +
+      (action ? '<p class="qnote">' + action + '</p>' : '') +
+      '<button class="btn' + (over ? ' primary' : '') + '" id="q-review">' +
+        (over ? 'Go back and trim' : 'Look back over the list') + '</button></div>';
+    $('q-review').addEventListener('click', function(){ setMode('list'); });
+    return;
+  }
+
+  var v = q[0], neg = v.dir === -1, flag = v.kind === 'flag';
+  document.querySelectorAll('.qghost').forEach(function(g, i){ g.style.display = q.length > i + 1 ? 'block' : 'none'; });
+  $('q-skip').style.display = q.length > 1 ? 'inline-block' : 'none';
+  $('q-back').style.display = history.length ? 'inline-block' : 'none';
+
+  card.className = 'qcard' + (anim ? ' in' : '');
+  card.innerHTML =
+    '<div class="q-cat">' + CATNAME[v.cat] + (v.tail ? ' \u00b7 less likely' : '') + '</div>' +
+    '<div class="q-name">' + v.name + '</div>' +
+    '<div class="q-amtrow">' +
+      (flag ? '' : '<div class="q-amt' + (neg ? ' neg' : '') + ' num">' + (neg ? '\u2212' : '') + fmt(v.amt) + '</div>') +
+      '<button class="q-open" data-q="charges">' +
+        (txCount(v) ? plural(txCount(v), 'charge') : 'Details') +
+        '<i class="hgi-stroke hgi-arrow-right-01"></i></button>' +
+    '</div>' +
+    '<div class="q-sec"><span class="q-sec-l">Why we’re suggesting this</span>' +
+      '<span class="q-found">' + (v.why || '').replace(/ <button[\s\S]*$/, '') + '</span></div>' +
+    '<div class="q-sec"><span class="q-sec-l">What would change it</span>' +
+      '<span class="q-chgtext">' + (v.chg || CHG[v.cat] || 'New documentation would change our read.') + '</span></div>' +
+
+    '<div class="q-acts" data-actslot></div>';
+
+  var host = card.querySelector('[data-actslot]');
+  paintActions(host, v, 'card');
+
+  card.onclick = function(ev){
+    if (ev.target.closest('[data-q="charges"]')){ openFly(v); return; }
+    var b = ev.target.closest('[data-a]'); if (!b) return;
+    var a = b.dataset.a, key = v.id + '@card';
+    if (a === 'part' || a === 'cancel'){ actionClick(ev, v, 'card', host); return; }
+    /* real decisions go through decide() so the queue animates and advances */
+    if (a === 'all')     decide(v, {mode:'added', value:v.amt, note:'All of it'});
+    if (a === 'none')    decide(v, {mode:'dismissed', value:0});
+    if (a === 'confirm'){
+      var pc = (partUI[key] || {}).pct || v.part || 50;
+      decide(v, {mode:'added', value:v.amt * pc/100,
+                 note: pc === 100 ? 'All of it' : pc + '% of ' + fmt(v.amt)});
+    }
+    delete partUI[key];
+  };
+}
+
+var lastMilestone = 0;
+function decide(v, patch){
+  if (qBusy) return;                 /* one decision per card, however fast you type */
+  qBusy = true;
+  history.push(v.id);
+  state[v.id] = {mode:patch.mode, value:patch.value, reason:CATR[v.cat] || 0, note:patch.note};
+  if (v.rerender) v.rerender();
+  recompute();
+  var card = $('qcard');
+  card.classList.add('out');
+  setTimeout(function(){ renderQueue(true); checkMilestone(); qBusy = false; }, 190);
+}
+
+function checkMilestone(){
+  var f = focusTotals().found;
+  var step = 50000, m = Math.floor(f / step) * step;
+  if (m > lastMilestone && m > 0){
+    lastMilestone = m;
+    toast('<i class="hgi-stroke hgi-flag-02"></i> You\u2019ve found <b>' + fmt(m) + '</b> so far.');
+  }
+}
+var toastT;
+function toast(html){
+  var el2 = $('toast'); el2.innerHTML = html; el2.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(function(){ el2.classList.remove('on'); }, 2600);
+}
+
+$('q-skip').addEventListener('click', function(){
+  if (qBusy) return;
+  var q = queue(); if (!q.length) return;
+  qBusy = true;
+  skipped[q[0].id] = 1;
+  $('qcard').classList.add('out');
+  setTimeout(function(){ renderQueue(true); qBusy = false; }, 190);
+});
+$('q-back').addEventListener('click', function(){
+  if (qBusy) return;
+  var id = history.pop(); if (!id) return;
+  var v = ITEMS.filter(function(x){ return x.id === id; })[0];
+  state[id] = {mode:'pending', value:0, reason:CATR[v.cat] || 0};
+  delete skipped[id];
+  if (v.rerender) v.rerender();
+  recompute(); renderQueue(true);
+});
+
+document.addEventListener('keydown', function(e){
+  if (SCOPE === 'mvp' || MODE !== 'focus' || document.body.classList.contains('overlay')) return;
+  if (/input|textarea|select/i.test((e.target.tagName || ''))) return;
+  var q = queue(); if (!q.length) return;
+  var card = $('qcard');
+  var k = e.key.toLowerCase();
+  if (k === 'a'){ e.preventDefault(); var b1 = card.querySelector('[data-a="all"],[data-a="confirm"]'); if (b1) b1.click(); }
+  if (k === 'p'){ e.preventDefault(); var b2 = card.querySelector('[data-a="part"]'); if (b2) b2.click(); }
+  if (k === 'n'){ e.preventDefault(); var b3 = card.querySelector('[data-a="none"]'); if (b3) b3.click(); }
+  if (k === 's'){ e.preventDefault(); $('q-skip').click(); }
+  if (k === 'u'){ e.preventDefault(); $('q-back').click(); }
+});
+
+/* ------------------------------------------------------------------
+   RETURN VISIT \u00b7 last year's schedule, already applied.
+   Same rows, same verbs, same everything. Only the starting state differs.
+------------------------------------------------------------------ */
+var RETURNING = false;
+var FIRST_DETAIL = '';   /* captured at boot */
+
+function RETURN_DETAIL(rolled, chg, fresh){
+  return '<b>What changed since the schedule you built last year.</b>' +
+    '<ol>' +
+      '<li><b>' + rolled + ' rolled forward.</b> Same vendor, same account coding, similar amount. ' +
+        'We applied them at last year\u2019s treatment so you don\u2019t redo work you already did.</li>' +
+      '<li><b>' + chg + ' changed.</b> The amount or the pattern moved enough that last year\u2019s answer might not hold, so we\u2019re asking again.</li>' +
+      '<li><b>' + fresh + ' new.</b> These didn\u2019t appear in your books last year at all.</li>' +
+    '</ol>' +
+    '<div style="margin-top:10px">Everything we rolled forward is still yours to change. Open any category and undo it.</div>';
+}
+function applyReturn(on){
+  RETURNING = on;
+  document.body.classList.toggle('returning', on);
+  ITEMS.forEach(function(v){
+    if (!on || v.isNew || v.changed){
+      state[v.id] = {mode:'pending', value:0, reason:CATR[v.cat] || 0};
+    } else if (v.kind === 'flag'){
+      state[v.id] = {mode:'added', value:0, reason:0, note:'Rolled forward'};
+    } else {
+      var val = v.part ? v.amt * v.part/100 : v.amt;
+      state[v.id] = {mode:'added', value:val, reason:CATR[v.cat] || 0, note:'Rolled forward'};
+    }
+    if (v.el){
+      var tagEl = v.el.querySelector('.tag');
+      var had = v.el.querySelector('.newchip');
+      if (had) had.remove();
+      if (on && v.isNew && tagEl) tagEl.insertAdjacentHTML('afterend', '<span class="newchip">NEW</span>');
+      if (on && v.changed && tagEl) tagEl.insertAdjacentHTML('afterend', '<span class="newchip chg">CHANGED</span>');
+    }
+    if (v.rerender) v.rerender();
+  });
+  skipped = {}; history = [];
+  recompute();
+  if (MODE === 'focus') renderQueue(true);
+}
+
+function setMode(m){
+  MODE = m;
+  $('modeswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.m === m); });
+  $('focusview').style.display = m === 'focus' ? 'block' : 'none';
+  $('listview').style.display = m === 'focus' ? 'none' : 'block';
+  if (m === 'focus') renderQueue(true);
+}
+/* MVP ships the full list only. The one-at-a-time queue is a later phase, so the
+   switcher disappears rather than being disabled. */
+var SCOPE = 'mvp';
+function setScope(sc){
+  SCOPE = sc;
+  $('scopeswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.sc === sc); });
+  $('modeswitch').style.display = sc === 'mvp' ? 'none' : 'inline-flex';
+  if (sc === 'mvp') setMode('list'); else setMode(MODE);
+}
+$('scopeswitch').addEventListener('click', function(ev){
+  var b = ev.target.closest('button'); if (!b) return;
+  setScope(b.dataset.sc);
+});
+
+$('modeswitch').addEventListener('click', function(ev){
+  var b = ev.target.closest('button'); if (!b) return;
+  setMode(b.dataset.m);
+});
+
+/* copy guard: this section is a glance, not a document */
+ITEMS.forEach(function(v){
+  if (v.why && v.why.length > 320) console.warn('why over 320 chars:', v.id, v.why.length);
+});
+
+/* boot */
+FIRST_DETAIL = $('passbox').innerHTML;
+setScope('mvp');
+addModalInit();
+renderComp();
+CATS.forEach(function(c){
+  var pend = 0;
+  catEls[c.id].box.querySelectorAll('.vrow').forEach(function(r){
+    if (!r.classList.contains('added') && !r.classList.contains('dismissed')) pend++;
+  });
+  if (pend > 0 && ['acct','pf'].indexOf(c.id) === -1) catEls[c.id].box.classList.add('open');
+});
+recompute();
+renderQueue(false);
+})();
+</script>
+</body>
+</html>
