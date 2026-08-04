@@ -323,18 +323,6 @@
   .a-hint{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin-top:6px;min-height:17px}
   .a-hint b{color:var(--gold-2)}
   .a-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
-  .a-results{margin-top:12px;max-height:280px;overflow-y:auto}
-  .a-group{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4);font-weight:600;padding:12px 2px 5px}
-  .a-hit{display:flex;align-items:center;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer;background:var(--card);transition:border-color .15s,background .15s}
-  .a-hit .htext{flex:1;min-width:0}
-  .a-hit:hover{border-color:var(--gold-soft);background:var(--gold-wash-2)}
-  .a-hit .hn{font-family:var(--geist);font-weight:500;font-size:13.5px;letter-spacing:-.004em}
-  .a-hit .hn b{font-weight:700;color:var(--ink)}
-  .a-hit .hs{font-size:11.5px;color:var(--ink-4);margin-top:2px}
-  .a-hit .ha{font-family:var(--geist);font-weight:500;font-size:13.5px;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.004em}
-  .a-hit .hgo{font-size:11.5px;font-weight:600;color:var(--gold-2);white-space:nowrap}
-  .a-hit.onlist{background:var(--green-wash);border-color:rgba(63,143,91,.25)}
-  .a-hit.manual{border-style:dashed}
   .a-manual{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
   .a-manual.on{display:block}
   .a-desc{resize:vertical;min-height:56px;line-height:1.5;font-family:var(--sans)}
@@ -382,13 +370,11 @@
     background:var(--card);cursor:pointer;transition:border-color .14s,background .14s;position:relative}
   .ftx-box:hover{border-color:var(--gold-soft)}
   .ftx.picked .ftx-box{background:var(--gold);border-color:var(--gold)}
-  .ftx.picked .ftx-box:after{content:"\u2713";position:absolute;inset:0;color:#fff;font-size:10px;font-weight:700;
+  .ftx.picked .ftx-box:after{content:"\2713";position:absolute;inset:0;color:#fff;font-size:10px;font-weight:700;
     display:flex;align-items:center;justify-content:center}
   .ftx.picked{background:var(--gold-wash-2)}
   /* gold while you're choosing, green once it's in the number */
-  .ftx.included{background:var(--green-wash)}
-  .ftx.included .d{color:var(--green)}
-  .ftx.included:before{content:"\2713";color:var(--green);font-size:11px;font-weight:700;flex:0 0 15px}
+  .ftx.included{background:var(--gold-wash-2)}
   .fly-foot.selecting{background:var(--gold-wash-2);border-top-color:var(--gold-soft)}
   .fly-acts.sel{width:100%}
   .sel-l{margin-right:auto;font-size:12px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -761,7 +747,6 @@
   <label class="a-lab">What are you thinking of?</label>
   <input class="a-in" id="a-name" type="text" placeholder="Cousin Vinnie, the country club, a truck we sold..." autocomplete="off">
 
-  <div class="a-results" id="a-results"></div>
 
   <div class="a-manual" id="a-manual">
     <div class="a-mhead" id="a-mhead">Not in your books, so you'll have to tell us.</div>
@@ -1179,89 +1164,24 @@ function addModalInit(){
     $('a-change').classList.add('on');
   });
   $('a-amt').addEventListener('keydown', function(e){ if (e.key === 'Enter') commitAdd(); });
-  $('a-results').addEventListener('click', onResultClick);
 }
 
 function setDir(d){ $('a-type').querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x.dataset.t === d); }); }
 function curDir(){ return $('a-type').querySelector('button.on').dataset.t; }
 
-/* three honest buckets, in the order an owner would want them */
-function findMatches(q){
-  q = (q || '').toLowerCase().trim();
-  if (q.length < 2) return {onlist:[], ledger:[]};
-  var onlist = ITEMS.filter(function(v){
-    var n = v.name.replace(/&amp;/g,'&').toLowerCase();
-    return n.indexOf(q) > -1 || q.indexOf(n) > -1;
-  }).slice(0,3);
-  var ledger = LEDGER.filter(function(L){
-    return L.name.toLowerCase().indexOf(q) > -1 && !injected[L.name];
-  }).slice(0,4);
-  return {onlist:onlist, ledger:ledger};
-}
 
 function noBooks(){ return $('panel-noqbo').classList.contains('on'); }
 
 function onAddType(){
-  var q = $('a-name').value;
-  if (noBooks()){ syncVerdict(); return; }     /* no ledger to match against */
-  ADD.mode = 'search';
-  $('a-manual').classList.remove('on');
-  $('a-add').style.display = 'none';
-
-  var box = $('a-results');
-  if (q.trim().length < 2){ box.innerHTML = ''; return; }
-
-  var m = findMatches(q), html = '';
-  if (m.onlist.length){
-    html += '<div class="a-group">Already on your list</div>';
-    m.onlist.forEach(function(v){
-      html += '<div class="a-hit onlist" data-go="' + v.id + '"><div class="htext"><div class="hn">' + hl(v.name, q) + '</div>' +
-        '<div class="hs">Under ' + CATS.filter(function(c){return c.id===v.cat;})[0].name + '</div></div>' +
-        '<span class="hgo">Go to it \u2192</span></div>';
-    });
-  }
-  if (m.ledger.length){
-    html += '<div class="a-group">In your books, not yet suggested</div>';
-    m.ledger.forEach(function(L,i){
-      html += '<div class="a-hit" data-led="' + LEDGER.indexOf(L) + '"><div class="htext"><div class="hn">' + hl(L.name, q) + '</div>' +
-        '<div class="hs">' + L.n + ' \u00b7 goes under ' + CATS.filter(function(c){return c.id===L.cat;})[0].name + '</div></div>' +
-        '<span class="ha">' + fmt(L.amt) + '</span><span class="hgo">Review \u2192</span></div>';
-    });
-  }
-  if (!m.onlist.length && !m.ledger.length){
-    html += '<div class="a-empty">Nothing in your books matches that. Which is fine, plenty never hits the ledger.</div>';
-  }
-  html += '<div class="a-group">Not in the books</div>' +
-    '<div class="a-hit manual" data-manual="1"><div class="htext"><div class="hn">Add \u201c<b>' + $('a-name').value.trim() + '</b>\u201d yourself</div>' +
-    '<div class="hs">Cash, a pending cost, or something your CPA worked out</div></div><span class="hgo">Enter it \u2192</span></div>';
-  box.innerHTML = html;
+  /* the modal no longer searches; the search bar does that. Reveal the entry
+     fields as soon as there's something to file. */
+  var q = $('a-name').value.trim();
+  var on = q.length > 0;
+  $('a-manual').classList.toggle('on', on);
+  $('a-add').style.display = on ? 'inline-block' : 'none';
+  if (on) syncVerdict();
 }
 
-function onResultClick(ev){
-  var hit = ev.target.closest('[data-go],[data-led],[data-manual]'); if (!hit) return;
-
-  if (hit.dataset.go){
-    var v = ITEMS.filter(function(x){ return x.id === hit.dataset.go; })[0];
-    unlockBody();
-    if (catEls[v.cat]) catEls[v.cat].box.classList.add('open');
-    if (v.el){ v.el.scrollIntoView({behavior:'smooth', block:'center'});
-      v.el.classList.add('landed'); setTimeout(function(){ v.el.classList.remove('landed'); }, 1700); }
-    return;
-  }
-  if (hit.dataset.led){ injectVendor(LEDGER[+hit.dataset.led]); return; }
-
-  /* fall through to typing it in */
-  ADD.mode = 'manual';
-  $('a-results').innerHTML = '';
-  $('a-mhead').style.display = '';
-  $('a-manual').classList.add('on');
-  $('a-add').style.display = 'inline-block';
-  if (!ADD.touchedCat) $('a-cat').value = ADD.seed || 'pers';
-  syncVerdict();
-  $('a-desc').focus();
-}
-
-/* classify on everything they've told us, not just the name */
 function syncVerdict(){
   var text = $('a-name').value + ' ' + $('a-desc').value;
   var g = classify(text, ADD.seed);
@@ -1296,23 +1216,14 @@ function openAddModal(seedCat){
   $('a-name').value = ''; $('a-amt').value = ''; $('a-desc').value = '';
   $('a-cat').value = seedCat || 'pers';
   setDir('add');
-  $('a-results').innerHTML = '';
   $('a-manual').classList.remove('on');
   $('a-change').classList.remove('on');
   $('a-add').style.display = 'none';
   $('a-verdict').innerHTML = '';
   $('a-title').textContent = seedCat ? CAT_PROMPT[seedCat] : 'What else did the business pay for?';
-  if (noBooks()){
-    /* straight to entry: there are no books to look through */
-    $('a-sub').textContent = 'Say it however you\u2019d say it out loud. We\u2019ll file it in the right place.';
-    ADD.mode = 'manual';
-    $('a-mhead').style.display = 'none';
-    $('a-manual').classList.add('on');
-    $('a-add').style.display = 'inline-block';
-    syncVerdict();
-  } else {
-    $('a-sub').textContent = 'Say it however you\u2019d say it out loud. We\u2019ll look through your books first.';
-  }
+  $('a-sub').textContent = 'Say it however you\u2019d say it out loud. We\u2019ll file it in the right place.';
+  $('a-mhead').style.display = noBooks() ? 'none' : '';
+  onAddType();   /* fields unfold once there's a name */
   lockBody('add-open');
   setTimeout(function(){ $('a-name').focus(); }, 60);
 }
@@ -1359,6 +1270,7 @@ function commitAdd(){
   }, 80);
 }
 
+var stackDivider = null;
 var manualSlot = {};
 
 /* A manual entry belongs to the owner, not to a view. Put its row in whichever
@@ -1436,6 +1348,10 @@ CATS.forEach(function(c){
 ------------------------------------------------------------------ */
 var partUI = {};                      /* surface-scoped "slider is open" state */
 function isObservation(v){ return v.kind === 'flag'; }   /* nothing for the owner to decide */
+/* MVP ships the categories that build the number. Accounting and Pro forma,
+   the two that sit outside it, come with the full build. */
+var OUT_OF_NUMBER = ['acct', 'pf'];
+function inScope(v){ return SCOPE !== 'mvp' || OUT_OF_NUMBER.indexOf(v.cat) === -1; }
 
 function actionsFor(v, surface){
   if (isObservation(v)) return '';
@@ -1445,10 +1361,13 @@ function actionsFor(v, surface){
   var B = surface === 'row' ? 'btn' : 'q-btn';
 
   if (st.mode !== 'pending'){
+    var pk = (st.picked || []), part = pk.length > 0 && pk.length < txCount(v);
     return '<span class="addedchip' + (neg && st.mode === 'added' ? ' neg' : '') + '">' +
       (st.mode === 'added' ? '\u2713 ' + (st.note || 'All of it')
-                           : (flag ? 'Skipped' : 'None of it counts')) +
-      '</span><button class="undo" data-a="undo">Undo</button>';
+                           : (flag ? 'Skipped' : 'None of it counts')) + '</span>' +
+      (part ? '<button class="' + (surface === 'row' ? 'btn' : 'q-btn') + '" data-a="all">' +
+              (neg ? 'Deduct' : 'Add') + ' all</button>' : '') +
+      '<button class="undo" data-a="undo">Undo</button>';
   }
   if (ui){
     var pc = ui.pct;
@@ -1764,13 +1683,18 @@ function renderFlyList(){
      "select all" would either understate by 98% or select things never seen. */
   /* choosing a percentage is choosing not to pick charges, so the boxes go away */
   var st = state[FLY.v.id];
-  var canSelect = !over && st && !isObservation(FLY.v) && !FLY.part && st.mode === 'pending';
+  /* live after committing too: checking is the decision, so it must stay reversible
+     and extendable without throwing the whole set away */
+  var pickedSet = (st && st.picked) || [];
+  var canSelect = !over && st && !isObservation(FLY.v) && !FLY.part &&
+                  (st.mode === 'pending' || pickedSet.length > 0);
   FLY.canSelectHere = canSelect;
   var included = (st && st.picked) || [];
   $('fly-list').innerHTML = why + none + tx.map(function(t){
     var i = all.indexOf(t);
-    return '<div class="ftx' + (FLY.sel[i] ? ' picked' : '') +
-      (included.indexOf(i) > -1 ? ' included' : '') + '" data-i="' + i + '">' +
+    var isIn = included.indexOf(i) > -1;
+    return '<div class="ftx' + (FLY.sel[i] || isIn ? ' picked' : '') +
+      (isIn ? ' included' : '') + '" data-i="' + i + '">' +
       (canSelect ? '<span class="ftx-box" data-pick="' + i + '"></span>' : '') +
       '<span class="d">' + t.d + '</span>' +
       '<span class="memo">' + t.memo + '</span>' +
@@ -1791,20 +1715,14 @@ function syncFlyFoot(){
      Tagging is just the precise form of "part", so it takes that slot. It must never
      remove the other routes, and it always has a way back out. */
   if (st.mode !== 'pending'){
+    /* a partial answer shouldn't have to be undone to become the whole thing */
+    var picked = (st.picked || []), partial = picked.length > 0 && picked.length < fullTxns(v).length;
     f.innerHTML = '<div class="fly-acts"><span class="addedchip' + (neg && st.mode === 'added' ? ' neg' : '') + '">' +
       (st.mode === 'added' ? '\u2713 ' + (st.note || 'All of it')
-                           : (flag ? 'Skipped' : 'None of it counts')) +
-      '</span><button class="undo" data-fly="undo">Undo</button></div>';
-
-  } else if (Object.keys(FLY.sel).length){
-    /* mid-gesture, nothing committed: label left, actions right */
-    var allTx = fullTxns(v), picked = Object.keys(FLY.sel);
-    var sum = 0; picked.forEach(function(k){ if (allTx[k]) sum += allTx[k].amt; });
-    f.classList.add('selecting');
-    f.innerHTML = '<div class="fly-acts sel">' +
-      '<span class="sel-l"><b>' + picked.length + ' of ' + allTx.length + ' selected</b> \u00b7 ' + fmt(sum) + '</span>' +
-      '<button class="q-btn primary" data-fly="usesel">' + (neg ? 'Deduct ' : 'Add ') + fmt(sum) + '</button>' +
-      '<button class="q-btn ghost" data-fly="clearsel">Cancel</button></div>';
+                           : (flag ? 'Skipped' : 'None of it counts')) + '</span>' +
+      (partial ? '<button class="q-btn" data-fly="all" style="margin-left:auto">' +
+                 (neg ? 'Deduct' : 'Add') + ' all \u00b7 ' + fmt(v.amt) + '</button>' : '') +
+      '<button class="undo" data-fly="undo">Undo</button></div>';
 
   } else if (FLY.part){
     var pc = FLY.pct == null ? (v.part || 50) : FLY.pct;
@@ -1827,24 +1745,11 @@ function syncFlyFoot(){
   f.onclick = function(ev){
     var b = ev.target.closest('[data-fly]'); if (!b) return;
     var a = b.dataset.fly, R = CATR[v.cat] || 0;
-    if (a === 'clearsel'){ FLY.sel = {}; renderFlyList(); return; }
-    if (a === 'usesel'){
-      var av = fullTxns(v), ks = Object.keys(FLY.sel);
-      var tot = ks.reduce(function(x, k){ return x + (av[k] ? av[k].amt : 0); }, 0);
-      state[v.id] = {mode:'added', value:tot, reason:CATR[v.cat] || 0,
-                     note: ks.length + ' of ' + plural(av.length, 'charge'),
-                     picked: ks.map(Number)};   /* so the list can show what's in */
-      FLY.sel = {};
-      if (v.rerender) v.rerender();
-      recompute(); renderFlyList();
-      if (MODE === 'focus') renderQueue(true);
-      return;
-    }
     if (a === 'part'){   FLY.part = true;  FLY.pct = v.part || 50; FLY.sel = {}; renderFlyList(); return; }
     if (a === 'cancel'){ FLY.part = false; FLY.pct = null;         renderFlyList(); return; }
     if (a === 'all')       state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All of it'};
     if (a === 'none')      state[v.id] = {mode:'dismissed', value:0, reason:R};
-    if (a === 'undo')      state[v.id] = {mode:'pending', value:0, reason:R};
+    if (a === 'undo'){     state[v.id] = {mode:'pending', value:0, reason:R}; FLY.sel = {}; }
     if (a === 'confirm'){
       var pc2 = FLY.pct == null ? (v.part || 50) : FLY.pct;
       state[v.id] = {mode:'added', value:v.amt * pc2/100, reason:R,
@@ -1861,10 +1766,29 @@ $('fly-list').addEventListener('click', function(ev){
   var box = ev.target.closest('[data-pick]');
   if (box){
     ev.stopPropagation();
-    var k = box.dataset.pick;
-    if (FLY.sel[k]) delete FLY.sel[k]; else FLY.sel[k] = 1;
+    var k = +box.dataset.pick, v = FLY.v, R = CATR[v.cat] || 0;
+    var st0 = state[v.id], av = fullTxns(v);
+    /* start from whatever is already committed, then toggle this one */
+    var set = {};
+    ((st0 && st0.picked) || []).forEach(function(x){ set[x] = 1; });
+    Object.keys(FLY.sel).forEach(function(x){ set[+x] = 1; });
+    if (set[k]) delete set[k]; else set[k] = 1;
+
+    var ks = Object.keys(set).map(Number);
+    FLY.sel = {};
+    if (ks.length){
+      var tot = ks.reduce(function(x, n){ return x + (av[n] ? av[n].amt : 0); }, 0);
+      state[v.id] = (ks.length === av.length)
+        ? {mode:'added', value:v.amt, reason:R, note:'All of it'}   /* every charge is just All */
+        : {mode:'added', value:tot, reason:R,
+           note: ks.length + ' of ' + plural(av.length, 'charge'), picked: ks};
+    } else {
+      state[v.id] = {mode:'pending', value:0, reason:R};   /* last one unchecked */
+    }
     FLY.part = false; FLY.pct = null;
-    renderFlyList();
+    if (v.rerender) v.rerender();
+    recompute(); renderFlyList();
+    if (MODE === 'focus') renderQueue(true);
     return;
   }
   var r = ev.target.closest('.ftx'); if (!r) return;
@@ -1884,15 +1808,31 @@ function openFlyDetail(i){
     '<div class="frow"><span>Amount</span><b class="num">' + fmt(t.amt) + '</b></div>' +
     '<div class="why2">' + (v.why || '').replace(/ <button[\s\S]*$/, '') + '</div>' +
     (FLY.canSelectHere
-      ? '<button class="btn primary" data-addone="' + i + '" style="margin-top:14px">' +
-        (v.dir === -1 ? 'Deduct ' : 'Add ') + 'this charge \u00b7 ' + fmt(t.amt) + '</button>'
+      ? (function(){
+          var inNow = (((state[v.id] || {}).picked) || []).indexOf(i) > -1;
+          return '<button class="btn' + (inNow ? ' added' : ' primary') + '" data-addone="' + i + '" style="margin-top:14px">' +
+            (inNow ? '\u2713 Charge added'
+                   : (v.dir === -1 ? 'Deduct ' : 'Add ') + 'this charge \u00b7 ' + fmt(t.amt)) + '</button>';
+        })()
       : '');
 
   $('fly-det').onclick = function(ev){
     var b = ev.target.closest('[data-addone]'); if (!b) return;
-    FLY.sel[+b.dataset.addone] = 1;      /* drops you into selection mode with it picked */
-    $('flyout').classList.remove('deep');
+    var k = +b.dataset.addone, vv = FLY.v, av2 = fullTxns(vv);
+    var set2 = {}; ((state[vv.id] && state[vv.id].picked) || []).forEach(function(x){ set2[x] = 1; });
+    if (set2[k]) delete set2[k]; else set2[k] = 1;
+    var ks2 = Object.keys(set2).map(Number);
+    state[vv.id] = !ks2.length
+      ? {mode:'pending', value:0, reason: CATR[vv.cat] || 0}
+      : (ks2.length === av2.length
+        ? {mode:'added', value: vv.amt, reason: CATR[vv.cat] || 0, note:'All of it'}
+        : {mode:'added', value: ks2.reduce(function(x,n){ return x + (av2[n] ? av2[n].amt : 0); }, 0),
+           reason: CATR[vv.cat] || 0, note: ks2.length + ' of ' + plural(av2.length, 'charge'), picked: ks2});
+    if (vv.rerender) vv.rerender();
+    recompute();
+    openFlyDetail(k);        /* stay on the charge so the button state is visible */
     renderFlyList();
+    if (MODE === 'focus') renderQueue(true);
   };
   $('flyout').classList.add('deep');
 }
@@ -1902,6 +1842,7 @@ function openFlyDetail(i){
 ------------------------------------------------------------------ */
 (function(){
   var div = el('div','stackdiv', '<span>Outside your number</span>');
+  stackDivider = div;
   catsWrap.insertBefore(div, catEls.acct.box);
 })();
 
@@ -1987,8 +1928,20 @@ CATS.forEach(function(c){ CAT_SHORT[c.id] = c.short; });
 function renderDrop(q){
   var d = $('sdrop');
   if (!q){ d.classList.remove('on'); d.innerHTML = ''; return; }
+  var already = ITEMS.filter(function(v){
+    var n = v.name.replace(/&amp;/g,'&').toLowerCase();
+    return n.indexOf(q) > -1 || q.indexOf(n) > -1;
+  }).slice(0,3);
   var hits = LEDGER.filter(function(L){ return L.name.toLowerCase().indexOf(q) > -1 && !injected[L.name]; });
   var html = '';
+  if (already.length){
+    html += '<div class="sgroup">Already on your list</div>';
+    already.forEach(function(v){
+      html += '<div class="srow" data-goto="' + v.id + '"><div class="stext"><div class="sv">' + hl(v.name, q) + '</div>' +
+        '<div class="sc">Under ' + CAT_SHORT[v.cat] + '</div></div>' +
+        '<span class="sbtn">Go to it \u2192</span></div>';
+    });
+  }
   if (hits.length){
     html += '<div class="sgroup">In your ledger, not suggested</div>';
     hits.slice(0,5).forEach(function(L,i){
@@ -2005,6 +1958,14 @@ function renderDrop(q){
 
 $('sdrop').addEventListener('click', function(ev){
   var r = ev.target.closest('.srow'); if (!r) return;
+  if (r.dataset.goto){
+    var tgt = ITEMS.filter(function(x){ return x.id === r.dataset.goto; })[0];
+    $('q').value = ''; renderDrop(''); document.body.classList.remove('searching'); filterRows('');
+    if (catEls[tgt.cat]) catEls[tgt.cat].box.classList.add('open');
+    if (tgt.el){ tgt.el.scrollIntoView({behavior:'smooth', block:'center'});
+      tgt.el.classList.add('landed'); setTimeout(function(){ tgt.el.classList.remove('landed'); }, 1700); }
+    return;
+  }
   if (r.dataset.led){ injectVendor(LEDGER[+r.dataset.led]); return; }
   /* manual fallback: hand the query straight to the add modal and let it classify */
   var name = $('q').value.trim();
@@ -2013,7 +1974,8 @@ $('sdrop').addEventListener('click', function(ev){
   filterRows('');
   openAddModal(null);
   $('a-name').value = name;
-  $('a-name').dispatchEvent(new Event('input', {bubbles:true}));
+  onAddType();                       /* already searched, so go straight to the fields */
+  setTimeout(function(){ $('a-desc').focus(); }, 70);
 });
 
 $('q').addEventListener('input', function(){
@@ -2114,7 +2076,7 @@ function recompute(){
 
   var sde = BASE + adds - deds;
   countTo($('sde'), sde);
-  $('pfline').style.display = pfTotal > 0.5 ? 'flex' : 'none';
+  $('pfline').style.display = (pfTotal > 0.5 && SCOPE !== 'mvp') ? 'flex' : 'none';
   $('pfval').textContent = '+' + fmt(pfTotal);
 
   var startSde = BASE + (extras.comp ? extras.comp.value : 0);
@@ -2195,8 +2157,8 @@ function recompute(){
     $('passbox').innerHTML = RETURN_DETAIL(rolled, chg, fresh);
   } else {
     $('scanpre').textContent = 'Reins flagged ';
-    var obs = ITEMS.filter(isObservation).length;
-    $('flaghead').textContent = fmt(flagged$) + ' across ' + (TOTAL - obs) + ' items';
+    var shown = ITEMS.filter(function(v){ return inScope(v) && !isObservation(v); }).length;
+    $('flaghead').textContent = fmt(flagged$) + ' across ' + shown + ' items';
     $('scanpost').textContent = ' for you.';
     $('scanfill').style.width = Math.max(3, pct * 100) + '%';
     $('progpct').textContent = Math.round(pct * 100) + '%';
@@ -2414,7 +2376,6 @@ CATS.forEach(function(c){
   paint();
 });
 
-  
 /* ------------------------------------------------------------------
    FOCUS MODE \u00b7 the queue, not the document.
    Same state model as the list, so decisions stay in sync either way.
@@ -2423,7 +2384,7 @@ var skipped = {}, history = [], MODE = 'focus', qBusy = false;
 var CATNAME = {}; CATS.forEach(function(c){ CATNAME[c.id] = c.name; });
 
 function queue(){
-  var q = ITEMS.filter(function(v){ return !isObservation(v) && state[v.id].mode === 'pending' && !skipped[v.id]; });
+  var q = ITEMS.filter(function(v){ return inScope(v) && !isObservation(v) && state[v.id].mode === 'pending' && !skipped[v.id]; });
   q.sort(function(a,b){
     var at = a.tail ? 1 : 0, bt = b.tail ? 1 : 0;
     if (at !== bt) return at - bt;
@@ -2431,7 +2392,7 @@ function queue(){
   });
   if (!q.length){
     /* everything left is skipped: bring the skipped ones back rather than ending early */
-    q = ITEMS.filter(function(v){ return !isObservation(v) && state[v.id].mode === 'pending'; })
+    q = ITEMS.filter(function(v){ return inScope(v) && !isObservation(v) && state[v.id].mode === 'pending'; })
              .sort(function(a,b){ return (b.amt || 0) - (a.amt || 0); });
   }
   return q;
@@ -2440,7 +2401,7 @@ function queue(){
 function focusTotals(){
   var decided = 0, total = 0, found = 0;
   ITEMS.forEach(function(v){
-    if (isObservation(v)) return;
+    if (isObservation(v) || !inScope(v)) return;
     total++;
     var st = state[v.id];
     if (st.mode !== 'pending'){ decided++; if (st.mode === 'added') found += (v.dir === -1 ? -1 : 1) * st.value; }
@@ -2649,9 +2610,14 @@ function setMode(m){
 var SCOPE = 'mvp';
 function setScope(sc){
   SCOPE = sc;
+  var hide = (sc === 'mvp');
+  if (stackDivider) stackDivider.style.display = hide ? 'none' : '';
+  OUT_OF_NUMBER.forEach(function(c){ if (catEls[c]) catEls[c].box.style.display = hide ? 'none' : ''; });
   $('scopeswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.sc === sc); });
   $('modeswitch').style.display = sc === 'mvp' ? 'none' : 'inline-flex';
   if (sc === 'mvp') setMode('list'); else setMode(MODE);
+  recompute();                       /* counts and the rail follow the scope */
+  renderQueue(false);                /* keep the queue accurate even while hidden */
 }
 $('scopeswitch').addEventListener('click', function(ev){
   var b = ev.target.closest('button'); if (!b) return;
