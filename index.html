@@ -244,6 +244,42 @@
   .vrow .top{display:flex;align-items:center;gap:12px}
   .nameline{flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .rowcount{font-size:11.5px;color:var(--ink-4);white-space:nowrap}
+
+  /* ---- compact list: rows carry no controls, action moves to the bulk bar ---- */
+  .filterbar{display:none;align-items:center;gap:12px;margin:0 2px 12px;flex-wrap:wrap}
+  body.ls-select .filterbar{display:flex}
+  .fchips{display:flex;gap:7px}
+  .fchip{border:1px solid var(--line-2);background:var(--card);border-radius:99px;padding:5px 12px;
+    font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-3);cursor:pointer;white-space:nowrap}
+  .fchip:hover{border-color:var(--gold-soft)}
+  .fchip.on{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold-2);font-weight:600}
+  .fsub{margin-left:auto;font-size:12px;color:var(--ink-4);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fsub b{color:var(--ink);font-family:var(--geist);font-weight:600}
+
+  body.ls-select .vrow .acts{display:none}
+  body.ls-select .vrow{padding:9px 14px}
+  body.ls-select .vrow .rowchev{display:none}
+  .rowpick{flex:0 0 16px;width:16px;height:16px;border-radius:4px;border:1.5px solid var(--line-2);
+    background:var(--card);position:relative;margin-right:12px;display:none}
+  body.ls-select .rowpick{display:block}
+  .rowpick:hover{border-color:var(--gold-soft)}
+  .vrow.sel .rowpick{background:var(--gold);border-color:var(--gold)}
+  .vrow.sel .rowpick:after{content:"\2713";position:absolute;inset:0;color:#fff;font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center}
+  .vrow.sel{background:var(--gold-wash-2)}
+  /* the group header follows you down instead of every row carrying a tag */
+  body.ls-select .cathead{position:sticky;top:0;z-index:8;background:var(--card);border-radius:12px 12px 0 0}
+  body.ls-select .cat{overflow:visible}
+
+  .bulkbar{position:sticky;bottom:76px;z-index:16;display:none;align-items:center;gap:12px;
+    background:#1a1a1a;color:#f6f6f6;border-radius:12px;padding:11px 16px;margin-top:14px;box-shadow:var(--shadow)}
+  body.ls-select .bulkbar.on{display:flex}
+  .bb-l{font-family:var(--geist);font-size:13px;font-weight:600}
+  .bb-acts{margin-left:auto;display:flex;gap:8px}
+  .bulkbar .q-btn{background:#2b2b2b;border-color:#3a3a3a;color:#f6f6f6}
+  .bulkbar .q-btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}
+  .bulkbar .q-btn.ghost{background:transparent;border-color:transparent;color:#a8a8a8}
+  .vrow.fhide{display:none}
   /* the title is the handle: underline it on hover so the row reads as a door */
   .vrow .vname{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:1px;
     text-underline-offset:3px;transition:text-decoration-color .16s var(--ease-out)}
@@ -451,9 +487,11 @@
   .autoline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);flex-wrap:wrap}
 
   /* manual add */
-  .manual{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
-  .askprompt{background:none;border:none;font-family:var(--sans);font-size:12.5px;color:var(--ink-3);cursor:pointer;padding:0;text-align:left;line-height:1.5}
-  .askprompt:hover{color:var(--gold-2)}
+  .manual{margin-top:12px;border-top:1px dashed var(--line)}
+  .askprompt{display:block;width:100%;background:none;border:none;font-family:var(--sans);font-size:12.5px;
+    color:var(--ink-3);cursor:pointer;padding:13px 8px;text-align:center;line-height:1.5;border-radius:0 0 8px 8px;
+    transition:background .15s,color .15s}
+  .askprompt:hover{color:var(--gold-2);background:var(--gold-wash-2)}
   .askprompt:before{content:"+ ";font-weight:600;color:var(--gold-2)}
   .manual.on{border:1px dashed var(--line-2);border-radius:var(--r);padding:12px 14px;background:var(--card-2)}
   .manual.on.bare{border:none;padding:0;background:none}
@@ -597,6 +635,11 @@
         <button data-z="small" class="on">Typical</button>
         <button data-z="large">400 vendors</button>
       </div>
+      <div class="pl">List style</div>
+      <div class="pg" id="styleswitch">
+        <button data-ls="buttons" class="on">Per-row</button>
+        <button data-ls="select">Select</button>
+      </div>
       <div class="pl">Earnings lens</div>
       <div class="pg" id="lensswitch">
         <button data-l="sde">Adjusted SDE</button>
@@ -652,7 +695,24 @@
         </div>
       </div>
 
+      <div class="filterbar" id="filterbar">
+        <div class="fchips" id="fchips">
+          <button class="fchip on" data-f="all">All</button>
+          <button class="fchip" data-f="pending">Needs you</button>
+          <button class="fchip" data-f="big">Over $10k</button>
+          <button class="fchip" data-f="done">Decided</button>
+        </div>
+        <div class="fsub" id="fsub"></div>
+      </div>
       <div id="cats"></div>
+      <div class="bulkbar" id="bulkbar">
+        <span class="bb-l" id="bb-count">0 selected</span>
+        <span class="bb-acts">
+          <button class="q-btn primary" data-bulk="all">Add all</button>
+          <button class="q-btn ghost" data-bulk="none">None of them</button>
+          <button class="q-btn ghost" data-bulk="clear">Cancel</button>
+        </span>
+      </div>
       </div>
 
           </div>
@@ -1541,7 +1601,9 @@ function rowHTML(v){
   var see = '<span class="rowcount">' + (txCount(v) ? plural(txCount(v), 'charge') : 'Entered by you') + '</span>';
   return '' +
     '<div class="top">' +
-      '<div class="nameline"><span class="vname">' + v.name + '</span>' + see + '</div>' +
+      '<span class="rowpick" data-rowpick></span>' +
+      '<div class="nameline"><span class="vname">' + v.name + '</span>' + see +
+        '</div>' +
       (flag ? '' : '<div class="amt">' + (neg ? '\u2212' : '') + fmt(v.amt) + '</div>') +
       '<div class="acts" data-actslot></div>' +
       '<i class="hgi-stroke hgi-arrow-right-01 rowchev"></i>' +
@@ -1571,7 +1633,14 @@ function buildRow(v){
   row.addEventListener('click', function(ev){
     if (actionClick(ev, v, 'row', host)) return;
     if (ev.target.closest('button')) return;
-    openFly(v);                       /* anywhere else opens the detail panel */
+    if (LS === 'select'){
+      if (ev.target.closest('.vname') || ev.target.closest('.rowcount')){ openFly(v); return; }
+      PICK[v.id] = !PICK[v.id];
+      row.classList.toggle('sel', !!PICK[v.id]);
+      syncBulk();
+      return;
+    }
+    openFly(v);
   });
   return row;
 }
@@ -2445,9 +2514,11 @@ CATS.forEach(function(c){
       ' Biggest is ' + fmt(biggest) + '.</div>';
 
   var slot = catEls[c.id].slot;
-  var topTail = tailItems.slice().sort(function(a,b){ return b.amt - a.amt; })[0];
-  slot.insertBefore(tb, topTail.el);
-  slot.insertBefore(well, topTail.el);
+  /* pull the tail rows out first, then append the divider and well last, so no
+     confident row can end up stranded below the "less likely" line */
+  tailItems.forEach(function(v){ if (v.el && v.el.parentElement) v.el.parentElement.removeChild(v.el); });
+  slot.appendChild(tb);
+  slot.appendChild(well);
   tailItems.forEach(function(v){ well.appendChild(v.el); });
   tb.dataset.tail = '1'; tb.dataset.amt = biggest + 2;
   well.dataset.tail = '1'; well.dataset.amt = biggest + 1;
@@ -2749,11 +2820,111 @@ $('scaleswitch').addEventListener('click', function(ev){
   setSize(b.dataset.z);
 });
 
+/* ------------------------------------------------------------------
+   COMPACT LIST \u00b7 rows carry no controls; you filter, select, act once.
+   At 374 vendors, per-row buttons render 1,100+ controls nobody will click.
+------------------------------------------------------------------ */
+var LS = 'buttons', PICK = {}, FILTER = 'all';
+
+function bulkSelected(){ return Object.keys(PICK).filter(function(k){ return PICK[k]; }); }
+
+function syncBulk(){
+  var ks = bulkSelected(), bar = $('bulkbar');
+  bar.classList.toggle('on', ks.length > 0);
+  if (!ks.length) return;
+  var sum = 0;
+  ks.forEach(function(id){
+    var v = ITEMS.filter(function(x){ return x.id === id; })[0];
+    if (v) sum += (v.amt || 0);
+  });
+  $('bb-count').textContent = plural(ks.length, 'item') + ' selected \u00b7 ' + fmt(sum);
+}
+
+function applyFilter(){
+  var shownCount = 0, shownSum = 0, allSum = 0;
+  ITEMS.forEach(function(v){
+    if (!v.el || v.kind === 'flag') return;
+    allSum += (v.amt || 0);
+    var st = state[v.id];
+    var keep = FILTER === 'all' ? true
+      : FILTER === 'pending' ? st.mode === 'pending'
+      : FILTER === 'done'    ? st.mode !== 'pending'
+      : /* big */              (v.amt || 0) >= 10000;
+    v.el.classList.toggle('fhide', !keep);
+    if (keep){ shownCount++; shownSum += (v.amt || 0); }
+  });
+  $('fsub').innerHTML = '<b>' + shownCount + '</b> of ' + ITEMS.filter(function(v){ return v.kind !== 'flag'; }).length +
+    ' \u00b7 <b>' + fmt(shownSum) + '</b> \u00b7 ' + Math.round(shownSum / (allSum || 1) * 100) + '% of flagged dollars';
+  applyVisibility();
+}
+
+/* scope and filter both want to hide categories; neither may overwrite the other */
+function applyVisibility(){
+  var scopeHides = (SCOPE === 'mvp');
+  CATS.forEach(function(c){
+    if (!catEls[c.id]) return;
+    var hidden = scopeHides && OUT_OF_NUMBER.indexOf(c.id) > -1;
+    if (!hidden && LS === 'select' && !catEls[c.id].slot.querySelector('.vrow:not(.fhide)')) hidden = true;
+    catEls[c.id].box.style.display = hidden ? 'none' : '';
+  });
+  if (stackDivider) stackDivider.style.display = scopeHides ? 'none' : '';
+}
+
+function setListStyle(ls){
+  LS = ls;
+  document.body.classList.toggle('ls-select', ls === 'select');
+  $('styleswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.ls === ls); });
+  PICK = {}; syncBulk();
+  if (ls === 'select'){
+    CATS.forEach(function(c){ if (catEls[c.id]) catEls[c.id].box.classList.add('open'); });
+    applyFilter();
+  } else {
+    FILTER = 'all';
+    $('fchips').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.f === 'all'); });
+    ITEMS.forEach(function(v){ if (v.el) v.el.classList.remove('fhide'); });
+    applyVisibility();
+  }
+  recompute();
+}
+
+$('styleswitch').addEventListener('click', function(ev){
+  var b = ev.target.closest('button'); if (!b) return;
+  setListStyle(b.dataset.ls);
+});
+
+$('fchips').addEventListener('click', function(ev){
+  var b = ev.target.closest('button'); if (!b) return;
+  FILTER = b.dataset.f;
+  this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+  applyFilter();
+});
+
+$('bulkbar').addEventListener('click', function(ev){
+  var b = ev.target.closest('[data-bulk]'); if (!b) return;
+  var a = b.dataset.bulk, ks = bulkSelected();
+  if (a !== 'clear'){
+    ks.forEach(function(id){
+      var v = ITEMS.filter(function(x){ return x.id === id; })[0];
+      if (!v) return;
+      var R = CATR[v.cat] || 0;
+      state[v.id] = (a === 'all')
+        ? {mode:'added', value:v.amt, reason:R, note:'All of it'}
+        : {mode:'dismissed', value:0, reason:R};
+      if (v.rerender) v.rerender();
+      if (v.el) v.el.classList.remove('sel');
+    });
+  } else {
+    ks.forEach(function(id){
+      var v = ITEMS.filter(function(x){ return x.id === id; })[0];
+      if (v && v.el) v.el.classList.remove('sel');
+    });
+  }
+  PICK = {}; syncBulk(); recompute(); applyFilter();
+});
+
 function setScope(sc){
   SCOPE = sc;
-  var hide = (sc === 'mvp');
-  if (stackDivider) stackDivider.style.display = hide ? 'none' : '';
-  OUT_OF_NUMBER.forEach(function(c){ if (catEls[c]) catEls[c].box.style.display = hide ? 'none' : ''; });
+  applyVisibility();
   $('scopeswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.sc === sc); });
   $('modeswitch').style.display = sc === 'mvp' ? 'none' : 'inline-flex';
   if (sc === 'mvp') setMode('list'); else setMode(MODE);
@@ -2779,6 +2950,7 @@ ITEMS.forEach(function(v){
 FIRST_DETAIL = $('passbox').innerHTML;
 applyMateriality(ITEMS);
 setScope('mvp');
+setListStyle('buttons');
 addModalInit();
 renderComp();
 CATS.forEach(function(c){
