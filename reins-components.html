@@ -727,6 +727,10 @@
   .stage .tip{display:block !important}
   .stage .toast{display:inline-flex !important}
   .stage .searchwrap{width:100%}
+  .stage .sdrop{display:block !important;position:static !important;width:100%;box-shadow:none;border:1px solid var(--line)}
+  .stage .numbtn{display:inline-flex !important}
+  .stage .stackdiv{display:flex !important}
+  .stage #drawer{max-height:none}
   .rules{margin:0;padding-left:18px;font-size:13px;line-height:1.8;color:var(--ink-2)}
   .mtable{width:100%;border-collapse:collapse;font-size:12.5px;font-family:var(--geist);font-variant-numeric:tabular-nums}
   .mtable th{text-align:left;padding:0 0 9px;color:var(--ink-4);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
@@ -816,6 +820,123 @@ here so they can be inspected side by side.</p></div>
   <div class="m-exlabel">Common examples</div>
   <ul class="m-ex" id="m-ex"><li>Vehicles: a spouse’s car on the fleet policy, family fuel cards, personal auto insurance</li><li>Travel and meals: a family trip coded as training, a hunting lease, season tickets</li><li>Memberships: country club, golf, gym</li><li>Toys: the boat, the RV, the side-by-side</li><li>Personal legal, kids’ tuition, personal cards paid by the company</li><li>Charity that’s personal. Sponsoring the little league team that feeds you leads is marketing, the church donation isn’t</li></ul>
   <div class="m-manual" id="m-manual">If we missed something here, add it from the category: <i>Something personal you know is in there that we didn’t catch.</i></div>
+</div></div></div></div><div class="sec"><h2>One at a time</h2><p class="note">The guided mode. A single ranked suggestion at a time, keyboard-operable, with the queue sorted by dollars and low-confidence items last. Available in the full build, not MVP.</p><div class="spec"><h3>Card &middot; undecided</h3><p class="cap">everything inline &mdash; no click needed to see why</p><div class="stage"><div class="qcard in" id="qcard"><div class="q-cat">Personal expenses</div><div class="q-name">Home Depot</div><div class="q-amtrow"><div class="q-amt num">$486,200</div><button class="q-open" data-q="charges">1,184 charges<i class="hgi-stroke hgi-arrow-right-01"></i></button></div><div class="q-sec"><span class="q-sec-l">Why we’re suggesting this</span><span class="q-found">$486,200 across 1,184 charges coded to 4000-42 COGS Parts and Equip. Volume this large almost always carries household spend, and none of these lines carry a job number, so nothing ties them to a customer.</span></div><div class="q-sec"><span class="q-sec-l">What would change it</span><span class="q-chgtext">Job numbers on the receipts separate customer work from your own address.</span></div><div class="q-acts" data-actslot=""><button class="q-btn primary" data-a="all">All <kbd>A</kbd></button><button class="q-btn" data-a="part">Part <kbd>P</kbd></button><button class="q-btn ghost" data-a="none">None <kbd>N</kbd></button></div></div></div></div><div class="spec"><h3>Card &middot; share</h3><p class="cap">slider swaps in place, card height unchanged</p><div class="stage"><div class="qcard in" id="qcard"><div class="q-cat">Personal expenses</div><div class="q-name">Home Depot</div><div class="q-amtrow"><div class="q-amt num">$486,200</div><button class="q-open" data-q="charges">1,184 charges<i class="hgi-stroke hgi-arrow-right-01"></i></button></div><div class="q-sec"><span class="q-sec-l">Why we’re suggesting this</span><span class="q-found">$486,200 across 1,184 charges coded to 4000-42 COGS Parts and Equip. Volume this large almost always carries household spend, and none of these lines carry a job number, so nothing ties them to a customer.</span></div><div class="q-sec"><span class="q-sec-l">What would change it</span><span class="q-chgtext">Job numbers on the receipts separate customer work from your own address.</span></div><div class="q-acts" data-actslot=""><input type="range" data-aslider="" min="0" max="100" step="5" value="12" style="--fill: 10%;"><span class="apct"><b>12%</b> counts <span>$58,344</span></span><button class="q-btn primary" data-a="confirm">Add</button><button class="q-btn ghost" data-a="cancel">Cancel</button></div></div></div></div><div class="spec"><h3>Card &middot; decided</h3><p class="cap">outcome and undo, before the next card arrives</p><div class="stage"><div class="qcard in" id="qcard"><div class="q-cat">Related party</div><div class="q-name">UPG</div><div class="q-amtrow"><div class="q-amt num">$360,000</div><button class="q-open" data-q="charges">12 charges<i class="hgi-stroke hgi-arrow-right-01"></i></button></div><div class="q-sec"><span class="q-sec-l">Why we’re suggesting this</span><span class="q-found">$30,000 a month to 7160 FACILITY:Colo Spgs Lease. UPG also appears in your customer list as “UPG, LLC Trent Urban,” so the business is paying an entity it also invoices. Payments between entities you control are priced by you, not by a market.</span></div><div class="q-sec"><span class="q-sec-l">What would change it</span><span class="q-chgtext">A third-party appraisal or a comparable lease would replace our estimate of the gap.</span></div><div class="q-acts" data-actslot=""><button class="q-btn primary" data-a="all">All <kbd>A</kbd></button><button class="q-btn" data-a="part">Part <kbd>P</kbd></button><button class="q-btn ghost" data-a="none">None <kbd>N</kbd></button></div></div></div></div><div class="spec"><h3>Completion</h3><p class="cap">verdict reflects the credibility state, not just that you finished</p><div class="stage"><div class="qcard in" id="qcard"><div class="qdone"><div class="dm warn"><i class="hgi-stroke hgi-flag-02"></i></div><h3>That’s everything, but your schedule is aggressive.</h3><p>You went through every item. At this share a buyer’s team rebuilds the schedule from scratch, and undocumented lines get cut 50 to 100%.</p><div class="qstats"><div class="qstat"><div class="l">You found</div><div class="v num">$1,396,528</div></div><div class="qstat"><div class="l">Adjusted EBITDA</div><div class="v num">$3,823,928</div></div><div class="qstat over"><div class="l">Add-backs as a share</div><div class="v num">29.2%</div></div></div><p class="qnote">The cheapest way back under the line is volunteering more against yourself, or trimming the lines you can’t document.</p><button class="btn primary" id="q-review">Go back and trim</button></div></div></div></div><div class="spec"><h3>Card stack</h3><p class="cap">two ghosts behind, so the queue reads as a depth</p><div class="stage"><div class="qwrap" id="qwrap">
+          <div class="qghost g2" style="display: block;"></div><div class="qghost g1" style="display: block;"></div>
+          <div class="qcard in" id="qcard"><div class="q-cat">Personal expenses</div><div class="q-name">Home Depot</div><div class="q-amtrow"><div class="q-amt num">$486,200</div><button class="q-open" data-q="charges">1,184 charges<i class="hgi-stroke hgi-arrow-right-01"></i></button></div><div class="q-sec"><span class="q-sec-l">Why we’re suggesting this</span><span class="q-found">$486,200 across 1,184 charges coded to 4000-42 COGS Parts and Equip. Volume this large almost always carries household spend, and none of these lines carry a job number, so nothing ties them to a customer.</span></div><div class="q-sec"><span class="q-sec-l">What would change it</span><span class="q-chgtext">Job numbers on the receipts separate customer work from your own address.</span></div><div class="q-acts" data-actslot=""><button class="q-btn primary" data-a="all">All <kbd>A</kbd></button><button class="q-btn" data-a="part">Part <kbd>P</kbd></button><button class="q-btn ghost" data-a="none">None <kbd>N</kbd></button></div></div>
+        </div></div></div><div class="spec"><h3>Queue bar</h3><p class="cap">back, skip, and progress in dollars found</p><div class="stage"><div class="qbar">
+          <button class="btn ghost" id="q-back" style="display: none;">Back</button>
+          <button class="btn ghost" id="q-skip" style="display: inline-block;">Skip for now</button>
+          <div class="qprog" id="qprog"><b>0</b> of 38 decided · <b>$0</b> found</div>
+        </div></div></div><div class="spec"><h3>Mode switch</h3><p class="cap">only rendered in the full build</p><div class="stage"><div class="modeswitch" id="modeswitch" style="display: inline-flex;">
+          <button data-m="focus" class="on">One at a time</button>
+          <button data-m="list" class="">View all</button>
+        </div></div></div></div><div class="sec"><h2>Tooltips</h2><p class="note">One dark treatment, three jobs. All are keyboard reachable, not hover-only, and all sit at 250px so long copy wraps the same way everywhere.</p><div class="spec"><h3>Vendor name</h3><p class="cap">the reasoning, on hover of any suggestion name</p><div class="stage"><div class="tip on" id="tip" style="left: 319.727px; top: 570.469px;">$486,200 across 1,184 charges coded to 4000-42 COGS Parts and Equip. Volume this large almost always carries household spend, and none of these lines carry a job number, so nothing ties them to a customer.</div></div></div><div class="spec"><h3>Earnings lens</h3><p class="cap">why this company is priced on EBITDA rather than SDE</p><div class="stage"><div class="tip on" id="tip" style="left: 1162.14px; top: 121px;">Your reported EBITDA is over $1M, so a buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.</div></div></div><div class="spec"><h3>Credibility threshold</h3><p class="cap">where the 15% line comes from and what happens past it</p><div class="stage"><div class="tip on" id="tip" style="left: 1171.77px; top: 304.5px;">Buyers get uncomfortable past 15% of your number, and a diligence team will rebuild the schedule from scratch. Undocumented personal-expense add-backs get cut 50 to 100%, so a reason attached now is worth real dollars later.</div></div></div></div><div class="sec"><h2>Search and manual entry</h2><p class="note">The search bar does the searching; the modal is entry only. Duplicate prevention lives where you search, so an item already on the list routes you to it instead of creating a second.</p><div class="spec"><h3>Dropdown &middot; ledger match</h3><p class="cap">an unflagged vendor, promotable with its real charges</p><div class="stage"><div class="sdrop on" id="sdrop"><div class="sgroup">In your ledger, not suggested</div><div class="srow" data-led="29"><div class="stext"><div class="sv"><b>Vin</b>nie’s Auto Detailing</div><div class="sc">186 charges · goes under Family payroll</div></div><span class="sa">$41,600</span><span class="sbtn">Review →</span></div><div class="srow" data-man="1"><div class="stext"><div class="sv">Add “<b>vin</b>” yourself</div><div class="sc">Not in the feed, or cash. You know it, we don’t.</div></div><span class="sbtn">Add →</span></div></div></div></div><div class="spec"><h3>Dropdown &middot; already on the list</h3><p class="cap">routes to the row rather than duplicating</p><div class="stage"><div class="sdrop on" id="sdrop"><div class="sgroup">Already on your list</div><div class="srow" data-goto="amzn"><div class="stext"><div class="sv"><b>Amazon</b></div><div class="sc">Under Personal expenses</div></div><span class="sbtn">Go to it →</span></div><div class="srow" data-man="1"><div class="stext"><div class="sv">Add “<b>amazon</b>” yourself</div><div class="sc">Not in the feed, or cash. You know it, we don’t.</div></div><span class="sbtn">Add →</span></div></div></div></div><div class="spec"><h3>Add modal &middot; empty</h3><p class="cap">opens on the name field; no in-modal search</p><div class="stage"><div class="modal addmodal" id="addmodal" role="dialog" aria-modal="true">
+  <button class="m-close" id="aclose"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  <div class="m-kicker">Add something we missed</div>
+  <h3 id="a-title">Anything personal we didn’t catch?</h3>
+  <div class="a-sub" id="a-sub">Say it however you’d say it out loud. We’ll file it in the right place.</div>
+
+  <label class="a-lab">What are you thinking of?</label>
+  <input class="a-in" id="a-name" type="text" placeholder="Cousin Vinnie, the country club, a truck we sold..." autocomplete="off">
+
+
+  <div class="a-manual" id="a-manual">
+    <div class="a-mhead" id="a-mhead">Not in your books, so you'll have to tell us.</div>
+    <label class="a-lab">What was it, in your words?</label>
+    <textarea class="a-in a-desc" id="a-desc" rows="2" placeholder="My nephew. He's on payroll but he doesn't work here."></textarea>
+    <label class="a-lab">How much, per year?</label>
+    <input class="a-in" id="a-amt" type="text" placeholder="$0">
+    <div class="a-verdict" id="a-verdict"></div>
+    <div class="a-change" id="a-change">
+      <div class="a-row">
+        <div style="flex:1">
+          <label class="a-lab">This counts as</label>
+          <span class="mtype a-type" id="a-type"><button class="on" data-t="add">Add-back</button><button data-t="ded">Deduction</button></span>
+        </div>
+      </div>
+      <label class="a-lab">Filed under</label>
+      <select class="a-in a-sel" id="a-cat"><option value="comp">Owner compensation</option><option value="fam">Family payroll</option><option value="pers">Personal expenses</option><option value="rp">Related party</option><option value="nr">One-time items</option><option value="no">Non-operating</option><option value="nd">Deductions you volunteer</option><option value="acct">Accounting</option><option value="pf">Pro forma</option></select>
+    </div>
+  </div>
+
+  <div class="a-foot">
+    <button class="btn" id="a-cancel">Cancel</button>
+    <button class="btn primary" id="a-add" style="display:none">Add it</button>
+  </div>
+</div></div></div><div class="spec"><h3>Add modal &middot; filled</h3><p class="cap">name and description together drive the verdict</p><div class="stage"><div class="modal addmodal" id="addmodal" role="dialog" aria-modal="true">
+  <button class="m-close" id="aclose"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  <div class="m-kicker">Add something we missed</div>
+  <h3 id="a-title">Anything personal we didn’t catch?</h3>
+  <div class="a-sub" id="a-sub">Say it however you’d say it out loud. We’ll file it in the right place.</div>
+
+  <label class="a-lab">What are you thinking of?</label>
+  <input class="a-in" id="a-name" type="text" placeholder="Cousin Vinnie, the country club, a truck we sold..." autocomplete="off">
+
+
+  <div class="a-manual on" id="a-manual">
+    <div class="a-mhead" id="a-mhead">Not in your books, so you'll have to tell us.</div>
+    <label class="a-lab">What was it, in your words?</label>
+    <textarea class="a-in a-desc" id="a-desc" rows="2" placeholder="My nephew. He's on payroll but he doesn't work here."></textarea>
+    <label class="a-lab">How much, per year?</label>
+    <input class="a-in" id="a-amt" type="text" placeholder="$0">
+    <div class="a-verdict" id="a-verdict">We’ll file this as an <b>add-back</b>, which raises your number, under <b>Personal expenses</b>. <span style="color:var(--ink-4)">Matched “boat”.</span><button class="vchange">Change</button></div>
+    <div class="a-change" id="a-change">
+      <div class="a-row">
+        <div style="flex:1">
+          <label class="a-lab">This counts as</label>
+          <span class="mtype a-type" id="a-type"><button class="on" data-t="add">Add-back</button><button data-t="ded">Deduction</button></span>
+        </div>
+      </div>
+      <label class="a-lab">Filed under</label>
+      <select class="a-in a-sel" id="a-cat"><option value="comp">Owner compensation</option><option value="fam">Family payroll</option><option value="pers">Personal expenses</option><option value="rp">Related party</option><option value="nr">One-time items</option><option value="no">Non-operating</option><option value="nd">Deductions you volunteer</option><option value="acct">Accounting</option><option value="pf">Pro forma</option></select>
+    </div>
+  </div>
+
+  <div class="a-foot">
+    <button class="btn" id="a-cancel">Cancel</button>
+    <button class="btn primary" id="a-add" style="display: inline-block;">Add $14,400</button>
+  </div>
+</div></div></div><div class="spec"><h3>Verdict line</h3><p class="cap">stated back before submission, with a way to change it</p><div class="stage"><div class="a-verdict" id="a-verdict">We’ll file this as an <b>add-back</b>, which raises your number, under <b>Personal expenses</b>. <span style="color:var(--ink-4)">Matched “boat”.</span><button class="vchange">Change</button></div></div></div></div><div class="sec"><h2>Charge detail and locks</h2><div class="spec"><h3>Charge detail</h3><p class="cap">read-only evidence for one charge</p><div class="stage"><div class="fly-pane fdet" id="fly-det"><div class="frow"><span>Date</span><b>May 13</b></div><div class="frow"><span>Memo</span><b>POS purchase</b></div><div class="frow"><span>Account</span><b>6700 Travel</b></div><div class="frow"><span>Paid from</span><b>Operating checking</b></div><div class="frow"><span>Amount</span><b class="num">$4,567</b></div><div class="why2">9 stays, $38,410, coded to Travel. Four land on weekends with no job, no conference and no customer named on the folio. Business travel clusters around work; weekend resort stays usually don’t.</div><button class="btn primary" data-addone="1" style="margin-top:14px">Add this charge · $4,567</button></div></div></div><div class="spec"><h3>Locked charges</h3><p class="cap">shown when a share or All owns the decision</p><div class="stage"><div class="picklock">You’ve set a share. Undo to pick charges instead.</div></div></div></div><div class="sec"><h2>Mobile</h2><p class="note">Below 1040px the rail is gone, so the same cards move into a bottom sheet. The nodes are moved rather than cloned, so there is only ever one live copy of the number.</p><div class="spec"><h3>Header control</h3><p class="cap">carries the live total while collapsed; label follows the lens</p><div class="stage"><button class="numbtn" id="numbtn" aria-expanded="false">
+        <span class="nb-l" id="numbtnlbl">Adj. EBITDA</span>
+        <b class="num" id="numbtnval">$2,726,605</b>
+        <i class="hgi-stroke hgi-arrow-down-01"></i>
+      </button></div></div><div class="spec"><h3>Bottom sheet</h3><p class="cap">380ms on the Ionic drawer curve, drag or tap to dismiss</p><div class="stage"><div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Your number">
+  <div class="drawer-grab" id="drawer-grab"><span></span></div>
+  <div class="drawer-body" id="railsheet"><div id="rail-live">
+      <div class="rcard">
+        <h4><span id="lenslabel">Adjusted EBITDA</span> <span class="h4tip" id="lenschip" tabindex="0" data-tip="Your reported EBITDA is over $1M, so a buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.">?</span></h4>
+        <div class="rline"><span>Reported EBITDA (TTM)</span><b class="num">$2,410,000</b></div>
+        <div id="raillines"><div class="rline"><span>Owner compensation</span><span class="pos num">+$297,400</span></div><div class="rline"><span>Personal expenses</span><span class="pos num">+$19,205</span></div></div>
+        <div class="rtotal"><span class="rt-l">Total</span><span class="rbig num" id="sde" data-v="2726605">$2,726,605</span></div>
+        <div class="delta" id="delta" style="display: block;">+$19,205 since you started</div>
+        <div class="rline" id="pfline" style="display:none"><span>Pro forma, kept separate</span><span class="pos num" id="pfval">+$0</span></div>
+      </div>
+
+      <div class="rcard">
+        <h4>Credibility check <span class="h4tip" tabindex="0" data-tip="Buyers get uncomfortable past 15% of your number, and a diligence team will rebuild the schedule from scratch. Undocumented personal-expense add-backs get cut 50 to 100%, so a reason attached now is worth real dollars later.">?</span></h4>
+        <div class="hr-l">Room left before a buyer pushes back</div>
+        <div class="hr-v num" id="headroom">$389,786</div>
+        <div class="gauge"><div class="needle" id="needle" style="left: 2.34785%;"></div></div>
+        <div class="glabels"><span>0%</span><span>15%</span><span>20%</span><span>30%+</span></div>
+        <div class="cred-state g" id="credstate">0.7% of your number. Comfortable.</div>
+        <div class="hr-bonus" id="headbonus"></div>
+      </div>
+    </div></div>
+</div></div></div></div><div class="sec"><h2>Page furniture, continued</h2><div class="spec"><h3>Breadcrumb</h3><p class="cap">where this step sits in the valuation flow</p><div class="stage"><div class="crumb">
+  <div class="in">
+    <span class="wordmark">REINS</span>
+    Valuations &nbsp;›&nbsp; <b>Verified valuation setup</b>
+    <span class="saved"><span class="d"></span><span id="savedtxt">Saved just now</span></span>
+  </div>
+</div></div></div><div class="spec"><h3>Outside your number</h3><p class="cap">divider above Accounting and Pro forma</p><div class="stage"><div class="stackdiv" style="display: none;"><span>Outside your number</span></div></div></div><div class="spec"><h3>Leave guard</h3><p class="cap">only interrupts when nothing is decided, or when over the line</p><div class="stage"><div class="modal" id="leavemodal" role="dialog" aria-modal="true">
+  <button class="m-close" id="lv-x"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  <div class="m-kicker" id="lv-kick">Before you move on</div>
+  <h3 id="lv-title"></h3>
+  <div class="m-def" id="lv-body"></div>
+  <div class="a-foot">
+    <button class="btn" id="lv-stay">Keep working</button>
+    <button class="btn primary" id="lv-go">Continue anyway</button>
+  </div>
 </div></div></div></div><div class="sec"><h2>Measurements</h2>
  <p class="note">Read from the running prototype, not transcribed. Sizes include the 1px border.</p>
  <div class="spec"><table class="mtable">
