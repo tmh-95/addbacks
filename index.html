@@ -22,6 +22,7 @@
     --shadow:0 2px 4px rgba(26,26,26,.04), 0 8px 24px rgba(26,26,26,.05);
     --r-sm:10px; --r:14px; --r-lg:18px;
     --ease-out:cubic-bezier(.23,1,.32,1);
+    --ease-drawer:cubic-bezier(.32,.72,0,1);   /* Ionic's drawer curve, what iOS sheets use */
     --serif:'Forrest',Georgia,'Times New Roman',serif;
     --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     --geist:'Geist','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
@@ -74,7 +75,11 @@
   .lede{color:var(--ink-2);font-size:16px;line-height:1.6;max-width:62ch;margin-bottom:20px}
   .lede b{color:var(--ink);font-weight:600}
 
-  .scanbar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:16px 18px}
+  /* still the first thing you read, but a line rather than a card */
+  .scanbar{background:none;border:none;border-radius:0;box-shadow:none;padding:0 2px 2px}
+  .scanbar .scan-ic{display:none}
+  .scanbar .scantitle{font-size:13px;color:var(--ink-3)}
+  .scanbar .scantitle b{color:var(--ink);font-weight:600}
   .scanline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .scanhead{display:flex;align-items:flex-start;gap:12px}
   .scan-ic{width:30px;height:30px;border-radius:9px;background:var(--gold-wash);display:flex;align-items:center;justify-content:center;flex:0 0 30px;margin-top:1px}
@@ -91,8 +96,6 @@
 
   .scanhead{align-items:center}
   .scantitle{flex:0 1 auto}
-  .headprog{flex:1 1 120px;min-width:110px;max-width:230px;display:flex;align-items:center;gap:9px;margin-left:auto}
-  .progpct{font-size:11.5px;color:var(--ink-3);font-weight:600;white-space:nowrap;min-width:30px;text-align:right}
 
   .passbox{font-size:12.5px;color:var(--ink-2);line-height:1.6}
   .passbox b{color:var(--ink)}
@@ -143,7 +146,7 @@
   .q-open i{font-size:12px;opacity:.6}
   .q-open:hover{border-color:var(--gold-soft);color:var(--gold-2);background:var(--gold-wash-2)}
   .q-acts{display:flex;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap;align-items:center}
-  .q-btn{flex:0 0 auto;border:1px solid var(--line-2);background:var(--card);border-radius:8px;padding:9px 15px;font-family:var(--geist);font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:transform .12s var(--ease-out),border-color .16s,background .16s;display:inline-flex;align-items:center;gap:7px}
+  .q-btn{flex:0 0 auto;border:1px solid var(--line-2);background:var(--card);border-radius:6px;padding:7px 13px;font-family:var(--geist);font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:transform .12s var(--ease-out),border-color .16s,background .16s;display:inline-flex;align-items:center;gap:7px}
   .q-btn kbd{background:var(--paper-2);border-color:var(--line-2);color:var(--ink-4)}
   .q-btn:active{transform:scale(.985)}
   .q-btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}
@@ -193,7 +196,7 @@
   .toast.on{opacity:1;transform:translate(-50%,0)}
   .toast b{color:var(--gold-soft);font-family:var(--geist);font-weight:600}
 
-  .searchrow{display:flex;align-items:center;gap:10px;margin:20px 0 10px}
+  .searchrow{display:flex;align-items:center;gap:10px;margin:20px 0 18px}
   .search{flex:1;position:relative}
   .search input{width:100%;border:1px solid var(--line-2);background:var(--card);border-radius:8px;padding:12px 12px 12px 34px;font-size:13px;font-family:var(--sans);color:var(--ink)}
   .search input::placeholder{color:var(--ink-4)}
@@ -244,46 +247,45 @@
   .vrow .top{display:flex;align-items:center;gap:12px}
   .nameline{flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .rowcount{font-size:11.5px;color:var(--ink-4);white-space:nowrap}
+  .amt-of{display:block;font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink-4);
+    letter-spacing:0;margin-top:1px}
 
   /* ---- compact list: rows carry no controls, action moves to the bulk bar ---- */
-  .filterbar{display:none;align-items:center;gap:12px;margin:0 2px 12px;flex-wrap:wrap}
-  body.ls-select .filterbar{display:flex}
-  .fchips{display:flex;gap:7px}
+  .filterbar{display:flex;align-items:center;gap:12px;margin:0 2px 12px;flex-wrap:wrap}
+  .fchips{display:flex;gap:7px;margin-left:auto;flex:0 0 auto}
   .fchip{border:1px solid var(--line-2);background:var(--card);border-radius:99px;padding:5px 12px;
     font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-3);cursor:pointer;white-space:nowrap}
   .fchip:hover{border-color:var(--gold-soft)}
   .fchip.on{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold-2);font-weight:600}
-  .fsub{margin-left:auto;font-size:12px;color:var(--ink-4);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fsubwrap{display:flex;align-items:center;gap:8px;padding-left:2px}
+  .fsubicon{font-size:15px;color:var(--gold-2);flex:0 0 auto;line-height:1}
+  .fsub{font-family:var(--geist);font-size:14px;font-weight:400;letter-spacing:-.006em;
+    color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
   .fsub b{color:var(--ink);font-family:var(--geist);font-weight:600}
 
-  body.ls-select .vrow .acts{display:none}
-  body.ls-select .vrow{padding:9px 14px}
-  body.ls-select .vrow .rowchev{display:none}
-  .rowpick{flex:0 0 16px;width:16px;height:16px;border-radius:4px;border:1.5px solid var(--line-2);
-    background:var(--card);position:relative;margin-right:12px;display:none}
-  body.ls-select .rowpick{display:block}
-  .rowpick:hover{border-color:var(--gold-soft)}
-  .vrow.sel .rowpick{background:var(--gold);border-color:var(--gold)}
-  .vrow.sel .rowpick:after{content:"\2713";position:absolute;inset:0;color:#fff;font-size:11px;font-weight:700;
-    display:flex;align-items:center;justify-content:center}
-  .vrow.sel{background:var(--gold-wash-2)}
+  /* Add is the only thing the row does. Everything else lives in the panel,
+     because leaving an item alone already means it doesn't count. */
+  .vrow [data-a="part"],
+  .vrow [data-a="none"]{display:none}
+  .vrow .acts,
+  .vrow .statusline{margin-left:auto;order:2}
+  .vrow .amt{order:3;margin-left:0}
+  .vrow .nameline{order:1}
+  .vrow.added .addedchip,
+  .vrow.dismissed .addedchip{background:none;padding:0;border:none}
+  .vrow{padding:12px 18px}
+  .vrow .rowchev{display:none}
   /* the group header follows you down instead of every row carrying a tag */
-  body.ls-select .cathead{position:sticky;top:0;z-index:8;background:var(--card);border-radius:12px 12px 0 0}
-  body.ls-select .cat{overflow:visible}
+  .cathead{position:sticky;top:0;z-index:8;background:var(--card);border-radius:12px 12px 0 0}
+  .cat:not(.open) .cathead{border-radius:12px}
+  .cat{overflow:visible}
 
-  .bulkbar{position:sticky;bottom:76px;z-index:16;display:none;align-items:center;gap:12px;
-    background:#1a1a1a;color:#f6f6f6;border-radius:12px;padding:11px 16px;margin-top:14px;box-shadow:var(--shadow)}
-  body.ls-select .bulkbar.on{display:flex}
-  .bb-l{font-family:var(--geist);font-size:13px;font-weight:600}
-  .bb-acts{margin-left:auto;display:flex;gap:8px}
-  .bulkbar .q-btn{background:#2b2b2b;border-color:#3a3a3a;color:#f6f6f6}
-  .bulkbar .q-btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}
-  .bulkbar .q-btn.ghost{background:transparent;border-color:transparent;color:#a8a8a8}
   .vrow.fhide{display:none}
   /* the title is the handle: underline it on hover so the row reads as a door */
   .vrow .vname{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:1px;
     text-underline-offset:3px;transition:text-decoration-color .16s var(--ease-out)}
   .vrow:hover .vname{text-decoration-color:rgba(26,26,26,.22)}
+  .vname:focus-visible{outline:2px solid var(--gold-soft);outline-offset:2px;border-radius:3px}
   .rowchev{font-size:13px;opacity:0;color:var(--ink-4);flex:0 0 auto;transition:opacity .15s}
   .vrow{cursor:pointer}
   .vrow:hover{border-color:var(--line-2)}
@@ -297,6 +299,12 @@
   .btn{border:1px solid var(--line-2);background:var(--card);border-radius:var(--r-sm);padding:7px 12px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:var(--sans);color:var(--ink-2);transition:transform .12s var(--ease-out),border-color .16s,background .16s;white-space:nowrap}
   .btn:active{transform:scale(.97)}
   .btn.primary{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
+  .vrow .btn.primary{background:var(--card);border-color:var(--line-2);color:var(--ink-2);
+    border-radius:4px;padding:4px 8px;font-size:12px;
+    transition:background .14s var(--ease-out),border-color .14s var(--ease-out),color .14s var(--ease-out)}
+  .vrow:hover .btn.primary,
+  .vrow .btn.primary:hover,
+  .vrow .btn.primary:focus-visible{background:var(--gold);border-color:var(--gold);color:#fff}
   .btn.ghost{border-color:transparent;color:var(--ink-3)}
   .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--gold-wash)}
   .vrow.added{background:var(--green-wash);border-color:rgba(63,143,91,.28)}
@@ -305,6 +313,32 @@
   .vrow.hidden{display:none}
   .statusline{display:none;align-items:center;gap:10px;flex:0 0 auto;margin-left:auto}
   .addedchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.7);color:var(--green);font-weight:600;font-size:12px;border-radius:7px;padding:4px 10px}
+
+  /* the outcome IS the undo control: same footprint, swaps on hover so nothing moves */
+  .donechip{display:inline-grid;place-items:center;
+    border:1px solid transparent;background:rgba(255,255,255,.7);color:var(--green);
+    font-family:var(--sans);font-weight:600;font-size:12px;border-radius:4px;padding:4px 8px;
+    cursor:pointer;white-space:nowrap;transition:background .14s var(--ease-out),border-color .14s var(--ease-out),color .14s var(--ease-out)}
+  .donechip.neg{color:var(--amber)}
+  /* the panel is a focused surface, so the same control sits a size up */
+  .flystatus{display:inline-flex;align-items:center;gap:6px;margin-right:auto;
+    font-family:var(--geist);font-size:13px;font-weight:600;color:var(--green);white-space:nowrap}
+  .flystatus.neg{color:var(--amber)}
+  .flystatus.gray{color:var(--ink-4)}
+  .donechip.gray{color:var(--ink-4)}
+  .donechip .dc-a,
+  .donechip .dc-b{grid-area:1 / 1;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+  .donechip .dc-b{opacity:0;transition:opacity .14s var(--ease-out)}
+  .donechip .dc-a{transition:opacity .14s var(--ease-out)}
+  .vrow:hover .donechip,
+  .donechip:hover,
+  .donechip:focus-visible{background:var(--card);border-color:var(--line-2);color:var(--ink-2)}
+  .vrow:hover .donechip .dc-a,
+  .donechip:hover .dc-a,
+  .donechip:focus-visible .dc-a{opacity:0}
+  .vrow:hover .donechip .dc-b,
+  .donechip:hover .dc-b,
+  .donechip:focus-visible .dc-b{opacity:1}
   .addedchip.neg{color:var(--amber)}
   .reason{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.7);color:var(--ink-2);font-size:11.5px;font-weight:500;border-radius:7px;padding:4px 10px;cursor:pointer;border:1px dashed var(--line-2);font-family:var(--sans)}
   .undo{background:none;border:none;color:var(--ink-3);font-size:12px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-family:var(--sans);margin-left:auto}
@@ -331,6 +365,7 @@
   body.overlay .scrim{opacity:1;pointer-events:auto}
   body.overlay{overflow:hidden}
   .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.98);width:min(520px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);z-index:32;padding:24px 26px;opacity:0;pointer-events:none;transition:opacity .2s var(--ease-out),transform .2s var(--ease-out)}
+  body.leave-open #leavemodal{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
   body.modal-open #modal{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
   .modal .m-kicker{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:6px}
   .modal h3{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;margin-bottom:2px}
@@ -387,7 +422,7 @@
   .fly-cap{margin-left:auto;font-size:10.5px;color:var(--ink-4);white-space:nowrap;font-variant-numeric:tabular-nums}
   .fly-sec{font-size:13px;line-height:1.6;margin-top:14px}
   .fly-sec:first-child{margin-top:14px}
-  .fly-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .fly-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;width:100%}
   .fly-panes{flex:1;overflow:hidden;position:relative}
   .fly-track{display:flex;width:200%;height:100%;transition:transform .24s var(--ease-out)}
   .fly-pane{width:50%;height:100%;overflow-y:auto;padding:0 22px 22px}
@@ -435,6 +470,9 @@
   .tw-acts{display:flex;gap:7px;align-items:center;flex:0 0 auto}
   .tw-note{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin:8px 0 12px}
   .tailwell .vrow{background:var(--card)}
+  .tailwell .vrow.added{background:var(--green-wash)}
+  .tailwell .vrow.added.neg{background:var(--amber-wash)}
+  .tailwell .vrow.dismissed{background:var(--card)}
   .morechip{border:1px dashed var(--line-2);background:transparent;border-radius:var(--r-sm);padding:8px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-3);font-family:var(--sans)}
   .catnav a.done .cd{background:var(--green)}
   .partbox{display:flex;align-items:center;gap:12px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);flex-wrap:wrap}
@@ -489,7 +527,7 @@
   /* manual add */
   .manual{margin-top:12px;border-top:1px dashed var(--line)}
   .askprompt{display:block;width:100%;background:none;border:none;font-family:var(--sans);font-size:12.5px;
-    color:var(--ink-3);cursor:pointer;padding:13px 8px;text-align:center;line-height:1.5;border-radius:0 0 8px 8px;
+    color:var(--ink-3);cursor:pointer;padding:13px 8px;text-align:center;line-height:1.5;border-radius:0 0 12px 12px;
     transition:background .15s,color .15s}
   .askprompt:hover{color:var(--gold-2);background:var(--gold-wash-2)}
   .askprompt:before{content:"+ ";font-weight:600;color:var(--gold-2)}
@@ -532,9 +570,12 @@
   .rbig-lbl{font-size:12px;color:var(--ink-3);margin-bottom:3px;display:flex;align-items:center;gap:6px}
   .lenschip{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--paper-2);color:var(--ink-3);border-radius:5px;padding:2px 6px}
   [data-tip]{cursor:help;border-bottom:1px dotted var(--line-2)}
+  button[data-tip]{cursor:pointer;border-bottom:none}
+  .vname[data-tip]{cursor:pointer;border-bottom:none}
+  button[data-tip]:hover{color:#fff}
   [data-tip]:hover,[data-tip]:focus-visible{color:var(--gold-2);border-bottom-color:var(--gold-soft);outline:none}
-  .tip{position:fixed;z-index:35;width:250px;max-width:calc(100vw - 24px);background:var(--card);border:1px solid var(--line-2);
-    border-radius:8px;box-shadow:var(--shadow);padding:11px 13px;font-size:12px;color:var(--ink-2);line-height:1.55;
+  .tip{position:fixed;z-index:35;width:250px;max-width:calc(100vw - 24px);background:#1a1a1a;border:1px solid #1a1a1a;
+    border-radius:8px;box-shadow:var(--shadow);padding:10px 12px;font-size:12px;color:#f2f2f2;line-height:1.55;
     opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .14s var(--ease-out),transform .14s var(--ease-out)}
   .tip.on{opacity:1;transform:translateY(0)}
   .delta{margin-top:3px;text-align:right;font-size:11px;font-weight:600;color:var(--gold-2);
@@ -601,7 +642,42 @@
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.1s!important}}
   /* the prototype controls are scaffolding, so they go first. The owner's number goes last. */
   @media (max-width:1240px){.protorail{display:none}}
-  @media (max-width:1040px){.rail{display:none}.shell{padding:20px 16px 128px}.footbar .in{padding:12px 16px}}
+  .pagehead{display:flex;align-items:flex-start;gap:16px}
+  .pagehead h1{flex:1;min-width:0}
+  .numbtn{display:none;align-items:center;gap:9px;flex:0 0 auto;margin-top:4px;
+    border:1px solid var(--line-2);background:var(--card);border-radius:10px;padding:8px 12px;
+    font-family:var(--sans);font-size:12.5px;color:var(--ink-3);cursor:pointer;box-shadow:var(--shadow-sm)}
+  .numbtn b{font-family:var(--geist);font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.006em}
+  .numbtn i{font-size:14px;opacity:.5;transition:transform .2s var(--ease-out)}
+  .numbtn.on i{transform:rotate(180deg)}
+  /* Bottom sheet, Vaul-style. translateY(100%) so it works at any height,
+     and the Ionic drawer curve because that is what iOS sheets feel like. */
+  .drawer-overlay{position:fixed;inset:0;z-index:44;background:rgba(26,26,26,.42);
+    opacity:0;pointer-events:none;transition:opacity 260ms var(--ease-drawer)}
+  body.drawer-open .drawer-overlay{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--paper);
+    border-radius:16px 16px 0 0;box-shadow:0 -8px 40px rgba(26,26,26,.16);
+    transform:translateY(100%);transition:transform 380ms var(--ease-drawer);
+    max-height:86vh;display:flex;flex-direction:column;touch-action:none}
+  body.drawer-open .drawer{transform:translateY(0)}
+  .drawer.dragging{transition:none}
+  .drawer-grab{flex:0 0 auto;padding:10px 0 6px;display:flex;justify-content:center;cursor:grab}
+  .drawer-grab span{width:36px;height:4px;border-radius:99px;background:var(--line-2)}
+  .drawer-grab:active{cursor:grabbing}
+  .drawer-body{overflow-y:auto;padding:4px 16px calc(20px + env(safe-area-inset-bottom))}
+  .drawer-body .rcard{margin-bottom:12px}
+  .drawer-body .rcard:last-child{margin-bottom:0}
+  @media (prefers-reduced-motion:reduce){
+    .drawer{transition:opacity 200ms ease;transform:none;opacity:0;pointer-events:none}
+    body.drawer-open .drawer{opacity:1;pointer-events:auto}
+  }
+
+  @media (max-width:1040px){
+    .rail{display:none}
+    .shell{padding:20px 16px 128px}
+    .footbar .in{padding:12px 16px}
+    .numbtn{display:inline-flex}
+  }
 </style>
 </head>
 <body>
@@ -635,11 +711,6 @@
         <button data-z="small" class="on">Typical</button>
         <button data-z="large">400 vendors</button>
       </div>
-      <div class="pl">List style</div>
-      <div class="pg" id="styleswitch">
-        <button data-ls="buttons" class="on">Per-row</button>
-        <button data-ls="select">Select</button>
-      </div>
       <div class="pl">Earnings lens</div>
       <div class="pg" id="lensswitch">
         <button data-l="sde">Adjusted SDE</button>
@@ -651,19 +722,18 @@
   <!-- ============ MAIN ============ -->
   <div class="main">
 
-    <h1>Adjust your earnings</h1>
+    <div class="pagehead">
+      <h1>Adjust your earnings</h1>
+      <button class="numbtn" id="numbtn" aria-expanded="false">
+        <span class="nb-l">Your number</span>
+        <b class="num" id="numbtnval">$0</b>
+        <i class="hgi-stroke hgi-arrow-down-01"></i>
+      </button>
+    </div>
     <p class="lede" id="lede">Your reported number isn't what a buyer will price. We read all 214,388 lines of your trailing twelve and flagged everything that moves it, <b>up or down</b>. Confirm what we found, add what we couldn't see, and you're done.</p>
 
     <!-- ---------- HAPPY PATH ---------- -->
     <div class="panel on" id="panel-happy">
-
-      <div class="scanbar" id="scanbar">
-        <div class="scanhead" id="scanhead">
-          <div class="scan-ic"><i class="hgi-stroke hgi-flag-02"></i></div>
-          <div class="scantitle"><span id="scanpre">Reins flagged </span><b id="flaghead">$0 across 0 items</b><span id="scanpost"> for you.</span></div>
-          <div class="headprog"><div class="progress"><i id="scanfill"></i></div><span class="progpct" id="progpct">0%</span></div>
-        </div>
-      </div>
 
       <div class="modebar">
         <div class="modeswitch" id="modeswitch">
@@ -696,23 +766,14 @@
       </div>
 
       <div class="filterbar" id="filterbar">
+        <div class="fsubwrap"><i class="hgi-stroke hgi-flag-02 fsubicon"></i><div class="fsub" id="fsub"></div></div>
         <div class="fchips" id="fchips">
           <button class="fchip on" data-f="all">All</button>
           <button class="fchip" data-f="pending">Needs you</button>
           <button class="fchip" data-f="big">Over $10k</button>
-          <button class="fchip" data-f="done">Decided</button>
         </div>
-        <div class="fsub" id="fsub"></div>
       </div>
       <div id="cats"></div>
-      <div class="bulkbar" id="bulkbar">
-        <span class="bb-l" id="bb-count">0 selected</span>
-        <span class="bb-acts">
-          <button class="q-btn primary" data-bulk="all">Add all</button>
-          <button class="q-btn ghost" data-bulk="none">None of them</button>
-          <button class="q-btn ghost" data-bulk="clear">Cancel</button>
-        </span>
-      </div>
       </div>
 
           </div>
@@ -771,9 +832,8 @@
 <div class="footbar">
   <div class="in">
     <button class="btn big">Back</button>
-    <div class="grow" id="footnote">Nothing added yet. Start with the categories above.</div>
-    <button class="btn big">Save progress</button>
-    <button class="btn big primary">Save &amp; next</button>
+    <div class="grow"></div>
+    <button class="btn big primary" id="savenext">Save &amp; next</button>
   </div>
 </div>
 
@@ -855,7 +915,24 @@
   <div class="fly-foot" id="fly-foot"></div>
 </div>
 
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Your number">
+  <div class="drawer-grab" id="drawer-grab"><span></span></div>
+  <div class="drawer-body" id="railsheet"></div>
+</div>
+
 <div class="toast" id="toast"></div>
+
+<div class="modal" id="leavemodal" role="dialog" aria-modal="true">
+  <button class="m-close" id="lv-x"><i class="hgi-stroke hgi-cancel-01"></i></button>
+  <div class="m-kicker" id="lv-kick">Before you move on</div>
+  <h3 id="lv-title"></h3>
+  <div class="m-def" id="lv-body"></div>
+  <div class="a-foot">
+    <button class="btn" id="lv-stay">Keep working</button>
+    <button class="btn primary" id="lv-go">Continue anyway</button>
+  </div>
+</div>
 
 <!-- prototype switcher -->
 <script>
@@ -1536,13 +1613,14 @@ function actionsFor(v, surface){
   var B = surface === 'row' ? 'btn' : 'q-btn';
 
   if (st.mode !== 'pending'){
-    var pk = (st.picked || []), part = pk.length > 0 && pk.length < txCount(v);
-    return '<span class="addedchip' + (neg && st.mode === 'added' ? ' neg' : '') + '">' +
-      (st.mode === 'added' ? '\u2713 ' + (st.note || 'All of it')
-                           : (flag ? 'Skipped' : 'None of it counts')) + '</span>' +
-      (part ? '<button class="' + (surface === 'row' ? 'btn' : 'q-btn') + '" data-a="all">' +
-              (neg ? 'Deduct' : 'Add') + ' all</button>' : '') +
-      '<button class="undo" data-a="undo">Undo</button>';
+    var note = st.note || 'All of it';
+    if (surface === 'row') note = note.replace(/ added$/, '').replace(/ charges?$/, '');
+    var label = (st.mode === 'added') ? '\u2713 ' + note
+                                      : (flag ? 'Skipped' : 'None of it counts');
+    return '<button class="donechip' + (neg && st.mode === 'added' ? ' neg' : '') +
+        (st.mode === 'dismissed' ? ' gray' : '') + '" data-a="undo" aria-label="Undo">' +
+        '<span class="dc-a">' + label + '</span>' +
+        '<span class="dc-b">\u21ba Undo</span></button>';
   }
   if (ui){
     var pc = ui.pct;
@@ -1551,7 +1629,11 @@ function actionsFor(v, surface){
       '<button class="' + B + ' primary" data-a="confirm">' + (neg ? 'Deduct' : 'Add') + '</button>' +
       '<button class="' + B + ' ghost" data-a="cancel">Cancel</button>';
   }
-  return '<button class="' + B + ' primary" data-a="all">All' + (kb ? ' <kbd>A</kbd>' : '') + '</button>' +
+  /* One rule: Add adds the amount on the row. Our suggested share is a judgement,
+     so it lives in the panel where there's room to justify it. */
+  var verb = (v.dir === -1 ? 'Deduct' : 'Add');
+  var addLabel = (surface === 'row') ? verb : 'All';
+  return '<button class="' + B + ' primary" data-a="all">' + addLabel + (kb ? ' <kbd>A</kbd>' : '') + '</button>' +
          '<button class="' + B + '" data-a="part">Part' + (kb ? ' <kbd>P</kbd>' : '') + '</button>' +
          '<button class="' + B + ' ghost" data-a="none">None' + (kb ? ' <kbd>N</kbd>' : '') + '</button>';
 }
@@ -1581,7 +1663,7 @@ function actionClick(ev, v, surface, host){
   if (a === 'confirm'){
     var pc = (partUI[key] || {}).pct || v.part || 50;
     state[v.id] = {mode:'added', value:v.amt * pc/100, reason:R,
-                   note: pc === 100 ? 'All of it' : pc + '% of ' + fmt(v.amt)};
+                   note: pc === 100 ? 'All of it' : pc + '% added'};
   }
   delete partUI[key];
   syncAllSurfaces(v);
@@ -1601,7 +1683,6 @@ function rowHTML(v){
   var see = '<span class="rowcount">' + (txCount(v) ? plural(txCount(v), 'charge') : 'Entered by you') + '</span>';
   return '' +
     '<div class="top">' +
-      '<span class="rowpick" data-rowpick></span>' +
       '<div class="nameline"><span class="vname">' + v.name + '</span>' + see +
         '</div>' +
       (flag ? '' : '<div class="amt">' + (neg ? '\u2212' : '') + fmt(v.amt) + '</div>') +
@@ -1625,28 +1706,47 @@ function buildRow(v){
     row.classList.toggle('added', st.mode === 'added');
     row.classList.toggle('dismissed', st.mode === 'dismissed');
     var amtNode = row.querySelector('.amt');
-    if (amtNode) amtNode.innerHTML = (v.dir === -1 ? '\u2212' : '') +
-      fmt(st.mode === 'added' ? st.value : v.amt);
+    if (amtNode){
+      var sign = (v.dir === -1 ? '\u2212' : '');
+      if (st.mode === 'added'){
+        amtNode.innerHTML = sign + fmt(st.value);
+      } else {
+        amtNode.innerHTML = sign + fmt(v.amt);
+      }
+    }
   };
   v.rerender();
+
+  /* the reasoning shouldn't cost a click when the button doesn't */
+  var hoverT;
+  var nameEl = row.querySelector('.vname');
+  if (nameEl && !isObservation(v)){
+    nameEl.addEventListener('mouseenter', function(){
+      hoverT = setTimeout(function(){
+        nameEl.setAttribute('data-tip', (v.why || '').replace(/ <button[\s\S]*$/, ''));
+        showTip(nameEl);
+      }, 350);
+    });
+    nameEl.addEventListener('mouseleave', function(){ clearTimeout(hoverT); hideTip(); });
+    nameEl.addEventListener('focus', function(){
+      nameEl.setAttribute('data-tip', (v.why || '').replace(/ <button[\s\S]*$/, ''));
+      showTip(nameEl);
+    });
+    nameEl.setAttribute('tabindex', '0');
+  }
 
   row.addEventListener('click', function(ev){
     if (actionClick(ev, v, 'row', host)) return;
     if (ev.target.closest('button')) return;
-    if (LS === 'select'){
-      if (ev.target.closest('.vname') || ev.target.closest('.rowcount')){ openFly(v); return; }
-      PICK[v.id] = !PICK[v.id];
-      row.classList.toggle('sel', !!PICK[v.id]);
-      syncBulk();
-      return;
-    }
     openFly(v);
   });
   return row;
 }
 function buildStack(){
   CATS.forEach(function(c){ if (catEls[c.id]) catEls[c.id].slot.innerHTML = ''; });
-  ITEMS.forEach(function(v){ buildRow(v); catEls[v.cat].slot.appendChild(v.el); });
+  /* biggest dollars first, which is what the copy promises and the queue already does */
+  ITEMS.slice().sort(function(a, b){ return Math.abs(b.amt || 0) - Math.abs(a.amt || 0); })
+       .forEach(function(v){ buildRow(v); catEls[v.cat].slot.appendChild(v.el); });
 }
 buildStack();
 
@@ -1756,12 +1856,14 @@ document.addEventListener('focusout', hideTip);
 window.addEventListener('scroll', hideTip, true);
 
 function lockBody(kind){
+  document.body.classList.remove('leave-open');
   /* only one overlay at a time, whatever order they get opened in */
   document.body.classList.remove('modal-open','fly-open','add-open');
   $('flyout').classList.remove('deep');
   document.body.classList.add('overlay', kind);
 }
 function unlockBody(){
+  document.body.classList.remove('leave-open');
   document.body.classList.remove('modal-open','fly-open','add-open');
   document.body.classList.remove('overlay');
   $('flyout').classList.remove('deep');
@@ -1873,9 +1975,7 @@ function renderFlyList(){
   var st = state[FLY.v.id];
   /* live after committing too: checking is the decision, so it must stay reversible
      and extendable without throwing the whole set away */
-  var pickedSet = (st && st.picked) || [];
-  var canSelect = !over && st && !isObservation(FLY.v) && !FLY.part &&
-                  (st.mode === 'pending' || pickedSet.length > 0);
+  var canSelect = st && !isObservation(FLY.v) && !FLY.part;
   FLY.canSelectHere = canSelect;
   var included = (st && st.picked) || [];
   $('fly-list').innerHTML = why + none + tx.map(function(t){
@@ -1904,13 +2004,12 @@ function syncFlyFoot(){
      remove the other routes, and it always has a way back out. */
   if (st.mode !== 'pending'){
     /* a partial answer shouldn't have to be undone to become the whole thing */
-    var picked = (st.picked || []), partial = picked.length > 0 && picked.length < fullTxns(v).length;
-    f.innerHTML = '<div class="fly-acts"><span class="addedchip' + (neg && st.mode === 'added' ? ' neg' : '') + '">' +
-      (st.mode === 'added' ? '\u2713 ' + (st.note || 'All of it')
-                           : (flag ? 'Skipped' : 'None of it counts')) + '</span>' +
-      (partial ? '<button class="q-btn" data-fly="all" style="margin-left:auto">' +
-                 (neg ? 'Deduct' : 'Add') + ' all \u00b7 ' + fmt(v.amt) + '</button>' : '') +
-      '<button class="undo" data-fly="undo">Undo</button></div>';
+    var dLabel = (st.mode === 'added') ? '\u2713 ' + (st.note || 'All of it')
+                                       : (flag ? 'Skipped' : 'None of it counts');
+    f.innerHTML = '<div class="fly-acts">' +
+      '<span class="flystatus' + (neg && st.mode === 'added' ? ' neg' : '') +
+        (st.mode === 'dismissed' ? ' gray' : '') + '">' + dLabel + '</span>' +
+      '<button class="q-btn ghost" data-fly="undo">\u21ba Undo</button></div>';
 
   } else if (FLY.part){
     var pc = FLY.pct == null ? (v.part || 50) : FLY.pct;
@@ -1941,7 +2040,7 @@ function syncFlyFoot(){
     if (a === 'confirm'){
       var pc2 = FLY.pct == null ? (v.part || 50) : FLY.pct;
       state[v.id] = {mode:'added', value:v.amt * pc2/100, reason:R,
-                     note: pc2 === 100 ? 'All of it' : pc2 + '% of ' + fmt(v.amt)};
+                     note: pc2 === 100 ? 'All of it' : pc2 + '% added'};
     }
     FLY.part = false; FLY.pct = null;
     if (v.rerender) v.rerender();
@@ -1969,7 +2068,7 @@ $('fly-list').addEventListener('click', function(ev){
       state[v.id] = (ks.length === av.length)
         ? {mode:'added', value:v.amt, reason:R, note:'All of it'}   /* every charge is just All */
         : {mode:'added', value:tot, reason:R,
-           note: ks.length + ' of ' + plural(av.length, 'charge'), picked: ks};
+           note: plural(ks.length, 'charge'), picked: ks};
     } else {
       state[v.id] = {mode:'pending', value:0, reason:R};   /* last one unchecked */
     }
@@ -2015,7 +2114,7 @@ function openFlyDetail(i){
       : (ks2.length === av2.length
         ? {mode:'added', value: vv.amt, reason: CATR[vv.cat] || 0, note:'All of it'}
         : {mode:'added', value: ks2.reduce(function(x,n){ return x + (av2[n] ? av2[n].amt : 0); }, 0),
-           reason: CATR[vv.cat] || 0, note: ks2.length + ' of ' + plural(av2.length, 'charge'), picked: ks2});
+           reason: CATR[vv.cat] || 0, note: plural(ks2.length, 'charge'), picked: ks2});
     if (vv.rerender) vv.rerender();
     recompute();
     openFlyDetail(k);        /* stay on the charge so the button state is visible */
@@ -2264,6 +2363,7 @@ function recompute(){
 
   var sde = BASE + adds - deds;
   countTo($('sde'), sde);
+  syncNumBtn();          /* the header button mirrors the same number */
   $('pfline').style.display = (pfTotal > 0.5 && SCOPE !== 'mvp') ? 'flex' : 'none';
   $('pfval').textContent = '+' + fmt(pfTotal);
 
@@ -2328,12 +2428,6 @@ function recompute(){
     });
     var left = theirTotal - theirDone;
     var rpct = theirTotal ? theirDone / theirTotal : 1;
-
-    $('scanpre').textContent = 'Last year\u2019s schedule is applied. ';
-    $('scanpost').textContent = left ? '.' : ', nothing waiting on you.';
-    $('flaghead').textContent = left ? plural(left, 'item') + ' need you' : 'Everything is decided';
-    $('scanfill').style.width = Math.max(3, rpct * 100) + '%';
-    $('progpct').textContent = Math.round(rpct * 100) + '%';
     $('progcount').textContent = left
       ? theirDone + ' of ' + theirTotal + ' decided. The other ' + rolled + ' carried over from last year and are already in your number.'
       : 'All ' + theirTotal + ' handled, on top of the ' + rolled + ' carried over from last year.';
@@ -2344,12 +2438,7 @@ function recompute(){
     $('pillnormal').textContent = rolled + ' rolled forward unchanged';
     $('passbox').innerHTML = RETURN_DETAIL(rolled, chg, fresh);
   } else {
-    $('scanpre').textContent = 'Reins flagged ';
     var shown = ITEMS.filter(function(v){ return inScope(v) && !isObservation(v); }).length;
-    $('flaghead').textContent = fmt(flagged$) + ' across ' + shown + ' items';
-    $('scanpost').textContent = ' for you.';
-    $('scanfill').style.width = Math.max(3, pct * 100) + '%';
-    $('progpct').textContent = Math.round(pct * 100) + '%';
     $('progcount').textContent = (reviewed$ > 0
       ? fmt(reviewed$) + ' of ' + fmt(flagged$) + ' decided \u00b7 ' + inN + ' in, ' + outN + ' out'
       : 'Nothing decided yet. The bar up top fills as you go, whichever way you decide.')
@@ -2364,11 +2453,6 @@ function recompute(){
     $('passbox').innerHTML = FIRST_DETAIL;
   }
 
-  $('footnote').textContent = (n === 0 && deds === 0)
-    ? 'Nothing added yet. Biggest dollars are at the top of each category.'
-    : n + ' adjustment' + (n === 1 ? '' : 's') + ' applied' + (deds > 0 ? ', including deductions' : '') + '. ' + $('lenslabel').textContent + ' ' + fmt(sde) + '.'
-      + (pct >= 0.999 ? ' Every flagged dollar is decided.'
-         : pct >= 0.9 ? ' You\u2019ve reviewed ' + Math.round(pct * 100) + '% of the flagged dollars, the rest can wait.' : '');
 }
 
 /* ------------------------------------------------------------------
@@ -2684,7 +2768,7 @@ function renderQueue(anim){
     if (a === 'confirm'){
       var pc = (partUI[key] || {}).pct || v.part || 50;
       decide(v, {mode:'added', value:v.amt * pc/100,
-                 note: pc === 100 ? 'All of it' : pc + '% of ' + fmt(v.amt)});
+                 note: pc === 100 ? 'All of it' : pc + '% added'});
     }
     delete partUI[key];
   };
@@ -2813,6 +2897,7 @@ function setSize(z){
   buildStack();
   buildTails();
   recompute();
+  applyFilter();        /* the subtotal has to follow the new ledger */
   if (MODE === 'focus') renderQueue(true);
 }
 $('scaleswitch').addEventListener('click', function(ev){
@@ -2824,21 +2909,9 @@ $('scaleswitch').addEventListener('click', function(ev){
    COMPACT LIST \u00b7 rows carry no controls; you filter, select, act once.
    At 374 vendors, per-row buttons render 1,100+ controls nobody will click.
 ------------------------------------------------------------------ */
-var LS = 'buttons', PICK = {}, FILTER = 'all';
+var FILTER = 'all';
 
-function bulkSelected(){ return Object.keys(PICK).filter(function(k){ return PICK[k]; }); }
 
-function syncBulk(){
-  var ks = bulkSelected(), bar = $('bulkbar');
-  bar.classList.toggle('on', ks.length > 0);
-  if (!ks.length) return;
-  var sum = 0;
-  ks.forEach(function(id){
-    var v = ITEMS.filter(function(x){ return x.id === id; })[0];
-    if (v) sum += (v.amt || 0);
-  });
-  $('bb-count').textContent = plural(ks.length, 'item') + ' selected \u00b7 ' + fmt(sum);
-}
 
 function applyFilter(){
   var shownCount = 0, shownSum = 0, allSum = 0;
@@ -2848,13 +2921,24 @@ function applyFilter(){
     var st = state[v.id];
     var keep = FILTER === 'all' ? true
       : FILTER === 'pending' ? st.mode === 'pending'
-      : FILTER === 'done'    ? st.mode !== 'pending'
       : /* big */              (v.amt || 0) >= 10000;
     v.el.classList.toggle('fhide', !keep);
     if (keep){ shownCount++; shownSum += (v.amt || 0); }
   });
-  $('fsub').innerHTML = '<b>' + shownCount + '</b> of ' + ITEMS.filter(function(v){ return v.kind !== 'flag'; }).length +
-    ' \u00b7 <b>' + fmt(shownSum) + '</b> \u00b7 ' + Math.round(shownSum / (allSum || 1) * 100) + '% of flagged dollars';
+  var totalCount = ITEMS.filter(function(v){ return v.kind !== 'flag'; }).length;
+  $('fsub').innerHTML = (shownCount === totalCount)
+    ? 'Reins flagged <b>' + plural(totalCount, 'vendor') + '</b> \u00b7 <b>' + fmt(shownSum) + '</b>'
+    : '<b>' + shownCount + '</b> of ' + plural(totalCount, 'vendor') + ' \u00b7 <b>' + fmt(shownSum) + '</b>';
+  /* a tail group whose rows are all filtered out has nothing to offer */
+  CATS.forEach(function(c){
+    if (!catEls[c.id]) return;
+    var box = catEls[c.id].box;
+    var div = box.querySelector('.taildiv'), well = box.querySelector('.tailwell');
+    if (!div || !well) return;
+    var anyLeft = !!well.querySelector('.vrow:not(.fhide)');
+    div.style.display = anyLeft ? '' : 'none';
+    well.style.display = anyLeft ? '' : 'none';
+  });
   applyVisibility();
 }
 
@@ -2864,69 +2948,32 @@ function applyVisibility(){
   CATS.forEach(function(c){
     if (!catEls[c.id]) return;
     var hidden = scopeHides && OUT_OF_NUMBER.indexOf(c.id) > -1;
-    if (!hidden && LS === 'select' && !catEls[c.id].slot.querySelector('.vrow:not(.fhide)')) hidden = true;
+    if (!hidden && !catEls[c.id].slot.querySelector('.vrow:not(.fhide)')) hidden = true;
     catEls[c.id].box.style.display = hidden ? 'none' : '';
   });
   if (stackDivider) stackDivider.style.display = scopeHides ? 'none' : '';
 }
 
-function setListStyle(ls){
-  LS = ls;
-  document.body.classList.toggle('ls-select', ls === 'select');
-  $('styleswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.ls === ls); });
-  PICK = {}; syncBulk();
-  if (ls === 'select'){
-    CATS.forEach(function(c){ if (catEls[c.id]) catEls[c.id].box.classList.add('open'); });
-    applyFilter();
-  } else {
-    FILTER = 'all';
-    $('fchips').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.f === 'all'); });
-    ITEMS.forEach(function(v){ if (v.el) v.el.classList.remove('fhide'); });
-    applyVisibility();
-  }
-  recompute();
-}
 
-$('styleswitch').addEventListener('click', function(ev){
-  var b = ev.target.closest('button'); if (!b) return;
-  setListStyle(b.dataset.ls);
-});
+
+
 
 $('fchips').addEventListener('click', function(ev){
   var b = ev.target.closest('button'); if (!b) return;
   FILTER = b.dataset.f;
-  this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+  this.querySelectorAll('button[data-f]').forEach(function(x){ x.classList.toggle('on', x === b); });
   applyFilter();
 });
 
-$('bulkbar').addEventListener('click', function(ev){
-  var b = ev.target.closest('[data-bulk]'); if (!b) return;
-  var a = b.dataset.bulk, ks = bulkSelected();
-  if (a !== 'clear'){
-    ks.forEach(function(id){
-      var v = ITEMS.filter(function(x){ return x.id === id; })[0];
-      if (!v) return;
-      var R = CATR[v.cat] || 0;
-      state[v.id] = (a === 'all')
-        ? {mode:'added', value:v.amt, reason:R, note:'All of it'}
-        : {mode:'dismissed', value:0, reason:R};
-      if (v.rerender) v.rerender();
-      if (v.el) v.el.classList.remove('sel');
-    });
-  } else {
-    ks.forEach(function(id){
-      var v = ITEMS.filter(function(x){ return x.id === id; })[0];
-      if (v && v.el) v.el.classList.remove('sel');
-    });
-  }
-  PICK = {}; syncBulk(); recompute(); applyFilter();
-});
+
 
 function setScope(sc){
   SCOPE = sc;
   applyVisibility();
   $('scopeswitch').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.sc === sc); });
   $('modeswitch').style.display = sc === 'mvp' ? 'none' : 'inline-flex';
+  var mb = document.querySelector('.modebar');
+  if (mb) mb.style.display = sc === 'mvp' ? 'none' : 'flex';
   if (sc === 'mvp') setMode('list'); else setMode(MODE);
   recompute();                       /* counts and the rail follow the scope */
   renderQueue(false);                /* keep the queue accurate even while hidden */
@@ -2946,11 +2993,99 @@ ITEMS.forEach(function(v){
   if (v.why && v.why.length > 320) console.warn('why over 320 chars:', v.id, v.why.length);
 });
 
+/* Leaving is allowed, but not silently when it costs them money. */
+$('savenext').addEventListener('click', function(){
+  var decided = ITEMS.filter(function(v){ return !isObservation(v) && state[v.id].mode !== 'pending'; }).length;
+  var over = $('headroom').className.indexOf('over') > -1;
+  if (!decided){
+    $('lv-title').textContent = 'You haven\u2019t adjusted anything yet.';
+    $('lv-body').innerHTML = 'Your number stays at <b>' + $('sde').textContent + '</b>. We flagged ' +
+      fmt(ITEMS.filter(function(v){ return !isObservation(v) && v.sched !== 'pf'; })
+                .reduce(function(x, v){ return x + (v.amt || 0); }, 0)) +
+      ' worth of adjustments, and none of it is counted until you say so.';
+  } else if (over){
+    $('lv-title').textContent = 'Your schedule is aggressive.';
+    $('lv-body').innerHTML = 'You\u2019re <b>' + $('headroom').textContent.replace(' over','') +
+      '</b> past the comfortable line. At this share a buyer\u2019s team rebuilds the schedule from scratch, ' +
+      'and undocumented lines get cut 50 to 100%.';
+  } else { return; }   /* nothing worth interrupting for */
+  lockBody('leave-open');
+});
+$('lv-stay').addEventListener('click', unlockBody);
+$('lv-x').addEventListener('click', unlockBody);
+$('lv-go').addEventListener('click', unlockBody);
+
+/* Below 1040px the rail is gone, so the same cards move into a sheet under the
+   header. Moving the nodes rather than cloning keeps one source of truth. */
+function syncNumBtn(){
+  var el = $('sde'); if (!el) return;
+  /* dataset.v carries the target; textContent is mid count-up */
+  $('numbtnval').textContent = el.dataset.v ? fmt(+el.dataset.v) : el.textContent;
+}
+function openDrawer(){
+  var live = $('rail-live');
+  $('railsheet').appendChild(live);
+  document.body.classList.add('drawer-open');
+  $('numbtn').classList.add('on');
+  $('numbtn').setAttribute('aria-expanded', 'true');
+}
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  $('numbtn').classList.remove('on');
+  $('numbtn').setAttribute('aria-expanded', 'false');
+  var rail = document.querySelector('.rail'), live = $('rail-live');
+  /* wait for the slide out before moving the nodes back, or it flickers */
+  setTimeout(function(){
+    if (!document.body.classList.contains('drawer-open') && live) rail.insertBefore(live, rail.firstChild);
+  }, 400);
+}
+$('numbtn').addEventListener('click', function(){
+  document.body.classList.contains('drawer-open') ? closeDrawer() : openDrawer();
+});
+$('drawer-overlay').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) closeDrawer();
+});
+
+/* Drag to dismiss. Velocity beats distance so a flick works, and dragging up
+   past the top gets friction rather than a wall. */
+(function(){
+  var d = $('drawer'), grab = $('drawer-grab');
+  var startY = 0, startT = 0, dy = 0, dragging = false;
+
+  function down(e){
+    if (dragging) return;                       /* ignore extra touch points */
+    dragging = true; dy = 0;
+    startY = e.clientY; startT = Date.now();
+    d.classList.add('dragging');
+    grab.setPointerCapture && grab.setPointerCapture(e.pointerId);
+  }
+  function move(e){
+    if (!dragging) return;
+    dy = e.clientY - startY;
+    if (dy < 0) dy = dy / 4;                    /* friction, not a hard stop */
+    d.style.transform = 'translateY(' + dy + 'px)';
+  }
+  function up(){
+    if (!dragging) return;
+    dragging = false;
+    d.classList.remove('dragging');
+    d.style.transform = '';
+    var velocity = Math.abs(dy) / Math.max(1, Date.now() - startT);
+    if (dy > d.offsetHeight * 0.35 || (dy > 24 && velocity > 0.11)) closeDrawer();
+  }
+  grab.addEventListener('pointerdown', down);
+  grab.addEventListener('pointermove', move);
+  grab.addEventListener('pointerup', up);
+  grab.addEventListener('pointercancel', up);
+})();
+
+
 /* boot */
 FIRST_DETAIL = $('passbox').innerHTML;
 applyMateriality(ITEMS);
 setScope('mvp');
-setListStyle('buttons');
+applyFilter();
 addModalInit();
 renderComp();
 CATS.forEach(function(c){
@@ -2958,7 +3093,8 @@ CATS.forEach(function(c){
   catEls[c.id].box.querySelectorAll('.vrow').forEach(function(r){
     if (!r.classList.contains('added') && !r.classList.contains('dismissed')) pend++;
   });
-  if (pend > 0 && ['acct','pf'].indexOf(c.id) === -1) catEls[c.id].box.classList.add('open');
+  /* start collapsed: the header carries the count and the total, so the owner
+     picks where to begin instead of scrolling past everything */
 });
 recompute();
 renderQueue(false);
