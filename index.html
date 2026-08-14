@@ -34,6 +34,17 @@
     --r-sm:10px; --r:14px; --r-lg:18px;
     --ease-out:cubic-bezier(.23,1,.32,1);
     --ease-drawer:cubic-bezier(.32,.72,0,1);   /* Ionic's drawer curve, what iOS sheets use */
+    /* from the Figma library */
+    --fg-border-primary:#bfbfbf;
+    --fg-border-tertiary:#e8e8e8;
+    --fg-text-secondary:#363636;
+    --fg-brand-50:#f9f5ec;
+    --fg-brand-200:#e1d0a8;
+    --fg-brand-700:#7b4d2d;
+    --fg-shadow-xs:0 1px 2px 0 rgba(10,13,18,.05);
+    --fg-gray-50:#f7f7f7;  --fg-gray-200:#d9d9d9;  --fg-gray-700:#595959;
+    --fg-brand-row:#fffcf6;
+    --fg-text-disabled:#8c8c8c;  --fg-text-quaternary:#737373;
     --serif:'Forrest',Georgia,'Times New Roman',serif;
     --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     --geist:'Geist','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
@@ -146,10 +157,11 @@
   .q-amt{font-family:var(--geist);font-size:34px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:12px 0 4px}
   .q-amt.neg{color:var(--amber)}
   .q-sec{font-size:13.5px;line-height:1.6;max-width:58ch;margin-top:16px}
-  .q-sec-l{display:block;font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4);font-weight:600;margin-bottom:5px}
-  .q-found{color:var(--ink-2)}
+  .q-sec-l{display:block;font-family:var(--geist);font-size:16px;line-height:24px;font-weight:500;
+    letter-spacing:0;text-transform:none;color:#363636;margin-bottom:4px}
+  .q-found{display:block;font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#737373}
   .q-qual{color:var(--ink-3)}
-  .q-chgtext{color:var(--ink-3)}
+  .q-chgtext{display:block;font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#737373}
   .q-amtrow{display:flex;align-items:center;gap:18px;margin:12px 0 4px}
   .q-open{margin-left:auto;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-2);background:var(--card);
     border-radius:8px;padding:7px 12px;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-3);cursor:pointer;
@@ -160,9 +172,16 @@
   .q-btn{flex:0 0 auto;border:1px solid var(--line-2);background:var(--card);border-radius:6px;padding:7px 13px;font-family:var(--geist);font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:transform .12s var(--ease-out),border-color .16s,background .16s;display:inline-flex;align-items:center;gap:7px}
   .q-btn kbd{background:var(--paper-2);border-color:var(--line-2);color:var(--ink-4)}
   .q-btn:active{transform:scale(.985)}
-  .q-btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}
+  .q-btn.primary{background:#b28240;border-color:#b28240;color:#fff}
   .q-btn.primary kbd{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.28);color:#fff}
   .q-btn.ghost{color:var(--ink-3)}
+  /* the question gets its own line so it never wrestles the buttons for width */
+  .fly-acts.sliding{align-items:center;gap:12px;flex-wrap:wrap}
+  .slidecol{flex:0 0 100%;font-size:14px;color:var(--ink);font-weight:500;line-height:1.3;margin-bottom:2px}
+  .sliderow{flex:1;min-width:0;display:flex;align-items:center;gap:11px}
+  .sliderow input[type=range]{flex:1;min-width:0}
+  .slideacts{flex:0 0 auto;display:flex;gap:8px;align-items:center}
+  .askline{font-size:11.5px;color:var(--ink-3);margin-bottom:2px;line-height:1.4}
   .apct{font-family:var(--sans);font-size:12px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
   .apct b,.apct span{font-family:var(--geist);font-size:13.5px;font-weight:600;color:var(--ink)}
   [data-aslider]{flex:1 1 80px;min-width:70px}
@@ -192,6 +211,61 @@
   /* ---------- headroom (credibility as a budget) ---------- */
   .headroom{margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
   .hr-l{font-size:11.5px;color:var(--ink-3);line-height:1.5}
+  /* Credibility card, per Figma 9178:35221 */
+  /* Adjusted EBITDA card, per Figma 9178:35408 */
+  .rail .rcard.eqcard,
+  .drawer .rcard.eqcard{background:var(--card);border:1px solid #d9d9d9;border-radius:16px;padding:20px;
+    box-shadow:var(--fg-shadow-xs);display:flex;flex-direction:column;gap:20px}
+  .eq-body{display:flex;flex-direction:column;gap:16px}
+  .eq-rows{display:flex;flex-direction:column;gap:12px}
+  #raillines{display:flex;flex-direction:column;gap:12px}
+  .eq-row{display:flex;align-items:center;gap:4px}
+  .eq-l{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#737373}
+  .eq-v{text-align:right;white-space:nowrap;font-family:var(--geist);font-size:14px;line-height:20px;
+    font-weight:500;color:#363636;font-variant-numeric:tabular-nums}
+  .eq-v.base{font-weight:600}
+  .eq-v.up{color:#b28240}
+  .eq-total{align-items:center}
+  .eq-tl{flex:1;min-width:0;font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#363636}
+  .eq-tv{text-align:right;white-space:nowrap;font-family:var(--geist);font-size:20px;line-height:30px;
+    font-weight:600;color:#1a1a1a;font-variant-numeric:tabular-nums}
+  .rail .rcard.credcard,
+  .drawer .rcard.credcard{background:var(--card);border:1px solid #d9d9d9;border-radius:16px;padding:20px;
+    box-shadow:var(--fg-shadow-xs);display:flex;flex-direction:column;gap:20px}
+  .cc-head{display:flex;align-items:center;gap:6px;height:24px}
+  .cc-title{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:500;color:#363636}
+  .cc-help{width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;
+    color:#a6a6a6;cursor:help;font-size:15px;border:none}
+  .cc-number{display:flex;align-items:center;gap:12px;height:44px}
+  .cc-pill{display:flex;align-items:center;justify-content:center;height:44px;min-width:48px;
+    padding:0 12px;border-radius:8px;background:#f7f7f7;color:#737373;
+    font-family:var(--geist);font-size:20px;line-height:30px;font-weight:600;white-space:nowrap}
+  .cc-pill.lo{background:#f3fee7;color:#326212}
+  .cc-pill.mid{background:#fffaeb;color:#93370d}
+  .cc-pill.hi{background:#fff1f3;color:#a11043}
+  .cc-lbl{flex:1;min-width:0;font-family:var(--geist);font-size:12px;line-height:18px;
+    font-weight:400;color:#737373}
+  .cc-barwrap{position:relative;padding:6px 0}
+  .cc-bar{display:grid;grid-template-columns:6fr 3fr 3fr;height:8px;border-radius:9999px;overflow:hidden}
+  .cc-bar i{display:block;opacity:.5;transition:opacity .3s var(--ease-out)}
+  .cc-bar i.on{opacity:1}
+  .cc-bar .b1{background:#3B7C0F} .cc-bar .b2{background:#FDB022} .cc-bar .b3{background:#C01048}
+  .cc-ind{position:absolute;top:50%;transform:translateY(-50%);width:5px;height:18px;border-radius:9999px;
+    background:#1a1a1a;box-shadow:0 0 0 2px #fff;transition:left .4s var(--ease-out);z-index:2}
+  .cc-div{height:1px;background:#e8e8e8;margin:0}
+  .cc-verdict{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#363636}
+  .cc-verdict b{font-weight:600}
+  .cc-verdict b.lo{color:#3B7C0F} .cc-verdict b.mid{color:#93370d} .cc-verdict b.hi{color:#A11043}
+  .credratio{display:flex;align-items:baseline;gap:9px;margin:2px 0 11px;flex-wrap:wrap}
+  .cr-v{font-family:var(--geist);font-size:26px;font-weight:600;letter-spacing:-.018em;
+    font-variant-numeric:tabular-nums;color:var(--green);line-height:1}
+  .cr-v.warn{color:var(--amber)} .cr-v.over{color:var(--red)}
+  .cr-l{font-size:12px;color:var(--ink-3);flex:1;min-width:130px;line-height:1.35}
+  .rcard.dormant .cr-v{color:var(--ink-4)}
+  .rcard.dormant .cr-l{color:var(--ink-4)}
+  .creddormant{display:none}
+  .cred-state.dorm{color:var(--ink-3);font-weight:400}
   .hr-v{font-family:var(--geist);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;margin:2px 0 11px}
   .h4tip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;
     border:1px solid var(--line-2);color:var(--ink-4);font-size:9px;font-weight:700;cursor:help;margin-left:5px;
@@ -208,42 +282,79 @@
   .toast b{color:var(--gold-soft);font-family:var(--geist);font-weight:600}
 
   .searchrow{display:flex;align-items:center;gap:10px;margin:20px 0 18px}
+  .searchicon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;
+    display:inline-flex;align-items:center;justify-content:center;font-size:20px;color:#737373;
+    pointer-events:none;z-index:1}
   .search{flex:1;position:relative}
-  .search input{width:100%;border:1px solid var(--line-2);background:var(--card);border-radius:8px;padding:12px 12px 12px 34px;font-size:13px;font-family:var(--sans);color:var(--ink)}
-  .search input::placeholder{color:var(--ink-4)}
-  .search input:focus{outline:none;box-shadow:0 0 0 3px var(--gold-wash);border-color:var(--gold-soft)}
+  /* Search header, per Figma 9228:37471 — one card that grows as you type */
+  .searchwrap{position:relative;flex:1;background:var(--card);border:1px solid #d9d9d9;border-radius:8px;
+    overflow:hidden;transition:border-radius .15s var(--ease-out)}
+  .searchwrap.open{border-radius:12px}
+  .search{border:none;background:none;border-radius:0;height:40px;box-sizing:border-box;
+    display:flex;align-items:center;position:relative}
+  .searchwrap.open .search{border-bottom:1px solid #d9d9d9}
+  .search input{width:100%;box-sizing:border-box;border:none;background:none;border-radius:0;height:100%;
+    padding:0 12px 0 40px;font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#1a1a1a}
+  .search input::placeholder{color:#8c8c8c}
+  .search input:focus{outline:none;box-shadow:none}
+  .search:focus-within{border-color:#a6a6a6}
   .searchrow .hint{font-size:12px;color:var(--ink-4)}
-  .searchwrap{position:relative;flex:1}
-  .sdrop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow);z-index:12;overflow:hidden;display:none}
+  .sdrop{display:none;padding-top:8px;background:var(--card)}
+  .sdrop.on{display:flex;flex-direction:column;gap:8px}
+  /* nothing matched: the input's own border is the only rule needed */
+  .sdrop.bare{padding-top:0;gap:0}
+  .sdrop.bare .smanual{border-top:none}
+  .sgrp{display:flex;flex-direction:column}
   .sdrop.on{display:block}
-  .sgroup{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);font-weight:600;padding:15px 19px 6px}
-  .srow{display:flex;align-items:center;gap:14px;padding:14px 19px;font-size:13px;cursor:pointer}
-  .srow:hover{background:var(--gold-wash-2)}
+  .sgroup{padding:4px 16px;font-family:var(--geist);font-size:12px;line-height:18px;font-weight:500;
+    letter-spacing:0;text-transform:uppercase;color:#8c8c8c}
+  .srow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;cursor:pointer}
+  .srow:hover{background:#f7f7f7}
   .srow .stext{flex:1;min-width:0}
-  .srow .sv{font-family:var(--geist);font-weight:500;letter-spacing:-.004em}
-  .srow .sv b{font-weight:700;color:var(--ink)}
-  .srow .sc{font-size:11px;color:var(--ink-4);margin-top:2px}
-  .srow .sa{font-family:var(--geist);font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .srow .sbtn{font-size:11.5px;font-weight:600;color:var(--gold-2);white-space:nowrap}
+  .srow .sv{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#1a1a1a;letter-spacing:0}
+  .srow .sv b{font-weight:600;color:#1a1a1a}
+  .srow .sc{display:flex;align-items:center;gap:4px;white-space:nowrap;
+    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:400;color:#8c8c8c;margin-top:0}
+  .srow .sc i{font-style:normal;color:#bfbfbf}
+  .srow .sa{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#1a1a1a;
+    white-space:nowrap;font-variant-numeric:tabular-nums}
+  .srow .sbtn{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636}
+  .srow .sbtn i{font-size:20px;line-height:1}
+  /* the manual row is the card's footer */
+  .smanual{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;
+    border-top:1px solid #d9d9d9;cursor:pointer}
+  .smanual:hover{background:#f7f7f7}
+  .smanual .sv{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#1a1a1a}
+  .smanual .sv b{font-weight:500}
+  .srow .sbtn,.smanual .sbtn{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636}
+  .srow .sbtn i,.smanual .sbtn i{font-size:20px;line-height:1}
   .snone{padding:15px 19px;font-size:12.5px;color:var(--ink-3)}
 
   /* ---------- category ---------- */
-  .cat{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-sm);margin-bottom:14px;overflow:hidden}
+  .cat{background:var(--card);border:1px solid #d9d9d9;border-radius:12px;box-shadow:var(--fg-shadow-xs);
+    margin-bottom:14px;overflow:hidden}
   .cat.empty{background:var(--card-2)}
-  .cathead{display:flex;align-items:center;gap:11px;padding:16px;cursor:pointer;user-select:none}
+  .cathead{display:flex;align-items:center;justify-content:space-between;gap:11px;
+    padding:16px 12px 16px 16px;cursor:pointer;user-select:none;background:var(--card)}
   .cathead:active{transform:scale(.998)}
   .catdone{color:var(--green);font-size:12px;font-weight:700;flex:0 0 auto;display:none}
   .cat.done .catdone{display:inline}
-  .catname{font-family:var(--geist);font-size:16px;font-weight:600;letter-spacing:-.008em;flex:1;min-width:0;display:flex;align-items:center;gap:0}
-  .catright{display:flex;align-items:baseline;gap:11px;flex:0 0 auto}
-  .cattot{font-family:var(--geist);font-size:15px;font-weight:600;letter-spacing:-.008em;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .cattot.neg{color:var(--amber)}
-  .cattot.zero{color:var(--ink-4);font-family:var(--sans);font-size:12.5px;font-weight:500}
-  .chev{font-size:15px;opacity:.4;transition:transform .2s var(--ease-out)}
-  .cat.open .chev{transform:rotate(180deg)}
-  .catbody{display:none;padding:0 16px 16px}
+  .catname{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:600;color:#1a1a1a;
+    flex:0 1 auto;min-width:0;display:flex;align-items:center;gap:12px}
+  .catright{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex:0 0 auto}
+  .cattot{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:600;white-space:nowrap;
+    font-variant-numeric:tabular-nums;color:#7b4d2d}
+  .cattot.neg{color:#595959}
+  .cattot.zero{color:#bfbfbf}
+  .chev{transform:rotate(-90deg);font-size:15px;opacity:.4;transition:transform .2s var(--ease-out)}
+  .cat.open .chev{transform:rotate(0deg)}
+  .catbody{display:none;padding:0}
   .cat.open .catbody{display:block}
-  .catbody > .inner{border-top:1px solid var(--line);padding-top:16px}
+  .catbody > .inner{padding:16px;display:flex;flex-direction:column;gap:12px}
+  .catbody .vrow{margin-bottom:0}
+  .catbody > .inner > [data-slot]{display:flex;flex-direction:column;gap:12px}
 
   /* teach block */
   .teach{background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:var(--r-sm);padding:12px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.6;margin-bottom:14px}
@@ -254,41 +365,53 @@
   .src{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);border:1px dashed var(--line-2);border-radius:6px;padding:2px 7px;margin-right:7px;vertical-align:1px}
 
   /* item rows */
-  .vrow{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:var(--card);transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
-  .vrow .top{display:flex;align-items:center;gap:12px}
+  .vrow{border:1px solid var(--fg-border-tertiary);border-radius:6px;padding:14px 16px;margin-bottom:10px;background:var(--card);transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
+  .vrow .top{display:flex;align-items:center;gap:8px}
   .nameline{flex:1;min-width:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .rowcount{font-size:11.5px;color:var(--ink-4);white-space:nowrap}
+  /* the file gives Manual the same pill as a charge count */
+  .rowcount{display:inline-flex;align-items:center;justify-content:center;background:rgba(0,0,0,.1);
+    height:18px;min-width:18px;padding:0 4px;border-radius:3px;
+    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:500;
+    color:var(--fg-text-secondary);white-space:nowrap}
   .amt-of{display:block;font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink-4);
     letter-spacing:0;margin-top:1px}
 
   /* ---- compact list: rows carry no controls, action moves to the bulk bar ---- */
   .filterbar{display:flex;align-items:center;gap:12px;margin:0 2px 12px;flex-wrap:wrap}
-  .fchips{display:flex;gap:7px;margin-left:auto;flex:0 0 auto}
-  .fchip{border:1px solid var(--line-2);background:var(--card);border-radius:99px;padding:5px 12px;
-    font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-3);cursor:pointer;white-space:nowrap}
-  .fchip:hover{border-color:var(--gold-soft)}
-  .fchip.on{background:var(--gold-wash);border-color:var(--gold-soft);color:var(--gold-2);font-weight:600}
-  .fsubwrap{display:flex;align-items:center;gap:8px;padding-left:2px}
-  .fsubicon{font-size:15px;color:var(--gold-2);flex:0 0 auto;line-height:1}
-  .fsub{font-family:var(--geist);font-size:14px;font-weight:400;letter-spacing:-.006em;
-    color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
-  .fsub b{color:var(--ink);font-family:var(--geist);font-weight:600}
+  /* Flagged header, per Figma 9184:25785 */
+  .filterbar{gap:24px}
+  .fchips{display:flex;align-items:center;gap:4px;margin-left:auto;flex:0 0 auto;padding:4px;
+    background:#f7f7f7;border:1px solid #e8e8e8;border-radius:8px}
+  .fchip{border:1px solid transparent;background:none;border-radius:4px;padding:4px 6px;box-shadow:none;
+    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:600;color:#363636;
+    cursor:pointer;white-space:nowrap}
+  .fchip:hover{background:rgba(255,255,255,.6)}
+  .fchip.on{background:var(--card);border-color:#d9d9d9;box-shadow:var(--fg-shadow-xs);color:#363636}
+  .fsubwrap{display:flex;align-items:center;gap:6px;padding-left:0;flex:1;min-width:0}
+  .fsubicon{width:18px;height:18px;font-size:18px;color:#737373;flex:0 0 18px;line-height:18px;
+    display:inline-flex;align-items:center;justify-content:center}
+  .fsub{display:flex;align-items:center;gap:3px;white-space:nowrap;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;letter-spacing:0;color:#737373;
+    font-variant-numeric:tabular-nums}
+  .fsub b{color:#363636;font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500}
+  .fsub i{font-style:normal;color:#bfbfbf;font-size:14px;line-height:20px;font-weight:500}
 
   /* Add is the only thing the row does. Everything else lives in the panel,
      because leaving an item alone already means it doesn't count. */
   .vrow [data-a="part"],
   .vrow [data-a="none"]{display:none}
   .vrow .acts,
-  .vrow .statusline{margin-left:auto;order:2}
+  .vrow .statusline{margin-left:auto;order:2;width:96px;justify-content:flex-end}
   .vrow .amt{order:3;margin-left:0}
   .vrow .nameline{order:1}
   .vrow.added .addedchip,
   .vrow.dismissed .addedchip{background:none;padding:0;border:none}
-  .vrow{padding:12px 18px;min-height:51px}
-  .vrow .top{min-height:27px}
+  .vrow{padding:12px 16px;min-height:50px}
+  .vrow .top{min-height:24px}
   .vrow .rowchev{display:none}
   /* the group header follows you down instead of every row carrying a tag */
   .cathead{position:sticky;top:0;z-index:8;background:var(--card);border-radius:12px 12px 0 0}
+  .cat.open .cathead{border-bottom:1px solid #d9d9d9}
   .cat:not(.open) .cathead{border-radius:12px}
   .cat{overflow:visible}
 
@@ -303,24 +426,31 @@
   .vrow:hover{border-color:var(--line-2)}
   .vrow:hover .rowchev{opacity:.5}
   .vrow.added,.vrow.dismissed{cursor:pointer}
-  .vname{font-family:var(--geist);font-weight:500;font-size:14px;letter-spacing:-.004em}
+  .vname{font-family:var(--geist);font-weight:500;font-size:14px;line-height:20px;letter-spacing:-.004em}
   .tag{font-size:10.5px;font-weight:600;color:var(--ink-3);background:var(--paper-2);border-radius:6px;padding:2px 8px;white-space:nowrap;margin-left:4px}
   .why{color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.5}
-  .amt{margin-left:auto;font-family:var(--geist);font-size:15px;font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .amt{margin-left:auto;font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
   .acts{display:flex;gap:7px;margin-left:12px;flex:0 0 auto}
   .btn{border:1px solid var(--line-2);background:var(--card);border-radius:var(--r-sm);padding:7px 12px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:var(--sans);color:var(--ink-2);transition:transform .12s var(--ease-out),border-color .16s,background .16s;white-space:nowrap}
   .btn:active{transform:scale(.97)}
   .btn.primary{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
-  .vrow .btn.primary{background:var(--card);border-color:var(--line-2);color:var(--ink-2);
-    border-radius:4px;padding:4px 8px;font-size:12px;
+  .vrow .btn.primary{background:var(--card);border-color:var(--fg-border-primary);color:var(--fg-text-secondary);
+    border-radius:4px;padding:0 6px;height:24px;box-sizing:border-box;
+    font-size:12px;line-height:16px;font-weight:600;font-family:var(--geist);box-shadow:var(--fg-shadow-xs);
+    display:inline-flex;align-items:center;justify-content:center;
     transition:background .14s var(--ease-out),border-color .14s var(--ease-out),color .14s var(--ease-out)}
+  /* the Figma set keeps this as a plain button in both states */
   .vrow:hover .btn.primary,
   .vrow .btn.primary:hover,
-  .vrow .btn.primary:focus-visible{background:var(--gold);border-color:var(--gold);color:#fff}
+  .vrow .btn.primary:focus-visible{background:var(--card);border-color:var(--fg-border-primary);color:var(--fg-text-secondary)}
   .btn.ghost{border-color:transparent;color:var(--ink-3)}
   .btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--gold-wash)}
-  .vrow.added{background:var(--green-wash);border-color:rgba(63,143,91,.28)}
-  .vrow.added.neg{background:var(--amber-wash);border-color:rgba(194,138,42,.28)}
+  .vrow.added{background:var(--fg-brand-row);border-color:var(--fg-brand-200)}
+  .vrow.added.neg{background:var(--fg-gray-50);border-color:var(--fg-gray-200)}
+  /* hover steps one shade deeper, per state=Hover progress=Success */
+  .vrow.added:hover{background:var(--fg-brand-50);border-color:#d0b276}
+  .vrow.added.neg:hover{background:#f0f0f0;border-color:#c4c4c4}
+  .vrow.added:hover .vname{text-decoration:underline;text-decoration-color:#1a1a1a}
   .vrow.dismissed{opacity:.45}
   .vrow.hidden{display:none}
   .statusline{display:none;align-items:center;gap:10px;flex:0 0 auto;margin-left:auto}
@@ -328,26 +458,29 @@
 
   /* the outcome IS the undo control: same footprint, swaps on hover so nothing moves */
   .donechip{display:inline-grid;place-items:center;
-    border:1px solid transparent;background:rgba(255,255,255,.7);color:var(--green);
-    font-family:var(--sans);font-weight:600;font-size:12px;border-radius:4px;padding:4px 8px;
-    cursor:pointer;white-space:nowrap;transition:background .14s var(--ease-out),border-color .14s var(--ease-out),color .14s var(--ease-out)}
-  .donechip.neg{color:var(--amber)}
+    border:1px solid var(--fg-brand-200);background:var(--fg-brand-50);color:var(--fg-brand-700);
+    font-family:var(--geist);font-weight:500;font-size:12px;line-height:16px;border-radius:4px;
+    padding:0 8px 0 6px;height:24px;box-sizing:border-box;cursor:pointer;white-space:nowrap;
+    transition:background .14s var(--ease-out),border-color .14s var(--ease-out),color .14s var(--ease-out)}
+  .donechip.neg,
+  .donechip.gray{background:var(--fg-gray-50);border-color:var(--fg-gray-200);color:var(--fg-gray-700)}
   .donechip.static{cursor:default}
-  .vrow:hover .donechip.static{background:rgba(255,255,255,.7);border-color:transparent;color:var(--green)}
-  .vrow:hover .donechip.static.neg{color:var(--amber)}
+  .vrow:hover .donechip.static{background:var(--fg-brand-50);border-color:var(--fg-brand-200);
+    color:var(--fg-brand-700);box-shadow:none;font-weight:500}
   /* the panel is a focused surface, so the same control sits a size up */
   .flystatus{display:inline-flex;align-items:center;gap:6px;margin-right:auto;
     font-family:var(--geist);font-size:13px;font-weight:600;color:var(--green);white-space:nowrap}
   .flystatus.neg{color:var(--amber)}
   .flystatus.gray{color:var(--ink-4)}
-  .donechip.gray{color:var(--ink-4)}
   .donechip .dc-a,
   .donechip .dc-b{grid-area:1 / 1;display:flex;align-items:center;justify-content:center;white-space:nowrap}
   .donechip .dc-b{opacity:0;transition:opacity .14s var(--ease-out)}
   .donechip .dc-a{transition:opacity .14s var(--ease-out)}
+  /* on hover the badge becomes the button, so it reads as a control */
   .vrow:hover .donechip,
   .donechip:hover,
-  .donechip:focus-visible{background:var(--card);border-color:var(--line-2);color:var(--ink-2)}
+  .donechip:focus-visible{background:var(--card);border-color:var(--fg-border-primary);
+    color:var(--fg-text-secondary);font-weight:600;box-shadow:var(--fg-shadow-xs)}
   .vrow:hover .donechip .dc-a,
   .donechip:hover .dc-a,
   .donechip:focus-visible .dc-a{opacity:0}
@@ -358,14 +491,19 @@
   .reason{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.7);color:var(--ink-2);font-size:11.5px;font-weight:500;border-radius:7px;padding:4px 10px;cursor:pointer;border:1px dashed var(--line-2);font-family:var(--sans)}
   .undo{background:none;border:none;color:var(--ink-3);font-size:12px;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-family:var(--sans);margin-left:auto}
 
-  .vrow.dismissed .top .amt{opacity:.4}
-  .vrow.added .top .amt{color:var(--green)}
-  .vrow.added.neg .top .amt{color:var(--amber)}
+  .vrow.dismissed{border-color:var(--fg-gray-200)}
+  .vrow.dismissed .top .amt{opacity:1;color:var(--fg-text-disabled)}
+  .vrow.dismissed .vname{color:var(--fg-text-disabled)}
+  .vrow.dismissed .rowcount{color:var(--fg-text-quaternary)}
+  .vrow.added .top .amt{color:var(--ink)}
+  .vrow.added.neg .top .amt{color:var(--ink)}
   .vrow.added .nameline,.vrow.dismissed .nameline{flex:0 1 auto}
   .seelink{background:none;border:none;font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--gold-2);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
-  .catsum{font-size:11px;color:var(--ink-4);font-weight:500;white-space:nowrap}
-  .whatbtn{border:1px dashed var(--line-2);background:transparent;border-radius:6px;padding:2px 7px;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--ink-3);cursor:pointer;font-family:var(--sans);margin-left:9px;white-space:nowrap;align-self:center}
-  .whatbtn:hover{border-color:var(--gold-soft);color:var(--gold-2)}
+  .catsum{display:none}
+  .whatbtn{border:1px solid #d9d9d9;background:var(--card);border-radius:6px;padding:2px 6px;
+    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:500;letter-spacing:0;color:#363636;
+    cursor:pointer;white-space:nowrap;align-self:center;box-shadow:var(--fg-shadow-xs)}
+  .whatbtn:hover{border-color:#bfbfbf}
   .whylink{border:none;background:none;font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--ink-4);cursor:pointer;padding:0 0 0 2px;white-space:nowrap;border-bottom:1px dotted var(--line-2)}
   .whylink:hover,.whylink.on{color:var(--gold-2);border-color:var(--gold-soft)}
   .pop{position:fixed;z-index:34;width:320px;max-width:calc(100vw - 24px);background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 16px;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .15s var(--ease-out),transform .15s var(--ease-out)}
@@ -379,6 +517,60 @@
   .scrim{position:fixed;inset:0;background:rgba(26,26,26,.32);z-index:30;opacity:0;pointer-events:none;transition:opacity .2s var(--ease-out)}
   body.overlay .scrim{opacity:1;pointer-events:auto}
   body.overlay{overflow:hidden}
+  /* What counts modal, per Figma 9173:35049 */
+  .wcmodal{width:512px !important;box-sizing:border-box;max-width:min(640px, calc(100vw - 32px));padding:0;border-radius:16px;
+    background:var(--card);overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 20px 24px -4px rgba(10,13,18,.08),0 8px 8px -4px rgba(10,13,18,.03),0 3px 3px -1.5px rgba(10,13,18,.04)}
+  .wc-head{position:relative;padding:24px 24px 0;display:flex;flex-direction:column;gap:2px;
+    border-bottom:1px solid #e8e8e8;padding-bottom:20px}
+  .addmodal .wc-body{padding-top:24px}
+  .wc-eyebrow{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#363636;
+    letter-spacing:0;text-transform:none}
+  .wcmodal h3,.addmodal h3{font-family:var(--geist);font-size:18px;line-height:28px;font-weight:600;color:#1a1a1a;
+    margin:0;letter-spacing:0}
+  .wc-x{position:absolute;top:12px;right:12px;width:44px;height:44px;display:flex;align-items:center;
+    justify-content:center;border:none;background:none;border-radius:6px;cursor:pointer;color:#737373;font-size:22px}
+  .wc-x:hover{background:#f7f7f7}
+  .wc-body{padding:24px 24px 0;display:flex;flex-direction:column;gap:24px}
+  .wc-row{display:flex;flex-direction:column;gap:4px}
+  .wc-rl{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:500;color:#363636}
+  .wc-rv{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#737373}
+  .wc-ex{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .wc-ex li{display:flex;align-items:center;gap:8px;font-family:var(--geist);font-size:16px;
+    line-height:24px;font-weight:400;color:#737373}
+  .wc-ex li:before{content:"";flex:0 0 8px;width:8px;height:8px;border-radius:9999px;background:#c79f5d}
+  .wc-ex li + li{border-top:1px solid #e8e8e8;padding-top:10px;margin-top:0}
+  /* Add-expense modal, per Figma 9191:27187 */
+  .addmodal{width:512px !important;box-sizing:border-box;max-width:min(640px, calc(100vw - 32px));padding:0;border-radius:16px;
+    border:1px solid #d9d9d9;background:var(--card);overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 20px 24px -4px rgba(10,13,18,.08),0 8px 8px -4px rgba(10,13,18,.03),0 3px 3px -1.5px rgba(10,13,18,.04)}
+  .a-field{display:flex;flex-direction:column;gap:6px}
+  .addmodal .a-lab{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#363636;
+    letter-spacing:0;text-transform:none;margin:0}
+  .a-lab .req{color:#d92d20;font-weight:500}
+  .addmodal .a-in{width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--fg-border-primary);
+    border-radius:8px;padding:8px 12px;box-shadow:var(--fg-shadow-xs);
+    font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#1a1a1a}
+  .addmodal .a-in::placeholder{color:#8c8c8c}
+  .addmodal .a-in:focus{outline:none;border-color:#a6a6a6}
+  .addmodal textarea.a-in{padding:12px 14px;min-height:112px;resize:vertical}
+  .a-hint{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#363636}
+  /* the categorising prompt sits where the verdict will land */
+  .a-actions{display:flex;justify-content:flex-end;gap:12px}
+  .wc-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;background:var(--card);
+    border:1px solid var(--fg-border-primary);border-radius:6px;padding:8px 12px;box-shadow:var(--fg-shadow-xs);
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:var(--fg-text-secondary);cursor:pointer}
+  .wc-btn:hover{border-color:#a6a6a6}
+  .wc-btn.primary{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
+  .wc-btn.primary:hover{background:#000;border-color:#000}
+  .wc-btn[disabled]{background:#e8e8e8;border-color:#d9d9d9;color:#a6a6a6;cursor:default;box-shadow:var(--fg-shadow-xs)}
+  .wc-foot{margin-top:32px;border-top:1px solid #e8e8e8;padding:24px}
+  .wc-cta{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    background:var(--card);border:1px solid var(--fg-border-primary);border-radius:6px;padding:10px 16px;
+    box-shadow:var(--fg-shadow-xs);font-family:var(--geist);font-size:16px;line-height:24px;font-weight:600;
+    color:var(--fg-text-secondary);cursor:pointer}
+  .wc-cta:hover{border-color:#a6a6a6}
+  .wc-cta i{font-size:20px;line-height:1}
   .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.98);width:min(520px,calc(100vw - 48px));background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);z-index:32;padding:24px 26px;opacity:0;pointer-events:none;transition:opacity .2s var(--ease-out),transform .2s var(--ease-out)}
   body.leave-open #leavemodal{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
   body.modal-open #modal{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
@@ -391,6 +583,63 @@
   .modal .m-ex li{position:relative;padding:7px 0 7px 18px;font-size:12.5px;color:var(--ink-2);line-height:1.55;border-bottom:1px solid var(--line)}
   .modal .m-ex li:last-child{border-bottom:none}
   .modal .m-ex li:before{content:"";position:absolute;left:2px;top:14px;width:5px;height:5px;border-radius:50%;background:var(--gold-soft)}
+  /* What counts modal, per Figma 9173:35049 */
+  .wcmodal{width:512px !important;box-sizing:border-box;max-width:min(640px, calc(100vw - 32px));padding:0;border-radius:16px;
+    background:var(--card);overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 20px 24px -4px rgba(10,13,18,.08),0 8px 8px -4px rgba(10,13,18,.03),0 3px 3px -1.5px rgba(10,13,18,.04)}
+  .wc-head{position:relative;padding:24px 24px 0;display:flex;flex-direction:column;gap:2px;
+    border-bottom:1px solid #e8e8e8;padding-bottom:20px}
+  .addmodal .wc-body{padding-top:24px}
+  .wc-eyebrow{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#363636;
+    letter-spacing:0;text-transform:none}
+  .wcmodal h3,.addmodal h3{font-family:var(--geist);font-size:18px;line-height:28px;font-weight:600;color:#1a1a1a;
+    margin:0;letter-spacing:0}
+  .wc-x{position:absolute;top:12px;right:12px;width:44px;height:44px;display:flex;align-items:center;
+    justify-content:center;border:none;background:none;border-radius:6px;cursor:pointer;color:#737373;font-size:22px}
+  .wc-x:hover{background:#f7f7f7}
+  .wc-body{padding:24px 24px 0;display:flex;flex-direction:column;gap:24px}
+  .wc-row{display:flex;flex-direction:column;gap:4px}
+  .wc-rl{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:500;color:#363636}
+  .wc-rv{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#737373}
+  .wc-ex{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .wc-ex li{display:flex;align-items:center;gap:8px;font-family:var(--geist);font-size:16px;
+    line-height:24px;font-weight:400;color:#737373}
+  .wc-ex li:before{content:"";flex:0 0 8px;width:8px;height:8px;border-radius:9999px;background:#c79f5d}
+  .wc-ex li + li{border-top:1px solid #e8e8e8;padding-top:10px;margin-top:0}
+  /* Add-expense modal, per Figma 9191:27187 */
+  .addmodal{width:512px !important;box-sizing:border-box;max-width:min(640px, calc(100vw - 32px));padding:0;border-radius:16px;
+    border:1px solid #d9d9d9;background:var(--card);overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 20px 24px -4px rgba(10,13,18,.08),0 8px 8px -4px rgba(10,13,18,.03),0 3px 3px -1.5px rgba(10,13,18,.04)}
+  .a-field{display:flex;flex-direction:column;gap:6px}
+  .addmodal .a-lab{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#363636;
+    letter-spacing:0;text-transform:none;margin:0}
+  .a-lab .req{color:#d92d20;font-weight:500}
+  .addmodal .a-in{width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--fg-border-primary);
+    border-radius:8px;padding:8px 12px;box-shadow:var(--fg-shadow-xs);
+    font-family:var(--geist);font-size:16px;line-height:24px;font-weight:400;color:#1a1a1a}
+  .addmodal .a-in::placeholder{color:#8c8c8c}
+  .addmodal .a-in:focus{outline:none;border-color:#a6a6a6}
+  .addmodal textarea.a-in{padding:12px 14px;min-height:112px;resize:vertical}
+  .a-hint{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#363636}
+  /* the categorising prompt sits where the verdict will land */
+  .a-verdict{background:#f7f7f7;border-radius:8px;min-height:72px;padding:16px 24px;border:none;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#363636}
+  .a-actions{display:flex;justify-content:flex-end;gap:12px}
+  .wc-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;background:var(--card);
+    border:1px solid var(--fg-border-primary);border-radius:6px;padding:8px 12px;box-shadow:var(--fg-shadow-xs);
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:var(--fg-text-secondary);cursor:pointer}
+  .wc-btn:hover{border-color:#a6a6a6}
+  .wc-btn.primary{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
+  .wc-btn.primary:hover{background:#000;border-color:#000}
+  .wc-btn[disabled]{background:#e8e8e8;border-color:#d9d9d9;color:#a6a6a6;cursor:default;box-shadow:var(--fg-shadow-xs)}
+  .wc-foot{margin-top:32px;border-top:1px solid #e8e8e8;padding:24px}
+  .wc-cta{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    background:var(--card);border:1px solid var(--fg-border-primary);border-radius:6px;padding:10px 16px;
+    box-shadow:var(--fg-shadow-xs);font-family:var(--geist);font-size:16px;line-height:24px;font-weight:600;
+    color:var(--fg-text-secondary);cursor:pointer}
+  .wc-cta:hover{border-color:#a6a6a6}
+  .wc-cta i{font-size:20px;line-height:1}
   .modal{max-height:calc(100vh - 64px);overflow-y:auto}
   .modal .m-manual{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink-3);line-height:1.55}
   .modal .m-close{position:absolute;top:14px;right:14px;border:none;background:var(--paper-2);width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--ink-2);font-size:14px;line-height:1}
@@ -409,56 +658,170 @@
   .a-hint{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin-top:6px;min-height:17px}
   .a-hint b{color:var(--gold-2)}
   .a-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
-  .a-manual{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .addmodal .a-manual{display:flex;flex-direction:column;gap:24px;margin:0;padding:0;border-top:none}
   .a-manual.on{display:block}
   .a-desc{resize:vertical;min-height:56px;line-height:1.5;font-family:var(--sans)}
-  .a-verdict{margin-top:14px;background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+  .addmodal .a-verdict{margin-top:0;background:#f7f7f7;border:none;border-radius:8px;
+    min-height:72px;padding:16px 24px;display:flex;align-items:center;justify-content:center;text-align:center;
+    gap:8px;font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#363636}
+  /* once categorised it grows, goes left-aligned, and gains the Change it button */
+  .addmodal .a-verdict.set{min-height:88px;padding:24px;text-align:left;font-weight:400}
+  .addmodal .a-verdict.set .vtext{flex:1;min-width:0}
+  .addmodal .a-verdict.set b{font-weight:600;color:#1a1a1a}
+  .vchange{flex:0 0 auto;background:var(--card);border:1px solid var(--fg-border-primary);border-radius:6px;
+    padding:8px 12px;box-shadow:var(--fg-shadow-xs);font-family:var(--geist);font-size:14px;line-height:20px;
+    font-weight:600;color:var(--fg-text-secondary);cursor:pointer;white-space:nowrap;text-decoration:none}
+  .vchange:hover{border-color:#a6a6a6}
+  /* Loading */
+  .a-verdict.loading{gap:8px;color:#737373;font-size:16px;line-height:24px;font-weight:500}
+  .a-verdict.loading .spin{width:16px;height:16px;border:2px solid #d9d9d9;border-top-color:#737373;
+    border-radius:9999px;animation:vspin .7s linear infinite;flex:0 0 auto}
+  @keyframes vspin{to{transform:rotate(360deg)}}
+  /* Editing: no fill, stacked controls */
+  .addmodal .a-change{display:none;flex-direction:column;gap:16px}
+  .addmodal .a-change.on{display:flex}
+  .a-erow{display:flex;align-items:center;gap:12px}
+  .a-erow > .a-lab{flex:0 0 auto;white-space:nowrap}
+  .a-tabs{margin-left:auto;display:flex;align-items:center;gap:4px;padding:4px;background:#f7f7f7;
+    border:1px solid #d9d9d9;border-radius:8px}
+  .a-tabs button{display:inline-flex;align-items:center;gap:4px;padding:4px 6px;border-radius:4px;
+    border:1px solid transparent;background:none;box-shadow:none;cursor:pointer;
+    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:600;color:#363636}
+  .a-tabs button.on{background:var(--card);border-color:#d9d9d9;box-shadow:var(--fg-shadow-xs)}
+  .a-tabs button i{font-size:16px;line-height:1}
   .a-verdict b{color:var(--ink);font-weight:600}
-  .a-verdict .vchange{background:none;border:none;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-2);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;margin-left:6px}
-  .a-change{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+  .a-verdict .vchange{background:var(--card);border:1px solid var(--fg-border-primary);border-radius:6px;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:var(--fg-text-secondary);
+    cursor:pointer;padding:8px 12px;text-decoration:none;margin-left:0;box-shadow:var(--fg-shadow-xs);white-space:nowrap}
+  .addmodal .a-change{display:none;margin:0;padding:0;border-top:none;flex-direction:column;gap:16px}
+  .addmodal .a-change.on{display:flex}
   .a-change.on{display:block}
   .a-mhead{font-size:12.5px;color:var(--ink-2);margin-bottom:12px}
   .a-empty{padding:14px 2px;font-size:12.5px;color:var(--ink-4)}
   @keyframes landed{0%{background:var(--gold-wash)}100%{background:transparent}}
   .vrow.landed{animation:landed 1.6s var(--ease-out)}
-  .flyout{position:fixed;top:0;right:0;bottom:0;width:min(440px,92vw);background:var(--card);border-left:1px solid var(--line);box-shadow:-12px 0 40px rgba(26,26,26,.10);z-index:31;transform:translateX(102%);transition:transform .24s var(--ease-out);display:flex;flex-direction:column}
+  .flyout{position:fixed;top:0;right:0;bottom:0;width:min(600px,94vw);background:var(--card);border-left:1px solid var(--line);box-shadow:-12px 0 40px rgba(26,26,26,.10);z-index:31;transform:translateX(102%);transition:transform .24s var(--ease-out);display:flex;flex-direction:column}
   body.fly-open .flyout{transform:translateX(0)}
-  .fly-head{padding:18px 22px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:12px}
-  .fly-head .fh-name{font-family:var(--geist);font-size:17px;font-weight:600;letter-spacing:-.008em}
-  .fly-head .fh-sub{font-size:12px;color:var(--ink-3);margin-top:4px;line-height:1.45}
-  .fly-head .fh-amt{margin-left:auto;font-family:var(--geist);font-size:16px;font-weight:500;letter-spacing:-.004em;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .fly-x{border:none;background:var(--paper-2);width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--ink-2);font-size:14px;flex:0 0 28px;line-height:1}
-  .fly-back{border:none;background:none;color:var(--gold-2);font-weight:600;font-size:12.5px;cursor:pointer;font-family:var(--sans);padding:0;display:none;align-items:center;gap:5px}
+  .fly-head{padding:24px;border-bottom:1px solid #d9d9d9;background:var(--card);position:relative;display:block}
+  .fly-head .fh-name{font-family:var(--geist);font-size:18px;line-height:28px;font-weight:600;
+    color:#1a1a1a;letter-spacing:0}
+  .fh-stack{display:flex;flex-direction:column;gap:2px;padding-right:44px}
+  .flyout.deep .fh-stack{gap:4px}
+  .fh-eyebrow{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#737373}
+  /* the detail view swaps the category eyebrow for a way back */
+  .flyout.deep .fh-eyebrow{display:none}
+  .fly-x{position:absolute;top:10px;right:10px;width:36px;height:36px;display:flex;align-items:center;
+    justify-content:center;border:none;background:none;border-radius:6px;cursor:pointer;
+    color:#737373;font-size:20px;line-height:1;flex:none}
+  .fly-x:hover{background:#f7f7f7}
+  .fly-back{display:none;align-items:center;gap:4px;background:none;border:none;padding:0;cursor:pointer;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636;}
+  .flyout.deep .fly-back{display:inline-flex}
+  .fly-back i{font-size:20px;line-height:1}
   /* one scroll region for the panel body; the section header sticks so you keep
      context 60 rows down instead of nesting a second scroller */
-  .fly-sticky{position:sticky;top:0;z-index:3;background:var(--card);display:flex;align-items:baseline;gap:10px;
-    margin:16px 0 0;padding:11px 0 8px;border-bottom:1px solid var(--line)}
+  /* a sentinel sits above this; when it scrolls out, .stuck adds the rule */
+  .fly-stick-top{height:1px;margin:0}
+  .fly-sticky{position:sticky;top:0;z-index:4;background:var(--card);display:flex;align-items:center;gap:8px;
+    margin:0 0 8px;padding:8px 0;border-bottom:1px solid transparent;
+    transition:border-color .15s var(--ease-out)}
+  .fly-sticky.stuck{border-bottom-color:#d9d9d9}
   .fly-sticky .q-sec-l{margin:0}
   .fly-cap{margin-left:auto;font-size:10.5px;color:var(--ink-4);white-space:nowrap;font-variant-numeric:tabular-nums}
-  .fly-sec{font-size:13px;line-height:1.6;margin-top:14px}
+  /* the count beside the section label, per _Tag count */
+  .ftxtag{display:inline-flex;align-items:center;justify-content:center;height:18px;min-width:18px;
+    padding:0 4px;border-radius:3px;background:rgba(0,0,0,.1);font-family:var(--geist);font-size:12px;
+    line-height:18px;font-weight:500;color:#363636}
+  .fly-sec{margin:0 0 24px;font-size:13px;line-height:1.6;margin-top:14px}
   .fly-sec:first-child{margin-top:14px}
-  .fly-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;width:100%}
+  .fly-acts{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;width:100%}
   .fly-panes{flex:1;overflow:hidden;position:relative}
   .fly-track{display:flex;width:200%;height:100%;transition:transform .24s var(--ease-out)}
   .fly-pane{width:50%;height:100%;overflow-y:auto;padding:0 22px 22px}
   .flyout.deep .fly-track{transform:translateX(-50%)}
   .flyout.deep .fly-back{display:inline-flex}
-  .ftx{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer;border-radius:6px}
+  /* charge table, per Figma 9167:26370 — 4 columns, 36px header, 48px rows */
+  /* the table sits in its own bordered, rounded card */
+  .ftxtable{border:1px solid #d9d9d9;border-radius:12px;overflow:hidden;box-shadow:var(--fg-shadow-xs);
+    background:var(--card)}
+  .ftxtable .ftx:last-child{border-bottom:none}
+  .ftxhead{display:grid;grid-template-columns:144px 1fr 1fr 44px;align-items:center;height:36px;
+    background:var(--card);border-bottom:1px solid #d9d9d9}
+  .ftxhead span{display:flex;align-items:center;gap:4px;padding:4px 16px;
+    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:600;color:#737373;white-space:nowrap}
+  .ftxhead .num{justify-content:flex-end}
+  .ftxhead span:last-child{padding:4px 8px}
+  .ftx{display:grid;grid-template-columns:144px 1fr 1fr 44px;align-items:center;height:48px;
+    border-bottom:1px solid #d9d9d9;cursor:pointer;border-radius:0;padding:0;gap:0}
+  .ftx > *{padding:12px 16px;display:flex;align-items:center;gap:12px;min-width:0}
+  .ftx .c1,.ftx .c2{overflow:hidden}
   .ftx:hover{background:var(--gold-wash-2)}
-  .ftx .d{color:var(--ink-4);font-size:11.5px;width:52px;flex:0 0 52px}
+  .ftx .d{color:#1a1a1a;font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;width:auto;flex:none}
+  .ftx .m{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#363636;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+  .ftx .num{justify-content:flex-end;font-family:var(--geist);font-size:14px;line-height:20px;
+    font-weight:500;color:#1a1a1a}
+  /* the last column is a 6px utility button around a 16px chevron, centred */
+  .ftx > i{justify-content:center;padding:16px 8px;color:#737373;font-size:16px}
+  .ftx .chv{display:flex;align-items:center;justify-content:center}
+  .ftx > i{justify-content:center;color:#737373;font-size:16px}
   .ftx .memo{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
   .ftx .a{font-weight:600;white-space:nowrap}
   .ftx .chv{opacity:.35;flex:0 0 auto}
-  .fly-foot{border-top:1px solid var(--line);padding:14px 22px;display:none;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-2);background:var(--card)}
+  .fly-main{display:flex;align-items:center;gap:8px}
+  /* Stage=Set */
+  .fly-acts.sliding{flex-wrap:nowrap;gap:16px}
+  .slidecol{flex:0 1 auto;display:flex;flex-direction:column;gap:4px;font-size:inherit;color:inherit;margin:0}
+  .sl-lab{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#1a1a1a}
+  .sliderow{display:flex;align-items:center;gap:8px}
+  .sliderow input[type=range]{width:179px;flex:0 0 179px;min-width:0}
+  .sl-pct{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#1a1a1a;
+    font-variant-numeric:tabular-nums}
+  .slideacts{flex:0 0 auto;display:flex;align-items:center;gap:4px;margin-left:auto}
+  .fly-foot .q-btn.bare{background:none;border-color:transparent;box-shadow:none;color:#363636}
+  .fly-foot .q-btn.bare:hover{background:#f7f7f7;border-color:transparent}
+  /* decided */
+  .flydone{display:inline-flex;align-items:center;gap:6px;font-family:var(--geist);font-size:16px;
+    line-height:24px;font-weight:500;color:#7b4d2d}
+  .flydone.neg,.flydone.gray{color:#595959}
+  .flydone-i{width:20px;height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;
+    border-radius:9999px;background:#efe8d2;font-size:11px;font-style:normal;line-height:1}
+  .flydone.neg .flydone-i,.flydone.gray .flydone-i{background:#f0f0f0}
+  .fly-foot{min-height:84px;padding:24px;border-top:1px solid #eaecf0;border-top:1px solid var(--line);padding:14px 22px;display:none;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-2);background:var(--card)}
     font-weight:600;color:var(--gold-2);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px}
-  .fly-foot{flex-wrap:wrap}
+  .fly-main{display:flex;align-items:center;gap:8px}
+  /* Stage=Set */
+  .fly-acts.sliding{flex-wrap:nowrap;gap:16px}
+  .slidecol{flex:0 1 auto;display:flex;flex-direction:column;gap:4px;font-size:inherit;color:inherit;margin:0}
+  .sl-lab{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:500;color:#1a1a1a}
+  .sliderow{display:flex;align-items:center;gap:8px}
+  .sliderow input[type=range]{width:179px;flex:0 0 179px;min-width:0}
+  .sl-pct{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#1a1a1a;
+    font-variant-numeric:tabular-nums}
+  .slideacts{flex:0 0 auto;display:flex;align-items:center;gap:4px;margin-left:auto}
+  .fly-foot .q-btn.bare{background:none;border-color:transparent;box-shadow:none;color:#363636}
+  .fly-foot .q-btn.bare:hover{background:#f7f7f7;border-color:transparent}
+  /* decided */
+  .flydone{display:inline-flex;align-items:center;gap:6px;font-family:var(--geist);font-size:16px;
+    line-height:24px;font-weight:500;color:#7b4d2d}
+  .flydone.neg,.flydone.gray{color:#595959}
+  .flydone-i{width:20px;height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;
+    border-radius:9999px;background:#efe8d2;font-size:11px;font-style:normal;line-height:1}
+  .flydone.neg .flydone-i,.flydone.gray .flydone-i{background:#f0f0f0}
+  .fly-foot .q-btn{padding:8px 12px;border-radius:6px;font-size:14px;line-height:20px;font-weight:600;
+    box-shadow:var(--fg-shadow-xs)}
+  .fly-foot .q-btn:not(.primary):not(.bare){background:var(--card);border-color:var(--fg-border-primary);
+    color:var(--fg-text-secondary)}
+  .fly-foot .q-btn.bare{background:none;border-color:transparent;box-shadow:none;color:#363636}
+  .fly-foot .q-btn.bare:hover{background:#f7f7f7;border-color:transparent}
+  .fly-foot{min-height:84px;padding:24px;border-top:1px solid #eaecf0;flex-wrap:wrap}
   .ftx-box.off{opacity:.32;cursor:default;background:var(--paper-2);border-color:var(--line)}
   .picklock{font-size:11.5px;color:var(--ink-4);background:var(--paper-2);border-radius:7px;
     padding:8px 11px;margin-top:14px;line-height:1.45}
-  .ftx-box{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--line-2);flex:0 0 15px;
+  .ftx-box{width:16px;height:16px;border-radius:4px;border:1px solid #bfbfbf;flex:0 0 16px;box-sizing:border-box;
     background:var(--card);cursor:pointer;transition:border-color .14s,background .14s;position:relative}
   .ftx-box:hover{border-color:var(--gold-soft)}
-  .ftx.picked .ftx-box{background:var(--gold);border-color:var(--gold)}
+  .ftx.picked .ftx-box{background:#1a1a1a;border-color:#1a1a1a}
   .ftx.picked .ftx-box:after{content:"\2713";position:absolute;inset:0;color:#fff;font-size:10px;font-weight:700;
     display:flex;align-items:center;justify-content:center}
   .ftx.picked{background:var(--gold-wash-2)}
@@ -471,25 +834,50 @@
   .fly-foot .q-pnum{font-family:var(--sans);font-size:12px;color:var(--ink-3);white-space:nowrap}
   .fly-foot .q-pnum b{font-family:var(--geist);font-size:13.5px;color:var(--ink);font-weight:600}
   .fly-foot.on{display:flex}
-  .fdet .frow{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
-  .fdet .frow span:first-child{color:var(--ink-3)}
-  .fdet .frow b{font-weight:600;text-align:right}
+  /* charge detail, per Figma 9169:27986 */
+  .fdet .fdet-list{background:var(--card);padding:24px 0;display:flex;flex-direction:column;gap:12px}
+  .fdet .fdiv{height:1px;background:#e8e8e8;flex:0 0 1px}
+  .fdet .fdet-list .fdiv:last-child{display:none}
+  .fdet .fdet-cta{display:flex;align-items:center;padding:8px 0}
+  .fdet .fdet-cta .q-btn{padding:8px 12px;border-radius:6px;font-family:var(--geist);font-size:14px;
+    line-height:20px;font-weight:600;box-shadow:var(--fg-shadow-xs)}
+  .fdet .fdet-cta .q-btn.primary{background:#b28240;border-color:#b28240;color:#fff}
+  /* added is still a control, so it takes the secondary treatment */
+  .fdet .fdet-cta .q-btn.bare{background:var(--card);border:1px solid var(--fg-border-primary);
+    box-shadow:var(--fg-shadow-xs);color:var(--fg-text-secondary)}
+  .fdet .fdet-cta .q-btn.bare:hover{border-color:#a6a6a6;background:var(--card)}
+  .fdet .frow{display:flex;align-items:center;gap:4px;padding:0;border-bottom:none;line-height:24px}
+  .fdet .frow span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;
+    font-family:var(--geist);font-size:16px;font-weight:400;color:#737373}
+  .fdet .frow b{flex:0 0 auto;text-align:right;white-space:nowrap;
+    font-family:var(--geist);font-size:16px;font-weight:500;color:#363636}
   .fdet .fq{font-size:13px;font-weight:600;margin:16px 0 8px}
   .fdet .why2{background:var(--gold-wash-2);border:1px solid var(--gold-wash);border-radius:var(--r-sm);padding:10px 12px;font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:14px}
-  body.searching .tailwell{display:block}
-  .taildiv{display:flex;align-items:center;gap:14px;margin:18px 2px 12px}
-  .td-rule{flex:1;min-width:12px;height:1px;background:var(--line-2)}
-  .td-btn{flex:0 0 auto;font-size:12.5px;white-space:nowrap}
-  .td-btn.done{color:var(--ink-4)}
-  .tailwell{display:none;border:1px dashed var(--line-2);border-radius:8px;background:var(--card-2);padding:14px 14px 4px;margin-bottom:10px}
-  .tailwell.on{display:block}
-  .tw-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .tw-t{font-family:var(--geist);font-weight:500;font-size:13px;letter-spacing:-.004em;flex:1;min-width:120px}
+  body.searching .tailwell{display:flex}
+  body.searching .tailwell .tw-rows{display:flex}
+  .taildiv{display:flex;align-items:center;gap:12px;margin:0}
+  .td-rule{flex:1 0 0;min-width:1px;height:1px;background:#e8e8e8}
+  /* matches the row Add button exactly: h24, pad 0/6, r4, Geist 600 12/16 */
+  .td-btn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:4px;
+    background:var(--card);border:1px solid var(--fg-border-primary);border-radius:4px;
+    padding:0 6px;height:24px;box-sizing:border-box;box-shadow:var(--fg-shadow-xs);
+    font-family:var(--geist);font-size:12px;line-height:16px;font-weight:600;color:var(--fg-text-secondary);
+    white-space:nowrap;cursor:pointer}
+  .td-btn:hover{border-color:#a6a6a6}
+  .td-btn.done{color:#737373}
+  .tailwell{display:none;border:1px dashed #d9d9d9;border-radius:8px;background:#f7f7f7;padding:16px;
+    flex-direction:column;gap:12px}
+  .tailwell.on{display:flex}
+  .tw-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .tw-desc{display:flex;flex-direction:column;min-width:0}
+  .tw-t{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#1a1a1a;letter-spacing:0}
+  .tw-note{font-family:var(--geist);font-size:12px;line-height:18px;font-weight:400;color:#737373;margin:0}
   .tw-acts{display:flex;gap:7px;align-items:center;flex:0 0 auto}
-  .tw-note{font-size:11.5px;color:var(--ink-4);line-height:1.5;margin:8px 0 12px}
+  /* the rows sit in their own group at 8px, tighter than the 12px main list */
+  .tw-rows{display:flex;flex-direction:column;gap:8px}
   .tailwell .vrow{background:var(--card)}
-  .tailwell .vrow.added{background:var(--green-wash)}
-  .tailwell .vrow.added.neg{background:var(--amber-wash)}
+  .tailwell .vrow.added{background:var(--fg-brand-row)}
+  .tailwell .vrow.added.neg{background:var(--fg-gray-50)}
   .tailwell .vrow.dismissed{background:var(--card)}
   .morechip{border:1px dashed var(--line-2);background:transparent;border-radius:var(--r-sm);padding:8px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-3);font-family:var(--sans)}
   .catnav a.done .cd{background:var(--green)}
@@ -543,12 +931,16 @@
   .autoline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2);flex-wrap:wrap}
 
   /* manual add */
-  .manual{margin-top:12px;border-top:1px dashed var(--line)}
-  .askprompt{display:block;width:100%;background:none;border:none;font-family:var(--sans);font-size:12.5px;
-    color:var(--ink-3);cursor:pointer;padding:13px 8px;text-align:center;line-height:1.5;border-radius:0 0 12px 12px;
-    transition:background .15s,color .15s}
-  .askprompt:hover{color:var(--gold-2);background:var(--gold-wash-2)}
-  .askprompt:before{content:"+ ";font-weight:600;color:var(--gold-2)}
+  /* category footer band. Scoped to .cat: the add modal's field group is also .manual */
+  .cat .manual{margin:0;border-top:1px solid #e8e8e8;padding:20px;display:flex;align-items:center;
+    justify-content:space-between;gap:12px}
+  .cat .manual .mlabel{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#737373}
+  .cat .askprompt{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:4px;
+    background:none;border:none;border-radius:0;padding:0;box-shadow:none;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636;cursor:pointer;
+    width:auto;text-align:left}
+  .cat .askprompt:hover{color:#1a1a1a;background:none}
+  .cat .askprompt i{font-size:20px;line-height:1}
   .manual.on{border:1px dashed var(--line-2);border-radius:var(--r);padding:12px 14px;background:var(--card-2)}
   .manual.on.bare{border:none;padding:0;background:none}
   .manual.on .addlink{display:none}
@@ -592,8 +984,12 @@
   .vname[data-tip]{cursor:pointer;border-bottom:none}
   button[data-tip]:hover{color:#fff}
   [data-tip]:hover,[data-tip]:focus-visible{color:var(--gold-2);border-bottom-color:var(--gold-soft);outline:none}
-  .tip{position:fixed;z-index:35;width:250px;max-width:calc(100vw - 24px);background:#1a1a1a;border:1px solid #1a1a1a;
-    border-radius:8px;box-shadow:var(--shadow);padding:10px 12px;font-size:12px;color:#f2f2f2;line-height:1.55;
+  .tip.two{padding:12px;display:flex;flex-direction:column;gap:2px}
+  .tip.two b{display:block;font-weight:500;color:#fff}
+  .tip.two span{display:block;font-weight:500;color:#bfbfbf}
+  .tip{position:fixed;z-index:35;width:216px;max-width:calc(100vw - 24px);background:#0d0d0d;border:none;
+    border-radius:8px;padding:8px 12px;font-family:var(--geist);font-size:12px;font-weight:500;color:#fff;line-height:18px;
+    box-shadow:0 12px 16px -4px rgba(10,13,18,.08),0 4px 6px -2px rgba(10,13,18,.03),0 2px 2px -1px rgba(10,13,18,.04);
     opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .14s var(--ease-out),transform .14s var(--ease-out)}
   .tip.on{opacity:1;transform:translateY(0)}
   .delta{margin-top:3px;text-align:right;font-size:11px;font-weight:600;color:var(--gold-2);
@@ -640,7 +1036,6 @@
   .retline .rq{display:flex;gap:6px;flex:0 0 auto}
   .newchip{font-size:9px;font-weight:700;letter-spacing:.09em;background:var(--gold);color:#fff;border-radius:5px;padding:2px 6px}
   .newchip.chg{background:var(--amber-wash);color:var(--amber)}
-  body.returning .askprompt:before{content:"+ "}
 
   /* ---------- prototype switcher ---------- */
   .protorail{flex:0 0 196px;position:sticky;top:78px}
@@ -654,7 +1049,7 @@
   @media (hover:hover) and (pointer:fine){
     .btn:hover{border-color:var(--gold-soft);background:var(--gold-wash-2)}
     .btn.primary:hover{background:var(--gold-2);border-color:var(--gold-2)}
-    .cathead:hover{background:var(--gold-wash-2)}
+    .cathead:hover{background:#F7F7F7}
     .opt:hover,.evt:hover,.pctchip:hover{border-color:var(--gold-soft)}
   }
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.1s!important}}
@@ -788,7 +1183,7 @@
         <div class="fchips" id="fchips">
           <button class="fchip on" data-f="all">All</button>
           <button class="fchip" data-f="pending">Needs you</button>
-          <button class="fchip" data-f="big">Over $10k</button>
+          <button class="fchip" data-f="big">Over $25K</button>
         </div>
       </div>
       <div id="cats"></div>
@@ -816,23 +1211,39 @@
   <!-- ============ RAIL ============ -->
   <aside class="rail">
     <div id="rail-live">
-      <div class="rcard">
-        <h4><span id="lenslabel">Adjusted EBITDA</span> <span class="h4tip" id="lenschip" tabindex="0" data-tip="Your reported EBITDA is over $1M, so a buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.">?</span></h4>
-        <div class="rline"><span>Reported EBITDA (TTM)</span><b class="num">$2,410,000</b></div>
-        <div id="raillines"></div>
-        <div class="rtotal"><span class="rt-l">Total</span><span class="rbig num" id="sde">$2,410,000</span></div>
-        <div class="delta" id="delta" style="display:none">+$0 since you started</div>
-        <div class="rline" id="pfline" style="display:none"><span>Pro forma, kept separate</span><span class="pos num" id="pfval">+$0</span></div>
+      <div class="rcard eqcard">
+        <div class="cc-head">
+          <span class="cc-title" id="lenslabel">Adjusted EBITDA</span>
+          <span class="cc-help" id="lenschip" tabindex="0" data-tip="When EBITDA &gt; $1M || A buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back."><i class="hgi-stroke hgi-help-circle"></i></span>
+        </div>
+        <div class="eq-body">
+          <div class="eq-rows">
+            <div class="eq-row"><span class="eq-l">EBITDA (TTM)</span><span class="eq-v base num">$2,410,000</span></div>
+            <div id="raillines"></div>
+          </div>
+          <div class="cc-div"></div>
+          <div class="eq-row eq-total"><span class="eq-tl">Total</span><span class="eq-tv num" id="sde">$2,410,000</span></div>
+          <div class="eq-row" id="pfline" style="display:none"><span class="eq-l">Pro forma, kept separate</span><span class="eq-v up num" id="pfval">+0</span></div>
+        </div>
       </div>
 
-      <div class="rcard">
-        <h4>Credibility check <span class="h4tip" tabindex="0" data-tip="Buyers get uncomfortable past 15% of your number, and a diligence team will rebuild the schedule from scratch. Undocumented personal-expense add-backs get cut 50 to 100%, so a reason attached now is worth real dollars later.">?</span></h4>
-        <div class="hr-l">Room left before a buyer pushes back</div>
-        <div class="hr-v num" id="headroom">$0</div>
-        <div class="gauge"><div class="needle" id="needle" style="left:0%"></div></div>
-        <div class="glabels"><span>0%</span><span>15%</span><span>20%</span><span>30%+</span></div>
-        <div class="cred-state g" id="credstate">0% of your number</div>
+      <div class="rcard credcard">
+        <div class="cc-head">
+          <span class="cc-title">Credibility</span>
+          <span class="cc-help" tabindex="0" data-tip="Buyers get uncomfortable past 15% of your number, and a diligence team will rebuild the schedule from scratch. Undocumented personal-expense add-backs get cut 50 to 100%, so a reason attached now is worth real dollars later."><i class="hgi-stroke hgi-help-circle"></i></span>
+        </div>
+        <div class="cc-number">
+          <span class="cc-pill num" id="headroom">0%</span>
+          <span class="cc-lbl">of your number is coming from adjustments</span>
+        </div>
+        <div class="cc-barwrap">
+          <div class="cc-bar"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+          <div class="cc-ind" id="needle" style="left:2px"></div>
+        </div>
+        <div class="cc-div"></div>
+        <div class="cc-verdict" id="credstate"></div>
         <div class="hr-bonus" id="headbonus"></div>
+        <div class="creddormant" id="creddormant" style="display:none"></div>
       </div>
     </div>
 
@@ -870,61 +1281,89 @@
   <div class="pop-row last"><span class="pop-l">What would change it</span><span class="pop-v" id="pop-chg"></span></div>
 </div>
 
-<div class="modal" id="modal" role="dialog" aria-modal="true">
-  <button class="m-close" id="mclose"><i class="hgi-stroke hgi-cancel-01"></i></button>
-  <div class="m-kicker">What counts here</div>
-  <h3 id="m-name"></h3>
-  <div class="m-full" id="m-full"></div>
-  <div class="m-def" id="m-def"></div>
-  <div class="m-exlabel">Common examples</div>
-  <ul class="m-ex" id="m-ex"></ul>
-  <div class="m-manual" id="m-manual"></div>
+<div class="modal wcmodal" id="modal" role="dialog" aria-modal="true">
+  <div class="wc-head">
+    <button class="wc-x" id="mclose" aria-label="Close"><i class="hgi-stroke hgi-cancel-01"></i></button>
+    <div class="wc-eyebrow">What counts here?</div>
+    <h3 id="m-name"></h3>
+  </div>
+  <div class="wc-body">
+    <div class="wc-row">
+      <div class="wc-rl">Description</div>
+      <div class="wc-rv" id="m-def"></div>
+    </div>
+    <div class="wc-row">
+      <div class="wc-rl">Common examples</div>
+      <ul class="wc-ex" id="m-ex"></ul>
+    </div>
+    <div class="wc-row">
+      <div class="wc-rl">Disclaimer</div>
+      <div class="wc-rv" id="m-manual"></div>
+    </div>
+  </div>
+  <div class="wc-foot">
+    <button class="wc-cta" id="m-add"><i class="hgi-stroke hgi-plus-sign"></i>Add an expense</button>
+  </div>
+  <span id="m-full" hidden></span>
 </div>
 
 <div class="modal addmodal" id="addmodal" role="dialog" aria-modal="true">
-  <button class="m-close" id="aclose"><i class="hgi-stroke hgi-cancel-01"></i></button>
-  <div class="m-kicker">Add something we missed</div>
-  <h3 id="a-title">What else did the business pay for?</h3>
-  <div class="a-sub" id="a-sub">Say it however you'd say it out loud. We'll look through your books first.</div>
+  <div class="wc-head">
+    <button class="wc-x" id="aclose" aria-label="Close"><i class="hgi-stroke hgi-cancel-01"></i></button>
+    <h3 id="a-title">What else did the business pay for?</h3>
+  </div>
 
-  <label class="a-lab">What are you thinking of?</label>
-  <input class="a-in" id="a-name" type="text" placeholder="Cousin Vinnie, the country club, a truck we sold..." autocomplete="off">
+  <div class="wc-body">
+    <div class="a-field">
+      <label class="a-lab" for="a-name">What are you thinking of? <b class="req">*</b></label>
+      <input class="a-in" id="a-name" type="text" placeholder="E.g. Cousin Vinny dental procedure" autocomplete="off">
+      <div class="a-hint" id="a-sub">Say it however you’d say it out loud. We’ll file it in the right place.</div>
+    </div>
 
 
   <div class="a-manual" id="a-manual">
-    <div class="a-mhead" id="a-mhead">Not in your books, so you'll have to tell us.</div>
-    <label class="a-lab">What was it, in your words?</label>
-    <textarea class="a-in a-desc" id="a-desc" rows="2" placeholder="My nephew. He's on payroll but he doesn't work here."></textarea>
-    <label class="a-lab">How much, per year?</label>
-    <input class="a-in" id="a-amt" type="text" placeholder="$0">
-    <div class="a-verdict" id="a-verdict"></div>
-    <div class="a-change" id="a-change">
-      <div class="a-row">
-        <div style="flex:1">
-          <label class="a-lab">This counts as</label>
-          <span class="mtype a-type" id="a-type"><button class="on" data-t="add">Add-back</button><button data-t="ded">Deduction</button></span>
-        </div>
-      </div>
-      <label class="a-lab">Filed under</label>
-      <select class="a-in a-sel" id="a-cat"></select>
+    <div class="a-mhead" id="a-mhead" hidden></div>
+    <div class="a-field">
+      <label class="a-lab" for="a-desc">What was it, in your words? How often did you pay it?</label>
+      <textarea class="a-in a-desc" id="a-desc" rows="3" placeholder="E.g. Cousin Vinny dental procedure"></textarea>
+    </div>
+    <div class="a-field">
+      <label class="a-lab" for="a-amt">How much was it?</label>
+      <input class="a-in" id="a-amt" type="text" placeholder="$0">
     </div>
   </div>
 
-  <div class="a-foot">
-    <button class="btn" id="a-cancel">Cancel</button>
-    <button class="btn primary" id="a-add" style="display:none">Add it</button>
+    <div class="a-verdict" id="a-verdict">Add more details about this expense, and we’ll categorize it for you</div>
+    <div class="a-change" id="a-change">
+      <div class="a-erow">
+        <label class="a-lab">This expense counts as</label>
+        <span class="a-tabs" id="a-type">
+          <button class="on" data-t="add"><i class="hgi-stroke hgi-plus-sign"></i>Addback</button>
+          <button data-t="ded"><i class="hgi-stroke hgi-minus-sign-circle"></i>Deduction</button>
+        </span>
+      </div>
+      <div class="a-field">
+        <label class="a-lab" for="a-cat">Filed under</label>
+        <select class="a-in a-sel" id="a-cat"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="wc-foot a-actions">
+    <button class="wc-btn" id="a-cancel">Cancel</button>
+    <button class="wc-btn primary" id="a-add" disabled>Add it</button>
   </div>
 </div>
 
 <div class="flyout" id="flyout" role="dialog" aria-modal="true">
   <div class="fly-head">
-    <div>
-      <button class="fly-back" id="flyback"><i class="hgi-stroke hgi-arrow-left-01"></i> All charges</button>
+    <div class="fh-stack">
+      <button class="fly-back" id="flyback"><i class="hgi-stroke hgi-arrow-left-01"></i>All charges</button>
+      <div class="fh-eyebrow" id="fh-cat"></div>
       <div class="fh-name" id="fh-name"></div>
-      <div class="fh-sub" id="fh-sub"></div>
     </div>
-    <div class="fh-amt num" id="fh-amt"></div>
-    <button class="fly-x" id="flyx"><i class="hgi-stroke hgi-cancel-01"></i></button>
+    <button class="fly-x" id="flyx" aria-label="Close"><i class="hgi-stroke hgi-cancel-01"></i></button>
+    <span id="fh-sub" hidden></span><span id="fh-amt" hidden></span>
   </div>
   <div class="fly-panes"><div class="fly-track">
     <div class="fly-pane" id="fly-list"></div>
@@ -963,6 +1402,8 @@ var OWNER_TOTAL = OWNER_SALARY + OWNER_BENEFITS;      /* 128,400 */
 var MARKET_GM = 185000;                                /* market replacement for this size shop */
 
 var fmt = function(v){ return '$' + Math.round(Math.abs(v)).toLocaleString('en-US'); };
+/* the charge table shows cents, per the Figma cell ($9,000.00) */
+var fmt2 = function(v){ return '$' + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); };
 function plural(n, word){ return n.toLocaleString('en-US') + ' ' + word + (n === 1 ? '' : 's'); }
 function txCount(v){ return v.nTx || (v.txns ? v.txns.length : 0); }
 /* bold the part they actually typed, so the match is obvious at a glance */
@@ -999,7 +1440,7 @@ var REASONS = ['Owner personal','Family, non-working','One-time','Related party'
    CATEGORIES  (owner-facing 1 through 6, from the Adjusted EBITDA doc)
 ------------------------------------------------------------------ */
 var CATS = [
-  { id:'comp', short:'Owner compensation', n:1, name:'Owner compensation', full:'Owner compensation normalization',
+  { id:'comp', short:'Owner comp', n:1, name:'Owner compensation', full:'Owner compensation normalization',
     def:'A buyer replaces you with a hired manager, so what you pay yourself gets normalized to what that manager would cost.',
     teach:'Your W-2, plus the 401(k) match, deferred comp, and an above-market health plan. A spouse titled CFO for five hours a week of bookkeeping gets adjusted to a market bookkeeper, not to zero.',
     manual:'A car allowance, a SERP, or a bonus you paid yourself that a manager wouldn\u2019t get.' },
@@ -1401,6 +1842,18 @@ function existingMatch(text){
 ------------------------------------------------------------------ */
 var ADD = {seed:null, touchedCat:false, touchedDir:false, mode:'search'};
 
+/* the share means something different per category, so ask the right question */
+var CAT_ASK = {
+  comp: 'How much of this is above what a manager would cost?',
+  fam:  'How much of this pay is above what the role is worth?',
+  pers: 'How much of this was personal?',
+  rp:   'How much of this is above a market rate?',
+  nr:   'How much of this was one-time?',
+  no:   'How much of this is unrelated to the trade?',
+  nd:   'How much of this should come off?',
+  pf:   'How much of this should carry forward?'
+};
+
 var CAT_PROMPT = {
   comp:'Any other pay or benefit of yours that runs through the company?',
   fam:'Anyone else on payroll who doesn\u2019t really work here?',
@@ -1429,9 +1882,11 @@ function addModalInit(){
   $('aclose').addEventListener('click', unlockBody);
   $('a-add').addEventListener('click', commitAdd);
   $('a-amt').addEventListener('input', syncAddBtn);
+  $('a-name').addEventListener('input', syncAddBtn);
   $('a-verdict').addEventListener('click', function(ev){
     if (!ev.target.closest('.vchange')) return;
     $('a-change').classList.add('on');
+    $('a-verdict').style.display = 'none';
   });
   $('a-amt').addEventListener('keydown', function(e){ if (e.key === 'Enter') commitAdd(); });
 }
@@ -1447,9 +1902,12 @@ function onAddType(){
      fields as soon as there's something to file. */
   var q = $('a-name').value.trim();
   var on = q.length > 0;
-  $('a-manual').classList.toggle('on', on);
-  $('a-add').style.display = on ? 'inline-block' : 'none';
+  /* the fields are always shown; only the verdict and the primary depend on input */
+  /* the file shows the primary always, disabled until the form can be filed */
+  $('a-add').disabled = !on;
   if (on) syncVerdict();
+  else { $('a-verdict').className = 'a-verdict';
+         $('a-verdict').textContent = 'Add more details about this expense, and we\u2019ll categorize it for you'; }
 }
 
 function syncVerdict(){
@@ -1464,18 +1922,23 @@ function syncVerdict(){
   var catName = CATS.filter(function(c){ return c.id === cat; })[0].name;
   var ded = curDir() === 'ded';
   var pf = cat === 'pf';
+  $('a-verdict').className = 'a-verdict set';
   $('a-verdict').innerHTML =
-    'We\u2019ll file this as ' + (pf ? 'a <b>pro forma item</b>, on its own schedule'
-      : ded ? 'a <b>deduction</b>, which lowers your number'
-            : 'an <b>add-back</b>, which raises your number') +
-    ', under <b>' + catName + '</b>.' +
-    (g && g.hit ? ' <span style="color:var(--ink-4)">Matched \u201c' + g.hit + '\u201d.</span>' : '') +
-    '<button class="vchange">Change</button>';
+    '<span class="vtext">We\u2019ll file this as ' +
+      (pf ? 'a <b>pro forma item</b>, on its own schedule'
+          : ded ? 'a <b>deduction</b>, which lowers your number'
+                : 'an <b>add-back</b>, which raises your number') +
+      ', under <b>' + catName + '</b></span>' +
+    '<button class="vchange">Change it</button>';
   syncAddBtn();
 }
 
 function syncAddBtn(){
   var amt = parseFloat(($('a-amt').value || '').replace(/[^0-9.]/g,''));
+  var name = $('a-name').value.trim();
+  /* commitAdd needs a name AND an amount, so the button must too, or it
+     enables and then silently does nothing */
+  $('a-add').disabled = !(name && amt > 0);
   $('a-add').textContent = (amt > 0)
     ? (curDir() === 'ded' ? 'Deduct ' : 'Add ') + fmt(amt)
     : 'Add it';
@@ -1486,11 +1949,12 @@ function openAddModal(seedCat){
   $('a-name').value = ''; $('a-amt').value = ''; $('a-desc').value = '';
   $('a-cat').value = seedCat || 'pers';
   setDir('add');
-  $('a-manual').classList.remove('on');
   $('a-change').classList.remove('on');
-  $('a-add').style.display = 'none';
-  $('a-verdict').innerHTML = '';
-  $('a-title').textContent = seedCat ? CAT_PROMPT[seedCat] : 'What else did the business pay for?';
+  $('a-verdict').style.display = '';
+  $('a-add').disabled = true;
+  $('a-add').textContent = 'Add it';
+  $('a-verdict').className = 'a-verdict';
+  $('a-verdict').textContent = 'Add more details about this expense, and we\u2019ll categorize it for you';
   $('a-sub').textContent = 'Say it however you\u2019d say it out loud. We\u2019ll file it in the right place.';
   $('a-mhead').style.display = noBooks() ? 'none' : '';
   onAddType();   /* fields unfold once there's a name */
@@ -1511,14 +1975,17 @@ function commitAdd(){
 
   var row = el('div','vrow added' + (signed < 0 ? ' neg' : '') + ' landed');
   row.dataset.amt = 0; row.dataset.search = name.toLowerCase();
+  var mIcon = signed < 0 ? '\u2296' : '\u2713';
   row.innerHTML =
-    '<div class="top"><div class="nameline"><span class="vname">' + name + '</span><span class="tag">You added</span>' +
-      (desc ? '<button class="whylink" data-cwhy>Why?</button>' : '') + '</div>' +
+    '<div class="top"><div class="nameline"><span class="vname">' + name + '</span>' +
+      '<span class="rowcount">Manual</span></div>' +
     '<div class="amt">' + (signed < 0 ? '\u2212' : '') + fmt(amt) + '</div>' +
-    '<div class="statusline" style="display:flex"><span class="addedchip' + (signed < 0 ? ' neg' : '') + '">\u2713 ' +
-    (isPf ? 'On the pro forma schedule' : 'Not in the books') + '</span>' +
-    '<button class="undo">Remove</button></div></div>';
-  row.querySelector('.undo').addEventListener('click', function(){
+    '<div class="statusline" style="display:flex">' +
+      '<button class="donechip' + (signed < 0 ? ' neg' : '') + '" data-remove>' +
+        '<span class="dc-a">' + mIcon + ' ' + (isPf ? 'Pro forma' : 'Added') + '</span>' +
+        '<span class="dc-b">Remove</span></button>' +
+    '</div></div>';
+  row.querySelector('[data-remove]').addEventListener('click', function(){
     delete custom[cid]; row.remove(); recompute(); if (window.msumAll) window.msumAll();
   });
   if (desc){
@@ -1570,7 +2037,8 @@ var MFORM =
 function manualEntry(c, slot, opts){
   opts = opts || {};
   var man = el('div','manual');
-  man.innerHTML = '<button class="askprompt">' + (CAT_PROMPT[c.id] || 'Anything we missed?') + '</button>';
+  man.innerHTML = '<span class="mlabel">' + (CAT_PROMPT[c.id] || 'Anything we missed?') + '</span>' +
+    '<button class="askprompt"><i class="hgi-stroke hgi-plus-sign"></i>Add an expense</button>';
   man.querySelector('.askprompt').addEventListener('click', function(){ openAddModal(c.id); });
   return man;
 }
@@ -1603,9 +2071,10 @@ CATS.forEach(function(c){
   slot.setAttribute('data-slot','');
   inner.appendChild(slot);
 
-  /* manual add */
+  /* the footer is a sibling of the body, per the Figma structure:
+     Header / Body / Footer are the card's three parts */
   var man = manualEntry(c, slot);
-  inner.appendChild(man);
+  body.appendChild(man);
 
   catsWrap.appendChild(box);
   catEls[c.id] = {box:box, slot:slot, wslot:slot, tot:head.querySelector('[data-tot]')};
@@ -1631,10 +2100,12 @@ function actionsFor(v, surface){
   var B = surface === 'row' ? 'btn' : 'q-btn';
 
   if (st.mode !== 'pending'){
-    var note = st.note || 'All of it';
+    var note = st.note || 'All';
     if (surface === 'row') note = note.replace(/ added$/, '').replace(/ charges?$/, '');
-    var label = (st.mode === 'added') ? '\u2713 ' + note
-                                      : (flag ? 'Skipped' : 'None of it counts');
+    /* check for an add-back, minus-circle for a deduction, slash-circle for excluded */
+    var ic = (st.mode === 'dismissed') ? '\u2298' : (neg ? '\u2296' : '\u2713');
+    var label = (st.mode === 'added') ? ic + ' ' + note
+                                      : (flag ? 'Skipped' : ic + ' None');
     return '<button class="donechip' + (neg && st.mode === 'added' ? ' neg' : '') +
         (st.mode === 'dismissed' ? ' gray' : '') + '" data-a="undo" aria-label="Undo">' +
         '<span class="dc-a">' + label + '</span>' +
@@ -1642,9 +2113,11 @@ function actionsFor(v, surface){
   }
   if (ui){
     var pc = ui.pct;
-    return '<input type="range" data-aslider min="0" max="100" step="5" value="' + pc + '">' +
-      '<span class="apct"><b>' + pc + '%</b> counts <span>' + fmt(v.amt * pc/100) + '</span></span>' +
-      '<button class="' + B + ' primary" data-a="confirm">' + (neg ? 'Deduct' : 'Add') + '</button>' +
+    return '<div class="askline">' + (CAT_ASK[v.cat] || 'How much of this counts?') + '</div>' +
+      '<input type="range" data-aslider min="0" max="100" step="5" value="' + pc + '">' +
+      '<span class="apct"><b>' + pc + '%</b></span>' +
+      '<button class="' + B + ' primary" data-a="confirm">' +
+        (neg ? 'Deduct ' : 'Add ') + fmt(v.amt * pc/100) + '</button>' +
       '<button class="' + B + ' ghost" data-a="cancel">Cancel</button>';
   }
   /* One rule: Add adds the amount on the row. Our suggested share is a judgement,
@@ -1674,14 +2147,14 @@ function actionClick(ev, v, surface, host){
   var a = b.dataset.a, key = v.id + '@' + surface, R = CATR[v.cat] || 0;
   if (a === 'part'){   partUI[key] = {pct: v.part || 50}; paintActions(host, v, surface); return true; }
   if (a === 'cancel'){ delete partUI[key];                paintActions(host, v, surface); return true; }
-  if (a === 'all')  state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All of it'};
+  if (a === 'all')  state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All'};
   if (a === 'flag') state[v.id] = {mode:'added', value:0, reason:0, note:'on the accountant list'};
   if (a === 'none') state[v.id] = {mode:'dismissed', value:0, reason:R};
   if (a === 'undo') state[v.id] = {mode:'pending', value:0, reason:R};
   if (a === 'confirm'){
     var pc = (partUI[key] || {}).pct || v.part || 50;
     state[v.id] = {mode:'added', value:v.amt * pc/100, reason:R,
-                   note: pc === 100 ? 'All of it' : pc + '% added'};
+                   note: pc === 100 ? 'All' : pc + '% added'};
   }
   delete partUI[key];
   syncAllSurfaces(v);
@@ -1698,7 +2171,9 @@ function syncAllSurfaces(v){
 
 function rowHTML(v){
   var neg = v.dir === -1, flag = isObservation(v);
-  var see = '<span class="rowcount">' + (txCount(v) ? plural(txCount(v), 'charge') : 'Entered by you') + '</span>';
+  var see = txCount(v)
+    ? '<span class="rowcount" title="' + plural(txCount(v), 'charge') + '">' + txCount(v).toLocaleString('en-US') + '</span>'
+    : '';
   return '' +
     '<div class="top">' +
       '<div class="nameline"><span class="vname">' + v.name + '</span>' + see +
@@ -1785,7 +2260,7 @@ function _renderLegacy(v){
       return;
     }
     st.innerHTML =
-      '<span class="addedchip' + (neg ? ' neg' : '') + '">\u2713 ' + (s.note || 'All of it') + '</span>' +
+      '<span class="addedchip' + (neg ? ' neg' : '') + '">\u2713 ' + (s.note || 'All') + '</span>' +
       '<button class="undo" data-act="undo">Undo</button>';
   } else if (s.mode === 'dismissed'){
     st.style.display = 'flex';
@@ -1849,9 +2324,15 @@ function renderComp(){
 var tipT;
 var TIP_EL = null;
 function showTip(el){
+  /* a tip written as "Title || body" renders as the file's two-part variant */
+  $('tip').classList.toggle('two', (el.getAttribute('data-tip') || '').indexOf('||') > -1);
   var t = $('tip');
   TIP_EL = el;
-  t.textContent = el.getAttribute('data-tip') || '';
+  var raw = el.getAttribute('data-tip') || '';
+  if (raw.indexOf('||') > -1){
+    var bits = raw.split('||');
+    t.innerHTML = '<b>' + bits[0].trim() + '</b><span>' + bits[1].trim() + '</span>';
+  } else { t.textContent = raw; }
   t.classList.add('on');
   var r = el.getBoundingClientRect(), tr = t.getBoundingClientRect(), m = 12;
   var left = Math.min(Math.max(m, r.left + r.width/2 - tr.width/2), window.innerWidth - tr.width - m);
@@ -1927,7 +2408,9 @@ function openModal(c){
   $('m-full').textContent = c.full && c.full !== c.name ? 'The long name: ' + c.full : '';
   $('m-def').textContent = c.def.replace(/&amp;/g,'&');
   $('m-ex').innerHTML = (CAT_EXAMPLES[c.id] || []).map(function(x){ return '<li>' + x + '</li>'; }).join('');
-  $('m-manual').innerHTML = 'If we missed something here, add it from the category: <i>' + c.manual + '</i>';
+  $('m-manual').textContent = 'If we missed something here, add an expense below.';
+  var addBtn = $('m-add');
+  addBtn.onclick = function(){ unlockBody(); openAddModal(c.id); };
   lockBody('modal-open');
 }
 
@@ -1966,6 +2449,8 @@ function openFly(v, opts){
   FLY = {v: v, canTag: !(opts && opts.noTag) && v.kind !== 'flag', part:false, pct:null, sel:{}};
   var tx = fullTxns(v);
   $('fh-name').textContent = (v.flyName || v.name).replace(/&amp;/g,'&');
+  var fcat = CATS.filter(function(c){ return c.id === v.cat; })[0];
+  $('fh-cat').textContent = fcat ? fcat.name : '';
   var stt = state[v.id];
   $('fh-sub').textContent = (v.tag ? v.tag + ' \u00b7 ' : '') + plural(fullTxns(v).length, 'charge') + ' \u00b7 ' + (v.acct || v.acctLabel || (tx[0] && tx[0].acct) || 'From your ledger') + ' \u00b7 from QuickBooks' +
     (stt && stt.mode === 'added' && v.dir !== -1 ? ' \u00b7 reason on file: ' + REASONS[stt.reason] : '');
@@ -2001,9 +2486,13 @@ function renderFlyList(){
        : FLY.lockedBy === 'share'  ? 'You\u2019ve set a share. Undo to pick charges instead.'
        : FLY.lockedBy === 'none'   ? 'You\u2019ve declined this one. Undo to pick charges.'
        : 'You\u2019ve taken all of it. Undo to pick charges instead.') + '</div>' : '') +
+    '<div class="fly-stick-top"></div>' +
     '<div class="fly-sticky"><span class="q-sec-l">The charges</span>' +
-      (over ? '<span class="fly-cap">' + FLY_CAP + ' largest of ' + all.length.toLocaleString('en-US') + '</span>' : '') +
-    '</div>';
+      '<span class="ftxtag">' + all.length.toLocaleString('en-US') + '</span>' +
+      (over ? '<span class="fly-cap">showing ' + FLY_CAP + ' largest</span>' : '') +
+    '</div>' +
+    '<div class="ftxtable"><div class="ftxhead"><span>Date</span><span>Description</span>' +
+      '<span class="num">Amount</span><span></span></div>';
   var none = all.length ? '' : '<div class="more" style="padding:14px 2px">No transactions behind this one. It comes from ' + (FLY.v.src || 'your records') + ', not the bank feed.</div>';
   /* Selection is only offered when the whole list is visible. Past the cap,
      "select all" would either understate by 98% or select things never seen. */
@@ -2016,15 +2505,30 @@ function renderFlyList(){
     var isIn = included.indexOf(i) > -1;
     return '<div class="ftx' + (FLY.sel[i] || isIn ? ' picked' : '') +
       (isIn ? ' included' : '') + '" data-i="' + i + '">' +
-      (isObservation(FLY.v) ? '' :
-        '<span class="ftx-box' + (canSelect ? '' : ' off') + '"' +
-        (canSelect ? ' data-pick="' + i + '"' : '') + '></span>') +
-      '<span class="d">' + t.d + '</span>' +
-      '<span class="memo">' + t.memo + '</span>' +
-      '<span class="a num">' + fmt(t.amt) + '</span>' +
-      '<i class="hgi-stroke hgi-arrow-right-01 chv" style="font-size:12px"></i></div>';
-  }).join('');
+      '<span class="c1">' +
+        (isObservation(FLY.v) ? '' :
+          '<span class="ftx-box' + (canSelect ? '' : ' off') + '"' +
+          (canSelect ? ' data-pick="' + i + '"' : '') + '></span>') +
+        '<span class="d">' + t.d + '</span></span>' +
+      '<span class="c2"><span class="m">' + t.memo + '</span></span>' +
+      '<span class="num">' + fmt2(t.amt) + '</span>' +
+      '<i class="hgi-stroke hgi-arrow-right-01 chv"></i></div>';
+  }).join('') + '</div>';
+  wireStick();
   syncFlyFoot();
+}
+
+var stickObs = null;
+function wireStick(){
+  var sentinel = document.querySelector('#fly-list .fly-stick-top');
+  var head = document.querySelector('#fly-list .fly-sticky');
+  if (!sentinel || !head) return;
+  if (stickObs) stickObs.disconnect();
+  /* the sentinel leaving the top of the pane is exactly when the header sticks */
+  stickObs = new IntersectionObserver(function(entries){
+    head.classList.toggle('stuck', !entries[0].isIntersecting);
+  }, {root: $('fly-list'), threshold: 1});
+  stickObs.observe(sentinel);
 }
 function syncFlyFoot(){
   var f = $('fly-foot'), v = FLY.v, st = state[v.id];
@@ -2039,29 +2543,44 @@ function syncFlyFoot(){
      remove the other routes, and it always has a way back out. */
   if (st.mode !== 'pending'){
     /* a partial answer shouldn't have to be undone to become the whole thing */
-    var dLabel = (st.mode === 'added') ? '\u2713 ' + (st.note || 'All of it')
-                                       : (flag ? 'Skipped' : 'None of it counts');
+    var note = st.note || 'All';
+    var verb = neg ? 'deducted' : 'added';
+    var dLabel;
+    if (st.mode !== 'added')       dLabel = flag ? 'Skipped' : 'Nothing added';
+    else if (/%/.test(note))       dLabel = note.replace(' added','') + ' of charges ' + verb;
+    else if (/charge/.test(note))  dLabel = note.charAt(0).toUpperCase() + note.slice(1) + ' ' + verb;
+    else                           dLabel = 'All charges ' + verb;
     f.innerHTML = '<div class="fly-acts">' +
-      '<span class="flystatus' + (neg && st.mode === 'added' ? ' neg' : '') +
-        (st.mode === 'dismissed' ? ' gray' : '') + '">' + dLabel + '</span>' +
-      '<button class="q-btn ghost" data-fly="undo">Undo</button></div>';
+      '<span class="flydone' + (st.mode === 'dismissed' ? ' gray' : (neg ? ' neg' : '')) + '">' +
+        '<i class="flydone-i">' + (st.mode === 'dismissed' ? '\u2298' : (neg ? '\u2296' : '\u2713')) + '</i>' +
+        '<span>' + dLabel + '</span></span>' +
+      '<button class="q-btn" data-fly="undo">Undo</button></div>';
 
   } else if (FLY.part){
     var pc = FLY.pct == null ? (v.part || 50) : FLY.pct;
-    f.innerHTML = '<div class="fly-acts">' +
-      '<input type="range" data-flyslider min="0" max="100" step="5" value="' + pc + '" style="flex:1;min-width:100px">' +
-      '<span class="apct"><b>' + pc + '%</b> <span>' + fmt(v.amt * pc/100) + '</span></span>' +
-      '<button class="q-btn primary" data-fly="confirm">' + (neg ? 'Deduct' : 'Add') + '</button>' +
-      '<button class="q-btn ghost" data-fly="cancel">Cancel</button></div>';
+    f.innerHTML = '<div class="fly-acts sliding">' +
+      '<div class="slidecol">' +
+        '<div class="sl-lab">How much?</div>' +
+        '<div class="sliderow">' +
+          '<input type="range" data-flyslider min="0" max="100" step="5" value="' + pc + '">' +
+          '<span class="sl-pct">' + pc + '%</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="slideacts">' +
+        '<button class="q-btn bare" data-fly="cancel">Cancel</button>' +
+        '<button class="q-btn primary" data-fly="confirm">' +
+          (neg ? 'Deduct ' : 'Add ') + fmt(v.amt * pc/100) + '</button></div></div>';
     var sl = f.querySelector('[data-flyslider]');
     sl.style.setProperty('--fill', pc + '%');
     sl.addEventListener('input', function(){ FLY.pct = +this.value; syncFlyFoot(); });
 
     } else {
     f.innerHTML = '<div class="fly-acts">' +
-      '<button class="q-btn primary" data-fly="all">All</button>' +
-      '<button class="q-btn" data-fly="part">Part</button>' +
-      '<button class="q-btn ghost" data-fly="none">None</button></div>';
+      '<span class="fly-main">' +
+        '<button class="q-btn primary" data-fly="all">' + (neg ? 'Deduct all' : 'Add all') + '</button>' +
+        '<button class="q-btn" data-fly="part">' + (neg ? 'Deduct a part' : 'Add a part') + '</button>' +
+      '</span>' +
+      '<button class="q-btn" data-fly="none">None</button></div>';
   }
 
   f.onclick = function(ev){
@@ -2069,13 +2588,13 @@ function syncFlyFoot(){
     var a = b.dataset.fly, R = CATR[v.cat] || 0;
     if (a === 'part'){   FLY.part = true;  FLY.pct = v.part || 50; FLY.sel = {}; renderFlyList(); return; }
     if (a === 'cancel'){ FLY.part = false; FLY.pct = null;         renderFlyList(); return; }
-    if (a === 'all')       state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All of it'};
+    if (a === 'all')       state[v.id] = {mode:'added', value:v.amt, reason:R, note:'All'};
     if (a === 'none')      state[v.id] = {mode:'dismissed', value:0, reason:R};
     if (a === 'undo'){     state[v.id] = {mode:'pending', value:0, reason:R}; FLY.sel = {}; }
     if (a === 'confirm'){
       var pc2 = FLY.pct == null ? (v.part || 50) : FLY.pct;
       state[v.id] = {mode:'added', value:v.amt * pc2/100, reason:R,
-                     note: pc2 === 100 ? 'All of it' : pc2 + '% added'};
+                     note: pc2 === 100 ? 'All' : pc2 + '% added'};
     }
     FLY.part = false; FLY.pct = null;
     if (v.rerender) v.rerender();
@@ -2101,7 +2620,7 @@ $('fly-list').addEventListener('click', function(ev){
     if (ks.length){
       var tot = ks.reduce(function(x, n){ return x + (av[n] ? av[n].amt : 0); }, 0);
       state[v.id] = (ks.length === av.length)
-        ? {mode:'added', value:v.amt, reason:R, note:'All of it'}   /* every charge is just All */
+        ? {mode:'added', value:v.amt, reason:R, note:'All'}   /* every charge is just All */
         : {mode:'added', value:tot, reason:R,
            note: plural(ks.length, 'charge'), picked: ks};
     } else {
@@ -2122,21 +2641,27 @@ function openFlyDetail(i){
   var v = FLY.v, t = fullTxns(v)[i];
   var pos = v.dir !== -1;
   /* read-only evidence: what this charge was, not another place to decide */
+  var dRow = function(label, val){
+    return '<div class="frow"><span>' + label + '</span><b>' + val + '</b></div><div class="fdiv"></div>';
+  };
   $('fly-det').innerHTML =
-    '<div class="frow"><span>Date</span><b>' + t.d + '</b></div>' +
-    '<div class="frow"><span>Memo</span><b>' + t.memo + '</b></div>' +
-    '<div class="frow"><span>Account</span><b>' + t.acct + '</b></div>' +
-    '<div class="frow"><span>Paid from</span><b>' + (v.card || 'Operating checking') + '</b></div>' +
-    '<div class="frow"><span>Amount</span><b class="num">' + fmt(t.amt) + '</b></div>' +
-    '<div class="why2">' + (v.why || '').replace(/ <button[\s\S]*$/, '') + '</div>' +
-    (FLY.canSelectHere
-      ? (function(){
-          var inNow = (((state[v.id] || {}).picked) || []).indexOf(i) > -1;
-          return '<button class="btn' + (inNow ? ' added' : ' primary') + '" data-addone="' + i + '" style="margin-top:14px">' +
-            (inNow ? '\u2713 Charge added'
-                   : (v.dir === -1 ? 'Deduct ' : 'Add ') + 'this charge \u00b7 ' + fmt(t.amt)) + '</button>';
-        })()
-      : '');
+    '<div class="fdet-list">' +
+      dRow('Date', t.d) +
+      dRow('Description', t.memo) +
+      dRow('Account', t.acct) +
+      dRow('Paid from', v.card || 'Operating checking') +
+      dRow('Amount', fmt2(t.amt)) +
+      (FLY.canSelectHere
+        ? (function(){
+            var inNow = (((state[v.id] || {}).picked) || []).indexOf(i) > -1;
+            return '<div class="fdet-cta">' +
+              '<button class="q-btn ' + (inNow ? 'bare' : 'primary') + '" data-addone="' + i + '">' +
+              (inNow ? '\u2713 Charge added'
+                     : (v.dir === -1 ? 'Deduct' : 'Add') + ' this charge \u2022 ' + fmt2(t.amt)) +
+              '</button></div>';
+          })()
+        : '') +
+    '</div>';
 
   $('fly-det').onclick = function(ev){
     var b = ev.target.closest('[data-addone]'); if (!b) return;
@@ -2147,7 +2672,7 @@ function openFlyDetail(i){
     state[vv.id] = !ks2.length
       ? {mode:'pending', value:0, reason: CATR[vv.cat] || 0}
       : (ks2.length === av2.length
-        ? {mode:'added', value: vv.amt, reason: CATR[vv.cat] || 0, note:'All of it'}
+        ? {mode:'added', value: vv.amt, reason: CATR[vv.cat] || 0, note:'All'}
         : {mode:'added', value: ks2.reduce(function(x,n){ return x + (av2[n] ? av2[n].amt : 0); }, 0),
            reason: CATR[vv.cat] || 0, note: plural(ks2.length, 'charge'), picked: ks2});
     if (vv.rerender) vv.rerender();
@@ -2249,7 +2774,8 @@ CATS.forEach(function(c){ CAT_SHORT[c.id] = c.short; });
 
 function renderDrop(q){
   var d = $('sdrop');
-  if (!q){ d.classList.remove('on'); d.innerHTML = ''; return; }
+  var wrap = d.closest('.searchwrap');
+  if (!q){ d.classList.remove('on'); wrap.classList.remove('open'); d.innerHTML = ''; return; }
   var already = ITEMS.filter(function(v){
     var n = v.name.replace(/&amp;/g,'&').toLowerCase();
     return n.indexOf(q) > -1 || q.indexOf(n) > -1;
@@ -2257,29 +2783,38 @@ function renderDrop(q){
   var hits = LEDGER.filter(function(L){ return L.name.toLowerCase().indexOf(q) > -1 && !injected[L.name]; });
   var html = '';
   if (already.length){
-    html += '<div class="sgroup">Already on your list</div>';
+    html += '<div class="sgrp"><div class="sgroup">Already in your list</div>';
     already.forEach(function(v){
-      html += '<div class="srow" data-goto="' + v.id + '"><div class="stext"><div class="sv">' + hl(v.name, q) + '</div>' +
-        '<div class="sc">Under ' + CAT_SHORT[v.cat] + '</div></div>' +
-        '<span class="sbtn">Go to it \u2192</span></div>';
+      html += '<div class="srow" data-goto="' + v.id + '"><div class="stext">' +
+        '<div class="sv">' + hl(v.name, q) + '</div>' +
+        '<div class="sc"><span>' + plural(txCount(v) || 0, 'charge') + '</span><i>\u2022</i>' +
+          '<span>Under ' + CAT_SHORT[v.cat] + '</span></div></div>' +
+        '<span class="sbtn">Go to it<i class="hgi-stroke hgi-arrow-right-01"></i></span></div>';
     });
+    html += '</div>';
   }
   if (hits.length){
-    html += '<div class="sgroup">In your ledger, not suggested</div>';
+    html += '<div class="sgrp"><div class="sgroup">In your ledger, but not suggested</div>';
     hits.slice(0,5).forEach(function(L,i){
-      html += '<div class="srow" data-led="' + LEDGER.indexOf(L) + '"><div class="stext"><div class="sv">' + hl(L.name, q) + '</div>' +
-        '<div class="sc">' + L.n + ' \u00b7 goes under ' + CAT_SHORT[L.cat] + '</div></div>' +
-        '<span class="sa">' + fmt(L.amt) + '</span><span class="sbtn">Review \u2192</span></div>';
+      html += '<div class="srow" data-led="' + LEDGER.indexOf(L) + '"><div class="stext">' +
+        '<div class="sv">' + hl(L.name, q) + '</div>' +
+        '<div class="sc"><span>' + plural(L.n, 'charge') + '</span><i>\u2022</i>' +
+          '<span>Under ' + CAT_SHORT[L.cat] + '</span></div></div>' +
+        '<span class="sa">' + fmt(L.amt) + '</span></div>';
     });
+    html += '</div>';
   }
-  html += '<div class="srow" data-man="1"><div class="stext"><div class="sv">Add \u201c<b>' + $('q').value.trim() + '</b>\u201d yourself</div>' +
-    '<div class="sc">Not in the feed, or cash. You know it, we don\u2019t.</div></div><span class="sbtn">Add \u2192</span></div>';
+  html += '<div class="smanual" data-man="1">' +
+    '<span class="sv">Add <b>' + $('q').value.trim() + '</b> manually</span>' +
+    '<span class="sbtn">Add manually</span></div>';
   d.innerHTML = html;
   d.classList.add('on');
+  d.classList.toggle('bare', !already.length && !hits.length);
+  wrap.classList.add('open');
 }
 
 $('sdrop').addEventListener('click', function(ev){
-  var r = ev.target.closest('.srow'); if (!r) return;
+  var r = ev.target.closest('.srow, .smanual'); if (!r) return;
   if (r.dataset.goto){
     var tgt = ITEMS.filter(function(x){ return x.id === r.dataset.goto; })[0];
     $('q').value = ''; renderDrop(''); document.body.classList.remove('searching'); filterRows('');
@@ -2307,7 +2842,10 @@ $('q').addEventListener('input', function(){
   renderDrop(q);
 });
 document.addEventListener('click', function(ev){
-  if (!ev.target.closest('.searchwrap')) $('sdrop').classList.remove('on');
+  if (!ev.target.closest('.searchwrap')){
+    $('sdrop').classList.remove('on');
+    document.querySelector('.searchwrap').classList.remove('open');
+  }
 });
 
 /* ------------------------------------------------------------------
@@ -2351,11 +2889,11 @@ function recompute(){
       var fl = 0;
       catEls.acct.slot.querySelectorAll('.vrow.added').forEach(function(){ fl++; });
       node.className = 'cattot zero';
-      node.textContent = fl > 0 ? fl + ' flagged for your CPA' : 'Nothing applied yet';
+      node.textContent = fl > 0 ? fl + ' flagged for your CPA' : '$0';
       touched = fl > 0;
     } else {
       node.className = 'cattot zero';
-      node.textContent = catEls[c.id].box.querySelector('.vrow') ? 'Nothing applied yet' : 'Nothing found';
+      node.textContent = catEls[c.id].box.querySelector('.vrow') ? '$0' : 'Nothing found';
     }
     if (c.id === 'pf' && Math.abs(t) > 0.5){ node.textContent = '+' + fmt(t) + ', separate'; node.className = 'cattot zero'; }
     catEls[c.id].box.classList.toggle('empty', !catEls[c.id].box.querySelector('.vrow'));
@@ -2393,44 +2931,64 @@ function recompute(){
   CATS.forEach(function(c){
     if (c.id === 'pf') return;
     var t = byCat[c.id]; if (Math.abs(t) < 0.5) return;
-    lines += '<div class="rline"><span>' + c.short + '</span>' +
-      '<span class="' + (t < 0 ? 'neg' : 'pos') + ' num">' + (t < 0 ? '\u2212' : '+') + fmt(t) + '</span></div>';
+    /* the file drops the $ on line items and only tints the additions */
+    var bare = fmt(Math.abs(t)).replace('$', '');
+    lines += '<div class="eq-row"><span class="eq-l">' + c.short + '</span>' +
+      '<span class="eq-v ' + (t < 0 ? '' : 'up') + ' num">' + (t < 0 ? '\u2212' : '+') + bare + '</span></div>';
   });
-  $('raillines').innerHTML = lines || '<div class="rline sub"><span>No adjustments yet</span></div>';
+  $('raillines').innerHTML = lines;
 
   var sde = BASE + adds - deds;
   countTo($('sde'), sde);
   syncNumBtn();          /* the header button mirrors the same number */
   $('pfline').style.display = (pfTotal > 0.5 && SCOPE !== 'mvp') ? 'flex' : 'none';
-  $('pfval').textContent = '+' + fmt(pfTotal);
+  $('pfval').textContent = '+' + fmt(pfTotal).replace('$', '');
 
   var startSde = BASE + (extras.comp ? extras.comp.value : 0);
-  var d = $('delta'), diff = sde - startSde;
-  d.style.display = Math.abs(diff) > 1 ? 'block' : 'none';
-  d.textContent = sgn(diff) + ' since you started';
-  d.className = 'delta' + (diff < 0 ? ' down' : '');
+  /* the file's card ends at Total, so the running delta is gone */
 
   /* credibility runs on the NET claim: adjustments that cut against you buy back room */
   var netClaim = Math.max(0, nonStd - volDeds);
   var ratio = sde > 0 ? netClaim / sde * 100 : 0;
-  $('needle').style.left = (Math.min(ratio, 30) / 30 * 100) + '%';
-  var cs = $('credstate');
-  if (ratio < 15){ cs.className = 'cred-state g'; cs.textContent = ratio.toFixed(1) + '% of your number. Comfortable.'; }
-  else if (ratio < 20){ cs.className = 'cred-state a'; cs.textContent = ratio.toFixed(1) + '% of your number. Expect a fight in quality of earnings.'; }
-  else { cs.className = 'cred-state r'; cs.textContent = ratio.toFixed(1) + '% of your number. A buyer\u2019s team will rebuild this from scratch.'; }
-
+  /* the bar is 6:3:3, so 0-15 maps to the first half, 15-20 and 20-30 to a quarter each */
+  var pos = ratio <= 15 ? (ratio / 15) * 50
+          : ratio <= 20 ? 50 + ((ratio - 15) / 5) * 25
+          : Math.min(100, 75 + ((ratio - 20) / 10) * 25);
+  $('needle').style.left = 'calc(' + pos + '% - ' + (pos/100*4) + 'px)';
+  /* Lead with the ratio, because that is the thing a buyer judges. The dollar
+     figure only appears once you are over, where it is a debt rather than an
+     allowance waiting to be spent. */
+  var cs = $('credstate'), hv = $('headroom'), hm = $('headbonus');
+  var card = cs.closest('.rcard');
   var budget = sde * 0.15, room = budget - netClaim;
-  var hv = $('headroom'), hm = $('headbonus');
-  if (room > 0){
-    hv.className = 'hr-v num' + (room < budget * 0.25 ? ' warn' : '');
-    hv.textContent = fmt(room);
-  } else {
-    hv.className = 'hr-v num over';
-    hv.textContent = fmt(-room) + ' over';
+  var dormant = netClaim < 1;
+
+  card.classList.toggle('dormant', dormant);
+  $('creddormant').textContent = dormant ? 'Nothing claimed yet.' : '';
+  $('needle').style.opacity = dormant ? '.3' : '1';
+
+  /* one line, not two: the lead token carries the colour and the rest explains */
+  var band = dormant ? null : (ratio < 15 ? 'lo' : ratio < 20 ? 'mid' : 'hi');
+  var bars = $('needle').parentElement.querySelectorAll('.cc-bar i');
+  bars.forEach(function(el, i){ el.classList.toggle('on', band === ['lo','mid','hi'][i]); });
+  hm.innerHTML = '';
+
+  if (dormant){
+    hv.textContent = '0%';
+    hv.className = 'cc-pill num';
+    cs.innerHTML = 'We\u2019ll watch what share of your number comes from adjustments. Buyers push back past 15%.';
+    return;
   }
-  hm.innerHTML = volDeds > 0
-    ? '<b>' + fmt(volDeds) + '</b> of this room you bought back by volunteering adjustments against yourself.'
-    : (room <= 0 ? 'Volunteering adjustments against yourself is the cheapest way back under the line.' : '');
+
+  hv.textContent = Math.round(ratio) + '%';
+  hv.className = 'cc-pill num ' + band;
+  if (band === 'lo'){
+    cs.innerHTML = '<b class="lo">Comfortable</b>. Buyers expect a schedule in this range.';
+  } else if (band === 'mid'){
+    cs.innerHTML = '<b class="mid">' + fmt(-room) + '</b> past the line. Adding costs you own is the cheapest way back.';
+  } else {
+    cs.innerHTML = '<b class="hi">' + fmt(-room) + '</b> past the line. A buyer\u2019s team will most likely rebuild this from scratch.';
+  }
 
 
   var open = 0, resolved = 1; /* owner comp arrives resolved */
@@ -2590,8 +3148,8 @@ $('lensswitch').addEventListener('click', function(ev){
   var sde = LENS === 'sde';
   $('lenslabel').textContent = sde ? 'Adjusted SDE' : 'Adjusted EBITDA';
   $('lenschip').setAttribute('data-tip', sde
-    ? 'Your reported EBITDA is under $1M, so a buyer prices this on seller\u2019s discretionary earnings and all of your pay comes back into the number.'
-    : 'Your reported EBITDA is over $1M, so a buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.');
+    ? 'When EBITDA < $1M || A buyer prices this on seller\u2019s discretionary earnings and all of your pay comes back into the number.'
+    : 'When EBITDA > $1M || A buyer prices this on adjusted EBITDA, which assumes a hired GM runs the shop. Only pay above what that manager would cost comes back.');
   refreshTip($('lenschip'));
   renderComp();
 });
@@ -2622,12 +3180,17 @@ CATS.forEach(function(c){
   var tb = el('div','taildiv');
   var well = el('div','tailwell');
   well.innerHTML =
-    '<div class="tw-head"><span class="tw-t">' + n + ' less likely \u00b7 ' + fmt(total) + '</span>' +
-    '<span class="tw-acts"></span></div>' +
-    '<div class="tw-note">' +
-      (weak ? 'Weaker evidence, so we left these out of your total until you look.'
-            : 'Small amounts, so we left these out of your total until you look.') +
-      ' Biggest is ' + fmt(biggest) + '.</div>';
+    '<div class="tw-head">' +
+      '<div class="tw-desc">' +
+        '<span class="tw-t">' + plural(n, 'less likely item') + '</span>' +
+        '<span class="tw-note">' +
+          (weak ? 'Weaker evidence, so we left these out of your total until you look.'
+                : 'Small amounts, so we left these out of your total until you look.') +
+        '</span>' +
+      '</div>' +
+      '<span class="tw-acts"></span>' +
+    '</div>' +
+    '<div class="tw-rows"></div>';
 
   var slot = catEls[c.id].slot;
   /* pull the tail rows out first, then append the divider and well last, so no
@@ -2635,7 +3198,8 @@ CATS.forEach(function(c){
   tailItems.forEach(function(v){ if (v.el && v.el.parentElement) v.el.parentElement.removeChild(v.el); });
   slot.appendChild(tb);
   slot.appendChild(well);
-  tailItems.forEach(function(v){ well.appendChild(v.el); });
+  var twRows = well.querySelector('.tw-rows');
+  tailItems.forEach(function(v){ twRows.appendChild(v.el); });
   tb.dataset.tail = '1'; tb.dataset.amt = biggest + 2;
   well.dataset.tail = '1'; well.dataset.amt = biggest + 1;
   catEls[c.id].tailbox = tb;
@@ -2652,8 +3216,7 @@ CATS.forEach(function(c){
       ? '<span class="addedchip' + (decided === 'added' ? '' : ' gray') + '">' +
         (decided === 'added' ? '\u2713 All ' + n + ' added' : 'None of the ' + n + ' count') +
         '</span><button class="undo" data-tb="undo">Undo</button>'
-      : '<button class="btn" data-tb="allpers">All \u00b7 ' + fmt(total) + '</button>' +
-        '<button class="btn ghost" data-tb="allbiz">None</button>';
+      : '';
     well.classList.toggle('on', shown);
   }
 
@@ -2663,7 +3226,7 @@ CATS.forEach(function(c){
       state[v.id] = mode === 'pending'
         ? {mode:'pending', value:0, reason:CATR[v.cat] || 0}
         : {mode:mode, value: mode === 'added' ? v.amt : 0, reason:CATR[v.cat] || 0,
-           note: mode === 'added' ? 'All of it' : undefined};
+           note: mode === 'added' ? 'All' : undefined};
       if (v.rerender) v.rerender();
     });
     paint(); recompute();
@@ -2795,12 +3358,12 @@ function renderQueue(anim){
     var a = b.dataset.a, key = v.id + '@card';
     if (a === 'part' || a === 'cancel'){ actionClick(ev, v, 'card', host); return; }
     /* real decisions go through decide() so the queue animates and advances */
-    if (a === 'all')     decide(v, {mode:'added', value:v.amt, note:'All of it'});
+    if (a === 'all')     decide(v, {mode:'added', value:v.amt, note:'All'});
     if (a === 'none')    decide(v, {mode:'dismissed', value:0});
     if (a === 'confirm'){
       var pc = (partUI[key] || {}).pct || v.part || 50;
       decide(v, {mode:'added', value:v.amt * pc/100,
-                 note: pc === 100 ? 'All of it' : pc + '% added'});
+                 note: pc === 100 ? 'All' : pc + '% added'});
     }
     delete partUI[key];
   };
@@ -2977,14 +3540,14 @@ function applyFilter(){
     var st = state[v.id];
     var keep = FILTER === 'all' ? true
       : FILTER === 'pending' ? st.mode === 'pending'
-      : /* big */              (v.amt || 0) >= 10000;
+      : /* big */              (v.amt || 0) >= 25000;
     v.el.classList.toggle('fhide', !keep);
     if (keep){ shownCount++; shownSum += (v.amt || 0); }
   });
   var totalCount = ITEMS.filter(function(v){ return v.kind !== 'flag'; }).length;
   $('fsub').innerHTML = (shownCount === totalCount)
-    ? 'Reins flagged <b>' + plural(totalCount, 'vendor') + '</b> \u00b7 <b>' + fmt(shownSum) + '</b>'
-    : '<b>' + shownCount + '</b> of ' + plural(totalCount, 'vendor') + ' \u00b7 <b>' + fmt(shownSum) + '</b>';
+    ? 'Flagged: <b>' + plural(totalCount, 'vendor') + '</b><i>\u2022</i><b>' + fmt(shownSum) + '</b>'
+    : 'Flagged: <b>' + shownCount + ' of ' + plural(totalCount, 'vendor') + '</b><i>\u2022</i><b>' + fmt(shownSum) + '</b>';
   /* a tail group whose rows are all filtered out has nothing to offer */
   CATS.forEach(function(c){
     if (!catEls[c.id]) return;
