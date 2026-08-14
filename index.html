@@ -21,7 +21,7 @@
 
 <style>
   :root{
-    --paper:#FBFAF8; --paper-2:#F4F2EC; --card:#FFFFFF; --card-2:#FAF9F6;
+    --paper:#FFFFFF; --paper-2:#F4F2EC; --card:#FFFFFF; --card-2:#FAF9F6;
     --ink:#1a1a1a; --ink-2:#5d5d5d; --ink-3:#888888; --ink-4:#b0b0b0;
     --line:rgba(26,26,26,.08); --line-2:rgba(26,26,26,.14);
     --gold:#c79e5c; --gold-2:#b08140; --gold-soft:#d1b47a;
@@ -66,7 +66,8 @@
   .crumb .saved{margin-left:auto;font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:6px}
   .crumb .saved .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
 
-  .shell{max-width:1360px;margin:0 auto;padding:28px 32px 128px;display:flex;gap:40px;align-items:flex-start}
+  .shell{max-width:1360px;margin:0 auto;padding:28px 32px 128px;display:flex;gap:40px;
+    align-items:flex-start;justify-content:center}
 
   /* ---------- toc ---------- */
 
@@ -281,15 +282,18 @@
   .toast.on{opacity:1;transform:translate(-50%,0)}
   .toast b{color:var(--gold-soft);font-family:var(--geist);font-weight:600}
 
-  .searchrow{display:flex;align-items:center;gap:10px;margin:20px 0 18px}
+  .searchrow{position:relative;height:40px;margin:20px 0 18px;z-index:30}
   .searchicon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;
     display:inline-flex;align-items:center;justify-content:center;font-size:20px;color:#737373;
     pointer-events:none;z-index:1}
   .search{flex:1;position:relative}
   /* Search header, per Figma 9228:37471 — one card that grows as you type */
-  .searchwrap{position:relative;flex:1;background:var(--card);border:1px solid #d9d9d9;border-radius:8px;
-    overflow:hidden;transition:border-radius .15s var(--ease-out)}
-  .searchwrap.open{border-radius:12px}
+  .searchwrap{position:absolute;top:0;left:0;right:0;background:var(--card);border:1px solid #d9d9d9;
+    border-radius:8px;overflow:hidden;
+    transition:border-radius .15s var(--ease-out),box-shadow .15s var(--ease-out)}
+  /* open, it floats over the list rather than pushing it */
+  .searchwrap.open{border-radius:12px;
+    box-shadow:0 12px 16px -4px rgba(10,13,18,.08),0 4px 6px -2px rgba(10,13,18,.03)}
   .search{border:none;background:none;border-radius:0;height:40px;box-sizing:border-box;
     display:flex;align-items:center;position:relative}
   .searchwrap.open .search{border-bottom:1px solid #d9d9d9}
@@ -299,10 +303,14 @@
   .search input:focus{outline:none;box-shadow:none}
   .search:focus-within{border-color:#a6a6a6}
   .searchrow .hint{font-size:12px;color:var(--ink-4)}
-  .sdrop{display:none;padding-top:8px;background:var(--card)}
-  .sdrop.on{display:flex;flex-direction:column;gap:8px}
+  /* the card grows into its content instead of snapping open */
+  .sdrop{display:flex;flex-direction:column;gap:8px;padding-top:8px;background:var(--card);
+    overflow:hidden;height:0;opacity:0;
+    transition:height .22s var(--ease-out),opacity .16s var(--ease-out),padding-top .22s var(--ease-out)}
+  .sdrop:not(.on){padding-top:0}
+  .sdrop.on{opacity:1}
   /* nothing matched: the input's own border is the only rule needed */
-  .sdrop.bare{padding-top:0;gap:0}
+  .sdrop.on.bare{padding-top:0;gap:0}
   .sdrop.bare .smanual{border-top:none}
   .sgrp{display:flex;flex-direction:column}
   .sdrop.on{display:block}
@@ -322,7 +330,7 @@
     font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636}
   .srow .sbtn i{font-size:20px;line-height:1}
   /* the manual row is the card's footer */
-  .smanual{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;
+  .smanual{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;
     border-top:1px solid #d9d9d9;cursor:pointer}
   .smanual:hover{background:#f7f7f7}
   .smanual .sv{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#1a1a1a}
@@ -338,7 +346,10 @@
   .cat.empty{background:var(--card-2)}
   .cathead{display:flex;align-items:center;justify-content:space-between;gap:11px;
     padding:16px 12px 16px 16px;cursor:pointer;user-select:none;background:var(--card)}
-  .cathead:active{transform:scale(.998)}
+  .cat{transition:transform 160ms var(--ease-out)}
+  .cat:has(> .cathead:active){transform:scale(.995)}
+  /* fallback where :has isn't available */
+  @supports not selector(:has(*)){ .cathead:active{transform:scale(.995)} }
   .catdone{color:var(--green);font-size:12px;font-weight:700;flex:0 0 auto;display:none}
   .cat.done .catdone{display:inline}
   .catname{font-family:var(--geist);font-size:16px;line-height:24px;font-weight:600;color:#1a1a1a;
@@ -380,14 +391,26 @@
   .filterbar{display:flex;align-items:center;gap:12px;margin:0 2px 12px;flex-wrap:wrap}
   /* Flagged header, per Figma 9184:25785 */
   .filterbar{gap:24px}
-  .fchips{display:flex;align-items:center;gap:4px;margin-left:auto;flex:0 0 auto;padding:4px;
+  .fchips{display:flex;align-items:center;gap:4px;flex:0 0 auto;padding:4px;
     background:#f7f7f7;border:1px solid #e8e8e8;border-radius:8px}
-  .fchip{border:1px solid transparent;background:none;border-radius:4px;padding:4px 6px;box-shadow:none;
-    font-family:var(--geist);font-size:12px;line-height:18px;font-weight:600;color:#363636;
-    cursor:pointer;white-space:nowrap}
+  .fchip{border:1px solid transparent;background:none;border-radius:4px;padding:4px 8px;box-shadow:none;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636;
+    cursor:pointer;white-space:nowrap;
+    transition:transform 160ms var(--ease-out),background .14s var(--ease-out),
+      border-color .14s var(--ease-out),color .14s var(--ease-out)}
   .fchip:hover{background:rgba(255,255,255,.6)}
   .fchip.on{background:var(--card);border-color:#d9d9d9;box-shadow:var(--fg-shadow-xs);color:#363636}
-  .fsubwrap{display:flex;align-items:center;gap:6px;padding-left:0;flex:1;min-width:0}
+  /* every pressable confirms the press; 160ms ease-out per the framework */
+  .wc-btn,.fchip,.donechip,.whatbtn,.cat .askprompt,.td-btn,.protofab,.numbtn,.vchange,.sbtn{
+    transition:transform 160ms var(--ease-out),background .14s var(--ease-out),
+      border-color .14s var(--ease-out),color .14s var(--ease-out)}
+  .wc-btn:active,.donechip:active,.whatbtn:active,.cat .askprompt:active,
+  .td-btn:active,.protofab:active,.numbtn:active,.vchange:active{transform:scale(.97)}
+  .fchip:not(.off):active{transform:scale(.97)}
+  .srow:active,.smanual:active{transform:scale(.995)}
+  .fchip.off{color:#a6a6a6;cursor:default;transition:background .14s var(--ease-out)}
+  .fchip.off:hover{background:rgba(0,0,0,.05)}
+  .fsubwrap{display:flex;align-items:center;gap:6px;padding-left:0;flex:0 0 auto;margin-left:auto}
   .fsubicon{width:18px;height:18px;font-size:18px;color:#737373;flex:0 0 18px;line-height:18px;
     display:inline-flex;align-items:center;justify-content:center}
   .fsub{display:flex;align-items:center;gap:3px;white-space:nowrap;
@@ -783,6 +806,7 @@
   /* decided */
   .flydone{display:inline-flex;align-items:center;gap:6px;font-family:var(--geist);font-size:16px;
     line-height:24px;font-weight:500;color:#7b4d2d}
+  .flydone .fd-sub{font-weight:400;color:#737373}
   .flydone.neg,.flydone.gray{color:#595959}
   .flydone-i{width:20px;height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;
     border-radius:9999px;background:#efe8d2;font-size:11px;font-style:normal;line-height:1}
@@ -804,6 +828,7 @@
   /* decided */
   .flydone{display:inline-flex;align-items:center;gap:6px;font-family:var(--geist);font-size:16px;
     line-height:24px;font-weight:500;color:#7b4d2d}
+  .flydone .fd-sub{font-weight:400;color:#737373}
   .flydone.neg,.flydone.gray{color:#595959}
   .flydone-i{width:20px;height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;
     border-radius:9999px;background:#efe8d2;font-size:11px;font-style:normal;line-height:1}
@@ -816,8 +841,6 @@
   .fly-foot .q-btn.bare:hover{background:#f7f7f7;border-color:transparent}
   .fly-foot{min-height:84px;padding:24px;border-top:1px solid #eaecf0;flex-wrap:wrap}
   .ftx-box.off{opacity:.32;cursor:default;background:var(--paper-2);border-color:var(--line)}
-  .picklock{font-size:11.5px;color:var(--ink-4);background:var(--paper-2);border-radius:7px;
-    padding:8px 11px;margin-top:14px;line-height:1.45}
   .ftx-box{width:16px;height:16px;border-radius:4px;border:1px solid #bfbfbf;flex:0 0 16px;box-sizing:border-box;
     background:var(--card);cursor:pointer;transition:border-color .14s,background .14s;position:relative}
   .ftx-box:hover{border-color:var(--gold-soft)}
@@ -932,14 +955,22 @@
 
   /* manual add */
   /* category footer band. Scoped to .cat: the add modal's field group is also .manual */
-  .cat .manual{margin:0;border-top:1px solid #e8e8e8;padding:20px;display:flex;align-items:center;
-    justify-content:space-between;gap:12px}
-  .cat .manual .mlabel{font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#737373}
-  .cat .askprompt{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:4px;
+  /* the whole band is the target, like the search card's manual row */
+  .cat .manual{margin:0;border-top:1px solid #e8e8e8;padding:12px 16px;display:flex;align-items:center;
+    justify-content:space-between;gap:12px;cursor:pointer;overflow:hidden;
+    border-radius:0 0 11px 11px;
+    transition:background .14s var(--ease-out),transform 160ms var(--ease-out)}
+  .cat .manual:hover{background:#f7f7f7}
+  .cat .manual:active{transform:scale(.995)}
+  .cat .manual .mlabel{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    font-family:var(--geist);font-size:14px;line-height:20px;font-weight:400;color:#737373}
+  .cat .askprompt{flex:0 0 auto;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px;
     background:none;border:none;border-radius:0;padding:0;box-shadow:none;
     font-family:var(--geist);font-size:14px;line-height:20px;font-weight:600;color:#363636;cursor:pointer;
     width:auto;text-align:left}
+  .cat .askprompt{transition:transform 160ms var(--ease-out),color .14s var(--ease-out)}
   .cat .askprompt:hover{color:#1a1a1a;background:none}
+  .cat .askprompt:active{transform:scale(.97)}
   .cat .askprompt i{font-size:20px;line-height:1}
   .manual.on{border:1px dashed var(--line-2);border-radius:var(--r);padding:12px 14px;background:var(--card-2)}
   .manual.on.bare{border:none;padding:0;background:none}
@@ -983,15 +1014,20 @@
   button[data-tip]{cursor:pointer;border-bottom:none}
   .vname[data-tip]{cursor:pointer;border-bottom:none}
   button[data-tip]:hover{color:#fff}
+  /* the filter chips carry a data-tip but sit on a light track */
+  .fchip[data-tip]:hover,.fchip[data-tip]:focus-visible{color:#a6a6a6;border-bottom-color:transparent}
+  .fchip:not(.off)[data-tip]:hover{color:#363636}
   [data-tip]:hover,[data-tip]:focus-visible{color:var(--gold-2);border-bottom-color:var(--gold-soft);outline:none}
+  .tip.hug{width:max-content;max-width:168px}
   .tip.two{padding:12px;display:flex;flex-direction:column;gap:2px}
   .tip.two b{display:block;font-weight:500;color:#fff}
   .tip.two span{display:block;font-weight:500;color:#bfbfbf}
   .tip{position:fixed;z-index:35;width:216px;max-width:calc(100vw - 24px);background:#0d0d0d;border:none;
     border-radius:8px;padding:8px 12px;font-family:var(--geist);font-size:12px;font-weight:500;color:#fff;line-height:18px;
     box-shadow:0 12px 16px -4px rgba(10,13,18,.08),0 4px 6px -2px rgba(10,13,18,.03),0 2px 2px -1px rgba(10,13,18,.04);
-    opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .14s var(--ease-out),transform .14s var(--ease-out)}
-  .tip.on{opacity:1;transform:translateY(0)}
+    opacity:0;pointer-events:none;transform:scale(.97);transform-origin:top center;
+    transition:opacity .14s var(--ease-out),transform .14s var(--ease-out)}
+  .tip.on{opacity:1;transform:scale(1)}
   .delta{margin-top:3px;text-align:right;font-size:11px;font-weight:600;color:var(--gold-2);
     font-variant-numeric:tabular-nums;letter-spacing:.01em}
   .delta.down{color:var(--amber)}
@@ -1038,8 +1074,17 @@
   .newchip.chg{background:var(--amber-wash);color:var(--amber)}
 
   /* ---------- prototype switcher ---------- */
-  .protorail{flex:0 0 196px;position:sticky;top:78px}
-  .proto{background:#1a1a1a;color:#f6f6f6;border-radius:12px;padding:14px;box-shadow:var(--shadow);font-size:11px}
+  /* prototype controls live behind a floating button now */
+  .protorail{position:fixed;bottom:96px;right:24px;z-index:46;flex:none}
+  .protofab{width:40px;height:40px;border-radius:9999px;border:1px solid #2a2a2a;background:#1a1a1a;color:#f6f6f6;
+    display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;
+    box-shadow:0 8px 16px -4px rgba(10,13,18,.18),0 3px 6px -2px rgba(10,13,18,.1)}
+  .protofab:hover{background:#000}
+  .proto{position:absolute;bottom:52px;right:0;width:236px;max-width:calc(100vw - 32px);background:#1a1a1a;color:#f6f6f6;border-radius:12px;
+    padding:16px;font-size:11px;opacity:0;transform:translateY(6px) scale(.98);pointer-events:none;
+    transition:opacity .16s var(--ease-out),transform .16s var(--ease-out);
+    box-shadow:0 12px 24px -6px rgba(10,13,18,.24)}
+  .protorail.open .proto{opacity:1;transform:none;pointer-events:auto}
   .proto .pl{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:6px}
   .proto .pg{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
   .proto button{background:#2a2a2a;border:1px solid #3a3a3a;color:#b0b0b0;border-radius:6px;padding:4px 8px;font-size:11px;font-family:var(--sans);cursor:pointer}
@@ -1054,7 +1099,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.1s!important}}
   /* the prototype controls are scaffolding, so they go first. The owner's number goes last. */
-  @media (max-width:1240px){.protorail{display:none}}
+  @media (max-width:640px){.protorail{bottom:88px;right:16px}}
   .pagehead{display:flex;align-items:center;gap:16px;margin-bottom:10px}
   .pagehead h1{flex:1;min-width:0;margin-bottom:0}
   .numbtn{display:none;align-items:center;gap:9px;flex:0 0 auto;
@@ -1106,7 +1151,9 @@
 <div class="shell">
 
   <!-- ============ PROTOTYPE CONTROLS ============ -->
-  <div class="protorail">
+  <div class="protorail" id="protorail">
+    <button class="protofab" id="protofab" aria-label="Prototype settings" aria-expanded="false">
+      <i class="hgi-stroke hgi-computer-settings"></i></button>
     <div class="proto">
       <div class="pl">Prototype state</div>
       <div class="pg" id="stateswitch">
@@ -1179,12 +1226,15 @@
       </div>
 
       <div class="filterbar" id="filterbar">
-        <div class="fsubwrap"><i class="hgi-stroke hgi-flag-02 fsubicon"></i><div class="fsub" id="fsub"></div></div>
         <div class="fchips" id="fchips">
-          <button class="fchip on" data-f="all">All</button>
-          <button class="fchip" data-f="pending">Needs you</button>
-          <button class="fchip" data-f="big">Over $25K</button>
+          <button class="fchip on" data-f="all" tabindex="0"
+            data-tip="View all charges from your TTM.">All</button>
+          <button class="fchip" data-f="pending" tabindex="0"
+            data-tip="Charges you haven’t decided yet.">Needs you</button>
+          <button class="fchip" data-f="big" tabindex="0"
+            data-tip="All charges over $25k.">Over $25K</button>
         </div>
+        <div class="fsubwrap"><i class="hgi-stroke hgi-flag-02 fsubicon"></i><div class="fsub" id="fsub"></div></div>
       </div>
       <div id="cats"></div>
       </div>
@@ -2038,8 +2088,13 @@ function manualEntry(c, slot, opts){
   opts = opts || {};
   var man = el('div','manual');
   man.innerHTML = '<span class="mlabel">' + (CAT_PROMPT[c.id] || 'Anything we missed?') + '</span>' +
-    '<button class="askprompt"><i class="hgi-stroke hgi-plus-sign"></i>Add an expense</button>';
-  man.querySelector('.askprompt').addEventListener('click', function(){ openAddModal(c.id); });
+    '<span class="askprompt"><i class="hgi-stroke hgi-plus-sign"></i>Add an expense</span>';
+  man.setAttribute('role', 'button');
+  man.setAttribute('tabindex', '0');
+  man.addEventListener('click', function(){ openAddModal(c.id); });
+  man.addEventListener('keydown', function(ev){
+    if (ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); openAddModal(c.id); }
+  });
   return man;
 }
 
@@ -2326,6 +2381,8 @@ var TIP_EL = null;
 function showTip(el){
   /* a tip written as "Title || body" renders as the file's two-part variant */
   $('tip').classList.toggle('two', (el.getAttribute('data-tip') || '').indexOf('||') > -1);
+  /* short tips hug their copy; the long reasoning ones keep the standard width */
+  $('tip').classList.toggle('hug', !!el.closest('.fchips'));
   var t = $('tip');
   TIP_EL = el;
   var raw = el.getAttribute('data-tip') || '';
@@ -2339,6 +2396,9 @@ function showTip(el){
   var top = r.bottom + 8;
   if (top + tr.height > window.innerHeight - m) top = Math.max(m, r.top - tr.height - 8);
   t.style.left = left + 'px'; t.style.top = top + 'px';
+  /* scale out of the trigger rather than from the tip's own middle */
+  var ox = Math.min(Math.max(0, r.left + r.width/2 - left), tr.width);
+  t.style.transformOrigin = ox + 'px ' + (top < r.top ? '100%' : '0%');
 }
 function hideTip(){ $('tip').classList.remove('on'); TIP_EL = null; }
 /* if the content changes while the tip is open, refresh it in place */
@@ -2481,11 +2541,7 @@ function renderFlyList(){
       '<span class="q-found">' + (FLY.v.why || '').replace(/ <button[\s\S]*$/,'') + '</span></div>' +
     '<div class="fly-sec"><span class="q-sec-l">What would change it</span>' +
       '<span class="q-chgtext">' + (FLY.v.chg || CHG[FLY.v.cat] || 'New documentation would change our read.') + '</span></div>' +
-    (FLY.lockedBy ? '<div class="picklock">' +
-      (FLY.lockedBy === 'sliding' ? 'Charges are locked while you set a share.'
-       : FLY.lockedBy === 'share'  ? 'You\u2019ve set a share. Undo to pick charges instead.'
-       : FLY.lockedBy === 'none'   ? 'You\u2019ve declined this one. Undo to pick charges.'
-       : 'You\u2019ve taken all of it. Undo to pick charges instead.') + '</div>' : '') +
+
     '<div class="fly-stick-top"></div>' +
     '<div class="fly-sticky"><span class="q-sec-l">The charges</span>' +
       '<span class="ftxtag">' + all.length.toLocaleString('en-US') + '</span>' +
@@ -2550,10 +2606,13 @@ function syncFlyFoot(){
     else if (/%/.test(note))       dLabel = note.replace(' added','') + ' of charges ' + verb;
     else if (/charge/.test(note))  dLabel = note.charAt(0).toUpperCase() + note.slice(1) + ' ' + verb;
     else                           dLabel = 'All charges ' + verb;
+    /* when another mechanism owns the decision, say how to get the charges back */
+    var picked = ((st.picked) || []).length > 0;
+    if (st.mode !== 'pending' && !picked && !isObservation(v)) dLabel += '. Undo to select instead.';
     f.innerHTML = '<div class="fly-acts">' +
       '<span class="flydone' + (st.mode === 'dismissed' ? ' gray' : (neg ? ' neg' : '')) + '">' +
         '<i class="flydone-i">' + (st.mode === 'dismissed' ? '\u2298' : (neg ? '\u2296' : '\u2713')) + '</i>' +
-        '<span>' + dLabel + '</span></span>' +
+        '<span>' + dLabel.replace(/\. (Undo to select instead\.)$/, '. <span class="fd-sub">$1</span>') + '</span></span>' +
       '<button class="q-btn" data-fly="undo">Undo</button></div>';
 
   } else if (FLY.part){
@@ -2775,7 +2834,13 @@ CATS.forEach(function(c){ CAT_SHORT[c.id] = c.short; });
 function renderDrop(q){
   var d = $('sdrop');
   var wrap = d.closest('.searchwrap');
-  if (!q){ d.classList.remove('on'); wrap.classList.remove('open'); d.innerHTML = ''; return; }
+  if (!q){
+    d.classList.remove('on', 'bare');
+    wrap.classList.remove('open');
+    d.style.height = '0px';
+    setTimeout(function(){ if (!d.classList.contains('on')) d.innerHTML = ''; }, 240);
+    return;
+  }
   var already = ITEMS.filter(function(v){
     var n = v.name.replace(/&amp;/g,'&').toLowerCase();
     return n.indexOf(q) > -1 || q.indexOf(n) > -1;
@@ -2784,7 +2849,7 @@ function renderDrop(q){
   var html = '';
   if (already.length){
     html += '<div class="sgrp"><div class="sgroup">Already in your list</div>';
-    already.forEach(function(v){
+    already.slice(0,3).forEach(function(v){
       html += '<div class="srow" data-goto="' + v.id + '"><div class="stext">' +
         '<div class="sv">' + hl(v.name, q) + '</div>' +
         '<div class="sc"><span>' + plural(txCount(v) || 0, 'charge') + '</span><i>\u2022</i>' +
@@ -2795,7 +2860,7 @@ function renderDrop(q){
   }
   if (hits.length){
     html += '<div class="sgrp"><div class="sgroup">In your ledger, but not suggested</div>';
-    hits.slice(0,5).forEach(function(L,i){
+    hits.slice(0,3).forEach(function(L,i){
       html += '<div class="srow" data-led="' + LEDGER.indexOf(L) + '"><div class="stext">' +
         '<div class="sv">' + hl(L.name, q) + '</div>' +
         '<div class="sc"><span>' + plural(L.n, 'charge') + '</span><i>\u2022</i>' +
@@ -2811,6 +2876,14 @@ function renderDrop(q){
   d.classList.add('on');
   d.classList.toggle('bare', !already.length && !hits.length);
   wrap.classList.add('open');
+  /* measure the target, then put the old height back and force a reflow, so the
+     transition actually has a distance to cover */
+  var prev = d.getBoundingClientRect().height;
+  d.style.height = 'auto';
+  var target = d.scrollHeight;
+  d.style.height = prev + 'px';
+  void d.offsetHeight;
+  d.style.height = target + 'px';
 }
 
 $('sdrop').addEventListener('click', function(ev){
@@ -2837,8 +2910,6 @@ $('sdrop').addEventListener('click', function(ev){
 
 $('q').addEventListener('input', function(){
   var q = this.value.trim().toLowerCase();
-  document.body.classList.toggle('searching', !!q);
-  filterRows(q);
   renderDrop(q);
 });
 document.addEventListener('click', function(ev){
@@ -2941,6 +3012,7 @@ function recompute(){
   var sde = BASE + adds - deds;
   countTo($('sde'), sde);
   syncNumBtn();          /* the header button mirrors the same number */
+  syncNeedsChip();
   $('pfline').style.display = (pfTotal > 0.5 && SCOPE !== 'mvp') ? 'flex' : 'none';
   $('pfval').textContent = '+' + fmt(pfTotal).replace('$', '');
 
@@ -3532,6 +3604,26 @@ var FILTER = 'all';
 
 
 
+/* "Needs you" is every row until something is decided, so it stays dead till then.
+   Called from recompute too, since a single decision never runs applyFilter. */
+function syncNeedsChip(total){
+  var chip = document.querySelector('.fchip[data-f="pending"]');
+  if (!chip) return;
+  total = total || ITEMS.filter(function(v){ return v.kind !== 'flag'; }).length;
+  var anyDecided = ITEMS.some(function(v){
+    return v.kind !== 'flag' && state[v.id] && state[v.id].mode !== 'pending';
+  });
+  chip.classList.toggle('off', !anyDecided);
+  chip.setAttribute('tabindex', '0');
+  chip.setAttribute('data-tip', anyDecided
+    ? 'Charges you haven\u2019t decided yet.'
+    : 'Nothing is decided yet, so this would show all ' + total + ' of them. Add or skip one and it comes alive.');
+  if (!anyDecided && FILTER === 'pending'){
+    FILTER = 'all';
+    document.querySelectorAll('.fchip').forEach(function(c){ c.classList.toggle('on', c.dataset.f === 'all'); });
+  }
+}
+
 function applyFilter(){
   var shownCount = 0, shownSum = 0, allSum = 0;
   ITEMS.forEach(function(v){
@@ -3545,6 +3637,7 @@ function applyFilter(){
     if (keep){ shownCount++; shownSum += (v.amt || 0); }
   });
   var totalCount = ITEMS.filter(function(v){ return v.kind !== 'flag'; }).length;
+  syncNeedsChip(totalCount);
   $('fsub').innerHTML = (shownCount === totalCount)
     ? 'Flagged: <b>' + plural(totalCount, 'vendor') + '</b><i>\u2022</i><b>' + fmt(shownSum) + '</b>'
     : 'Flagged: <b>' + shownCount + ' of ' + plural(totalCount, 'vendor') + '</b><i>\u2022</i><b>' + fmt(shownSum) + '</b>';
@@ -3578,6 +3671,7 @@ function applyVisibility(){
 
 
 $('fchips').addEventListener('click', function(ev){
+  if (ev.target.closest('.fchip.off')) return;
   var b = ev.target.closest('button'); if (!b) return;
   FILTER = b.dataset.f;
   this.querySelectorAll('button[data-f]').forEach(function(x){ x.classList.toggle('on', x === b); });
@@ -3701,6 +3795,20 @@ document.addEventListener('keydown', function(e){
   grab.addEventListener('pointercancel', up);
 })();
 
+
+/* the prototype switcher is scaffolding, so it hides behind a floating button */
+$('protofab').addEventListener('click', function(ev){
+  ev.stopPropagation();
+  var open = !$('protorail').classList.contains('open');
+  $('protorail').classList.toggle('open', open);
+  this.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+document.addEventListener('click', function(ev){
+  if (!ev.target.closest('#protorail')) $('protorail').classList.remove('open');
+});
+document.addEventListener('keydown', function(ev){
+  if (ev.key === 'Escape') $('protorail').classList.remove('open');
+});
 
 /* boot */
 FIRST_DETAIL = $('passbox').innerHTML;
